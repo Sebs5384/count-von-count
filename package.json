@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "count-von-count",
   "version": "1.0.0",
   "description": "A bot that will keep track of birthday dates and solve some arithmetic problems",

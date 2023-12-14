@@ -35,8 +35,13 @@ for(const file in commandFiles){
   }
 }
 
-client.once(Events.ClientReady, (clientReady) => {
-  console.log(`Logged in as ${clientReady.user.tag}`);
-});
+const discordEventsPath = './discord'
+const discordEventFiles = fs.readdirSync(discordEventsPath).filter(file => file.endsWith('.js'));
+
+for(const file in discordEventFiles){
+  const {event, callback} = await import(`./discord/${discordEventFiles[file]}`)
+
+  client.on(event, callback.bind(null, client))
+}
 
 client.login(config.token);

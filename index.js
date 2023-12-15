@@ -12,8 +12,6 @@ const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('
 for(const file in commandFiles){
   const { command } = await import(`./commands/${commandFiles[file]}`)
 
-  console.log(command)
-
   if('name' in command){
     const isSlashCommand = 'slashRun' in command
     const isPrefixCommand = 'prefixRun' in command

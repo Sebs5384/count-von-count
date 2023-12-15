@@ -2,7 +2,7 @@ import {Events, REST, Routes} from "discord.js";
 
 export const event = Events.ClientReady;
 
-export const callback = async function callback(client){
+export const callback = async (client) =>{
 
     (async () => {
         try{

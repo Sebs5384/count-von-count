@@ -10,7 +10,9 @@ const commandsPath = './commands'
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
 for(const file in commandFiles){
-  const {command} = await import(`./commands/${commandFiles[file]}`)
+  const { command } = await import(`./commands/${commandFiles[file]}`)
+
+  console.log(command)
 
   if('name' in command){
     const isSlashCommand = 'slashRun' in command
@@ -31,7 +33,7 @@ for(const file in commandFiles){
 
     console.log(`Loaded command ${command.name} as [Slash: ${isSlashCommand}], [Prefix: ${isPrefixCommand}], [Aliases: ${command.aliases}]`)
   } else {
-    console.log(`Command ${file} in ${commandsPath} is missing name`)
+    console.log(`Command ${commandFiles[file]} in ${commandsPath} is missing name`)
   }
 }
 

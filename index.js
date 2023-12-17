@@ -10,7 +10,7 @@ const commandsPath = './commands'
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
 for(const file in commandFiles){
-  const { command } = await import(`./commands/${commandFiles[file]}`)
+  const { default: command } = await import(`./commands/${commandFiles[file]}`)
 
   if('name' in command){
     const isSlashCommand = 'slashRun' in command

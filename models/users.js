@@ -11,7 +11,7 @@ const Users = sequelize.define('user', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    date: {
+    birthday_date: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
         allowNull: false

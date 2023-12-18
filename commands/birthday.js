@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
+import Users from '../models/users.js';
 
 const command = new SlashCommandBuilder()
   .setName('birthday')
@@ -20,10 +21,28 @@ command.slashRun = async function slashRun(client, interaction) {
   const birthdayDate = interaction.options.getString('date');
   const birthdayUser = interaction.options.getMentionable('user');
 
+  console.log(birthdayDate)
+  console.log(birthdayUser.user.id)
+
   const isValid = isValidDateFormat(birthdayDate) === true;
 
-  const message = isValid ? 'The date is valid' : 'Please input a valid date';
-  send(message);
+  if (isValid) {
+    try{
+      const [user, created] = await Users.findOrCreate({
+        where: { user_id: birthdayUser.user.id },
+        defaults: { birthday_date: birthdayDate} 
+      })
+
+      if(!created) {
+        user = await user.update({ birthday_date: birthdayDate })
+      }
+      send(`Successfully set the birthday of ${birthdayUser} to ${birthdayDate}`)
+    } catch (error) {
+      send('An error occurred while saving/updating the birthday record')
+    }
+  } else {
+    send('Invalid date format. Please use DD/MM format')
+  }
 };
 
 function isValidDateFormat(date) {

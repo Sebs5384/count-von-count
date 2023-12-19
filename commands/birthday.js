@@ -6,7 +6,7 @@ const command = new SlashCommandBuilder()
   .setDescription('Setup the user birthday')
   .addStringOption((option) => option
     .setName('date')
-    .setDescription('Input your birthday date in DD/MM format')
+    .setDescription('Input your birthday date in DD-MM format')
     .setRequired(true)
     .setMaxLength(5))
   .addMentionableOption((user) => user
@@ -42,12 +42,12 @@ command.slashRun = async function slashRun(client, interaction) {
       send('An error occurred while saving/updating the birthday record');
     }
   } else {
-    send('Invalid date format. Please use DD/MM format');
+    send('Invalid date format. Please use DD-MM format');
   }
 };
 
 function isValidDateFormat(date) {
-  const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])$/;
+  const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\-(0[1-9]|1[0-2])$/;
 
   return dateRegex.test(date);
 }

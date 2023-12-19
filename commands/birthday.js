@@ -21,27 +21,28 @@ command.slashRun = async function slashRun(client, interaction) {
   const birthdayDate = interaction.options.getString('date');
   const birthdayUser = interaction.options.getMentionable('user');
 
-  console.log(birthdayDate)
-  console.log(birthdayUser.user.id)
+  console.log(birthdayDate);
+  console.log(birthdayUser.user.id);
 
   const isValid = isValidDateFormat(birthdayDate) === true;
 
   if (isValid) {
-    try{
+    try {
       const [user, created] = await Users.findOrCreate({
         where: { user_id: birthdayUser.user.id },
-        defaults: { birthday_date: birthdayDate} 
-      })
+        defaults: { birthday_date: birthdayDate },
+      });
 
-      if(!created) {
-        user = await user.update({ birthday_date: birthdayDate })
+      if (!created) {
+        await user.update({ birthday_date: birthdayDate });
       }
-      send(`Successfully set the birthday of ${birthdayUser} to ${birthdayDate}`)
+
+      send(`Successfully set the birthday of ${birthdayUser} to ${birthdayDate}`);
     } catch (error) {
-      send('An error occurred while saving/updating the birthday record')
+      send('An error occurred while saving/updating the birthday record');
     }
   } else {
-    send('Invalid date format. Please use DD/MM format')
+    send('Invalid date format. Please use DD/MM format');
   }
 };
 

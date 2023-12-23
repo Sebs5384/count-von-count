@@ -128,4 +128,6 @@ dist
 
 # env
 config.json
+
+# Ignores sqlite
 *.sqlite

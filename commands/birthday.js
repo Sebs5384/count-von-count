@@ -22,20 +22,21 @@ command.slashRun = async function slashRun(client, interaction) {
   const birthdayUser = interaction.options.getMentionable('user');
 
   const isValid = isValidDateFormat(birthdayDate) === true;
-  const formatedDate = convertDateFormat(birthdayDate);
+  const convertedDate = convertDateFormat(birthdayDate);
+  const formatedDate = displayFormatedDate(birthdayDate);
 
   if (isValid) {
     try {
       const [user, created] = await Users.findOrCreate({
         where: { user_id: birthdayUser.user.id },
-        defaults: { birthday_date: formatedDate },
+        defaults: { birthday_date: convertedDate },
       });
 
       if (!created) {
-        await user.update({ birthday_date: formatedDate });
+        await user.update({ birthday_date: convertedDate });
       }
 
-      send(`Successfully set the birthday of ${birthdayUser} to ${birthdayDate}`);
+      send(`Successfully set the birthday of ${birthdayUser} to ${formatedDate}`);
     } catch (error) {
       send('An error occurred while saving/updating the birthday record');
     }
@@ -55,9 +56,31 @@ function convertDateFormat(date){
   const year = new Date().getFullYear();
   
   const dateObject = new Date(`${year}-${month}-${day}`);
-  const formatedDate = dateObject.toISOString().split('T')[0];
+  const convertedDate = dateObject.toISOString().split('T')[0];
 
-  return formatedDate;
+  return convertedDate;
 }
+
+function displayFormatedDate(date){
+  const [day, month] = date.split('-')
+  const MONTHS_OF_YEAR = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const dayWithSuffix =  () => {
+    switch (day % 10) {
+      case 1: return `${day}st`;
+      case 2: return `${day}nd`;
+      case 3: return `${day}rd`;	
+      default: return `${day}th`;
+    }
+  }
+
+  for (const monthIndex in MONTHS_OF_YEAR) {
+    const monthIndexNumber = Number(monthIndex) + 1;
+    if (monthIndexNumber == month) {
+
+      return `${dayWithSuffix()} of ${MONTHS_OF_YEAR[monthIndex]}`;
+    };
+  };
+
+};
 
 export default command;

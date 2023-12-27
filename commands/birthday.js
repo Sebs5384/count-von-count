@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
-import Users from '../models/users.js';
 import { convertDateFormat, displayFormatedDate, isValidDateFormat } from '../utils/general.js';
+import Users from '../models/users.js';
 
 const command = new SlashCommandBuilder()
   .setName('birthday')

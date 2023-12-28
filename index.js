@@ -5,6 +5,7 @@ import config from './config.json' assert { type: 'json' };
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.commands = new Collection();
 client.commandAliases = new Collection();
+client.config = config
 
 const commandsPath = './commands'
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -44,4 +45,4 @@ for(const file in discordEventFiles){
   client.on(event, callback.bind(null, client))
 }
 
-client.login(config.token);
+client.login(client.config.token);

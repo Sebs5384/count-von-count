@@ -35,3 +35,20 @@ export function displayFormatedDate(date){
     };
   
 };
+
+export function getUsersTags(users, client) {
+  return Promise.all(users.map(async (user) => await client.users.fetch(user.user_id)));
+}
+
+export function getUsersBirthdayDate(users) {
+  const usersBirthdayDate = users.map((user) => user.birthday_date);
+
+  for (const date of usersBirthdayDate) {
+      const parsedDate = JSON.stringify(date);
+      const birthDate = parsedDate.split('T')[0].split('-').reverse().slice(0, 2).join('-');
+
+      usersBirthdayDate[usersBirthdayDate.indexOf(date)] = birthDate
+  }
+
+  return usersBirthdayDate
+}

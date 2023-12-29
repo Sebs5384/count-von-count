@@ -16,7 +16,7 @@ export function convertDateFormat(date){
   
 export function displayFormatedDate(date){
     const [day, month] = date.split('-')
-    const MONTHS_OF_YEAR = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const MONTHS_OF_YEAR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jum', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     const dayWithSuffix =  () => {
       switch (day % 10) {
         case 1: return `${day}st`;

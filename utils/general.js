@@ -22,6 +22,8 @@ export function displayFormatedDate(date) {
   const MONTH = Number(month) - 1;
 
   const dayWithSuffix = () => {
+    if (day >= 11 && day <= 13) return `${day}th`;
+
     switch (day % 10) {
       case 1: return `${day}st`;
       case 2: return `${day}nd`;
@@ -33,7 +35,7 @@ export function displayFormatedDate(date) {
   return `${dayWithSuffix()} of ${MONTHS_OF_YEAR[MONTH]}`;
 }
 
-export function getUsersTags(users, client) {
+export function getUsersTags(client, users) {
   return Promise.all(users.map(async (user) => client.users.fetch(user.user_id)));
 }
 
@@ -48,4 +50,22 @@ export function getUsersBirthdayDate(users) {
   }
 
   return usersBirthdayDate;
+}
+
+export function calculateRemainingDays(users) {
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  console.log(currentYear);
+
+  const userRemainingDays = users.map((user) => {
+    const usersBirthdayDate = new Date(user.birthday_date);
+
+    usersBirthdayDate.setFullYear(currentYear);
+    const differenceInMilliseconds = usersBirthdayDate - today;
+    const remainingDays = Math.ceil(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+
+    return remainingDays;
+  });
+
+  console.log(userRemainingDays);
 }

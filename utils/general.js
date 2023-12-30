@@ -1,5 +1,5 @@
 export function isValidDateFormat(date) {
-  const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\-([0]?[1-9]|1[0-2])$/;
+  const dateRegex = /^(0[1-9]|[12][0-9]|3[01])-([0]?[1-9]|1[0-2])$/;
 
   return dateRegex.test(date);
 }
@@ -7,8 +7,10 @@ export function isValidDateFormat(date) {
 export function convertDateFormat(date) {
   const [day, month] = date.split('-');
   const year = new Date().getFullYear();
-
   const dateObject = new Date(`${year}-${month}-${day}`);
+
+  if (dateObject.toString() === 'Invalid Date') return null;
+
   const convertedDate = dateObject.toISOString().split('T')[0];
 
   return convertedDate;
@@ -27,6 +29,8 @@ export function displayFormatedDate(date) {
       default: return `${day}th`;
     }
   };
+
+  console.log(MONTHS_OF_YEAR[MONTH]);
 
   return `${dayWithSuffix()} of ${MONTHS_OF_YEAR[MONTH]}`;
 }

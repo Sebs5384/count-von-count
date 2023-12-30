@@ -42,7 +42,7 @@ command.slashRun = async function slashRun(client, interaction) {
       send('An error occurred while saving/updating the birthday record');
     }
   } else {
-    send('Invalid date format. Please use DD-MM format');
+    send('Invalid date format given, please use DD-MM format with valid dates');
   }
 };
 

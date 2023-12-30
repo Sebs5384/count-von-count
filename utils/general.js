@@ -52,20 +52,27 @@ export function getUsersBirthdayDate(users) {
   return usersBirthdayDate;
 }
 
-export function calculateRemainingDays(users) {
+export function calculateRemainingDaysTillBirthday(users) {
   const today = new Date();
   const currentYear = today.getFullYear();
-  console.log(currentYear);
 
-  const userRemainingDays = users.map((user) => {
+  const MILLISECONDS_IN_A_DAY = 1000 * 60 * 60 * 24;
+  const FIRST_DAY_OF_YEAR = new Date(currentYear, 0, 1);
+  const FIRST_DAY_OF_NEXT_YEAR = new Date(currentYear + 1, 0, 1);
+
+  const millisecondsInYear = FIRST_DAY_OF_NEXT_YEAR - FIRST_DAY_OF_YEAR;
+  const totalDaysInYear = Math.ceil(millisecondsInYear / (MILLISECONDS_IN_A_DAY));
+
+  const userRemainingDaysTillBirthday = users.map((user) => {
     const usersBirthdayDate = new Date(user.birthday_date);
-
     usersBirthdayDate.setFullYear(currentYear);
-    const differenceInMilliseconds = usersBirthdayDate - today;
-    const remainingDays = Math.ceil(differenceInMilliseconds / (1000 * 60 * 60 * 24));
 
+    const differenceInMilliseconds = usersBirthdayDate - today;
+    const daysSinceBirthDay = Math.ceil((differenceInMilliseconds / (MILLISECONDS_IN_A_DAY)));
+
+    const remainingDays = totalDaysInYear + daysSinceBirthDay;
     return remainingDays;
   });
 
-  console.log(userRemainingDays);
+  return userRemainingDaysTillBirthday;
 }

@@ -9,8 +9,8 @@ const command = new SlashCommandBuilder()
 command.aliases = ['bl', 'bdaylist', 'blist'];
 
 command.slashRun = async function slashRun(client, interaction) {
+  const { guild } = interaction;
   const send = interaction.followUp.bind(interaction);
-  const { guild } = interaction.guild;
   const users = await Users.findAll();
 
   const usersList = await getUsersTags(users, client);
@@ -21,14 +21,15 @@ command.slashRun = async function slashRun(client, interaction) {
 };
 
 function createBirthdayListEmbed(client, users, dateList, guild) {
+  const guildName = guild.name;
   const birthdayUsers = users.map((user) => user);
+  const birthdayDates = dateList.map((date) => displayFormatedDate(date));
 
-  console.log(birthdayUsers);
   return new EmbedBuilder()
-    .setTitle(`🍰 ${guild.name} Guild Upcoming Birthday List`)
+    .setTitle(`🍰 ${guildName} Guild Upcoming Birthday List`)
     .setThumbnail(guild.iconURL({ dynamic: true, size: 2048 }))
     .setDescription(`Here is the list of users with their birthday \n 
-        ${users.map((user) => `**${user}** - ${displayFormatedDate(dateList[users.indexOf(user)])}`).join('\n')}`)
+        ${birthdayUsers.map((user) => `**${user}** - ${birthdayDates[birthdayUsers.indexOf(user)]}`).join('\n')}`)
     .setColor(client.config.embedColor);
 }
 

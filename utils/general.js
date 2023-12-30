@@ -30,8 +30,6 @@ export function displayFormatedDate(date) {
     }
   };
 
-  console.log(MONTHS_OF_YEAR[MONTH]);
-
   return `${dayWithSuffix()} of ${MONTHS_OF_YEAR[MONTH]}`;
 }
 

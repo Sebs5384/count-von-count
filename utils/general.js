@@ -57,11 +57,6 @@ export function calculateRemainingDaysTillBirthday(users) {
   const currentYear = today.getFullYear();
 
   const MILLISECONDS_IN_A_DAY = 1000 * 60 * 60 * 24;
-  const FIRST_DAY_OF_YEAR = new Date(currentYear, 0, 1);
-  const FIRST_DAY_OF_NEXT_YEAR = new Date(currentYear + 1, 0, 1);
-
-  const millisecondsInYear = FIRST_DAY_OF_NEXT_YEAR - FIRST_DAY_OF_YEAR;
-  const totalDaysInYear = Math.ceil(millisecondsInYear / (MILLISECONDS_IN_A_DAY));
 
   const userRemainingDaysTillBirthday = users.map((user) => {
     const usersBirthdayDate = new Date(user.birthday_date);
@@ -69,10 +64,44 @@ export function calculateRemainingDaysTillBirthday(users) {
 
     const differenceInMilliseconds = usersBirthdayDate - today;
     const daysSinceBirthDay = Math.ceil((differenceInMilliseconds / (MILLISECONDS_IN_A_DAY)));
-
-    const remainingDays = totalDaysInYear + daysSinceBirthDay;
-    return remainingDays;
+    
+    return daysSinceBirthDay;
   });
 
   return userRemainingDaysTillBirthday;
+}
+
+export function convertDaysToMonth(days) {
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
+  const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+  const FIRST_DAY_OF_YEAR = new Date(currentYear, 0, 1);
+  const FIRST_DAY_OF_NEXT_YEAR = new Date(currentYear + 1, 0, 1);
+
+  const millisecondsInYear = FIRST_DAY_OF_NEXT_YEAR - FIRST_DAY_OF_YEAR;
+  const totalDaysInYear = Math.ceil(millisecondsInYear / MILLISECONDS_IN_DAY);
+
+  totalDaysInYear % 2 === 0 ? daysInMonth[1] = 29 : daysInMonth[1] = 28;
+
+  const results = days.map((day) => {  
+    let remainingDays = day;
+    let months = 0;
+
+    for(let i = 0; i < daysInMonth.length; i++) {
+      const daysInCurrentMonth = daysInMonth[i];
+
+      if(remainingDays >= daysInCurrentMonth) {
+        remainingDays -= daysInCurrentMonth;
+        months++;
+      } else {
+        break;
+      }
+    }
+
+    return {months, remainingDays}
+  }) 
+
+  return results;
 }

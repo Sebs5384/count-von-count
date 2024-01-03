@@ -44,7 +44,10 @@ export function getUsersBirthdayDate(users) {
 
   for (const date of usersBirthdayDate) {
     const parsedDate = JSON.stringify(date);
-    const birthDate = parsedDate.split('T')[0].split('-').reverse().slice(0, 2).join('-');
+    const [day, month] = parsedDate.split('T')[0].split('-').reverse();
+    const formattedDay = `${parseInt(day, 10).toString()}`;
+
+    const birthDate = `${formattedDay}-${month}`;
 
     usersBirthdayDate[usersBirthdayDate.indexOf(date)] = birthDate;
   }

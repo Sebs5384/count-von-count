@@ -103,6 +103,15 @@ export function convertDaysToMonth(days) {
       }
     }
 
+    if(months === 0) {
+      let remainingDaysInMilliseconds = remainingDays * MILLISECONDS_IN_DAY;
+      let endDate = new Date(today.getTime() + remainingDaysInMilliseconds);
+      let remainingHours = (endDate - today) / (1000 * 60 * 60) % 24;
+
+      return {remainingDays: remainingDays - 1, remainingHours}
+
+    }
+
     return {months, remainingDays}
   }) 
 

@@ -27,12 +27,16 @@ function createBirthdayListEmbed(client, users, dateList, guild, results) {
   const guildName = guild.name;
   const birthdayUsers = users.map((user) => user);
   const birthdayDates = dateList.map((date) => displayFormatedDate(date));
+  
+  const birthdayList = birthdayUsers.map((user, index) => { return `${index + 1}. ${user} - ${birthdayDates[index]} 
+  (${results[index].months 
+  ? `In ${results[index].months} Months ${results[index].remainingDays} Days` 
+  : `In ${results[index].remainingDays} Days ${results[index].remainingHours} Hours` })`;}).join('\n');
 
   return new EmbedBuilder()
     .setTitle(`🍰 ${guildName} Guild Upcoming Birthday List`)
     .setThumbnail(guild.iconURL({ dynamic: true, size: 2048 }))
-    .setDescription(`Here is the list of users with their birthday \n 
-        ${birthdayUsers.map((user, index) => `${index + 1}. ${user} - ${birthdayDates[index]} (In ${results[index].months} Months ${results[index].remainingDays} Days)`).join('\n')}`)
+    .setDescription(`Here is the list of users with their birthday \n${birthdayList}`)
     .setColor(client.config.embedColor);
 }
 

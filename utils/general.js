@@ -16,7 +16,7 @@ export function convertDateFormat(date) {
   return convertedDate;
 }
 
-export function displayFormatedDate(date) {
+export function formatDate(date) {
   const [day, month] = date.split('-');
   const MONTHS_OF_YEAR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jum', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
   const MONTH = Number(month) - 1;
@@ -36,8 +36,10 @@ export function displayFormatedDate(date) {
   return `${dayWithSuffix()} of ${MONTHS_OF_YEAR[MONTH]}`;
 }
 
-export function getUsersTags(client, users) {
-  return Promise.all(users.map(async (user) => client.users.fetch(user.user_id)));
+export async function getUserList(client, users) {
+  const userList = await Promise.all(users.map(async (user) => await client.users.fetch(user.user_id)));
+
+  return userList;
 }
 
 export function getUsersBirthdayDate(users) {
@@ -56,7 +58,7 @@ export function getUsersBirthdayDate(users) {
   return usersBirthdayDate;
 }
 
-export function calculateRemainingTime(users) {
+export async function calculateRemainingTime(users) {
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentHour = today.getHours();
@@ -82,7 +84,6 @@ export function calculateRemainingTime(users) {
 function formatRemainingTime(remainingTime, isLeapYear, currentHour, MILLISECONDS_IN_DAY) {
   const daysInMonth = [31, isLeapYear, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   let remainingDays = Math.ceil((remainingTime / (MILLISECONDS_IN_DAY)));
-
   let months = 0;
 
   for(let i = 0; i < daysInMonth.length; i++) {
@@ -98,15 +99,30 @@ function formatRemainingTime(remainingTime, isLeapYear, currentHour, MILLISECOND
 
   if(remainingDays === 1) {
     const remainingHours = 24 - currentHour;
-
     return remainingHours;
   }
 
   if(months === 0) {
     const remainingHours = 24 - currentHour;
-
     return { remainingDays: remainingDays - 1 , remainingHours };
   }
 
   return {months, remainingDays}
+}
+
+export function getBirthdayList(userList, birthdayDate, timeTillNextBirthday) {
+  
+  const remainingTime = timeTillNextBirthday.map((time) => {
+    if(time.months) {
+      return `In ${time.months} Months ${time.remainingDays} Days`;
+    } else if(time.remainingDays) {
+      return `In ${time.remainingDays} Days ${time.remainingHours} Hours`;
+    } else {
+      return `In ${time} Hours`;
+    }
+  })
+
+  const birthdayList = userList.map((user, index) => `${index + 1}. ${user} - ${birthdayDate[index]} (${remainingTime[index]})`).join('\n');
+  
+  return birthdayList;
 }

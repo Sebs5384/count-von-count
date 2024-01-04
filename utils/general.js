@@ -59,32 +59,30 @@ export function getUsersBirthdayDate(users) {
 export function calculateRemainingTime(users) {
   const today = new Date();
   const currentYear = today.getFullYear();
-  const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
-  const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const currentHour = today.getHours();
 
   const FIRST_DAY_OF_YEAR = new Date(currentYear, 0, 1);
   const FIRST_DAY_OF_NEXT_YEAR = new Date(currentYear + 1, 0, 1);
+  const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
 
   const millisecondsInYear = FIRST_DAY_OF_NEXT_YEAR - FIRST_DAY_OF_YEAR;
   const totalDaysInYear = Math.ceil(millisecondsInYear / MILLISECONDS_IN_DAY);
-
-  totalDaysInYear % 2 === 0 ? daysInMonth[1] = 29 : null;
+  const isLeapYear = totalDaysInYear % 2 === 0 ?  29 : 28;
 
   const remainingTime = users.map((user) => {  
-    const usersBirthdayDate = new Date(user.birthday_date);
-    usersBirthdayDate.setFullYear(currentYear);
+    const usersBirthdayDate = new Date(user.birthday_date).setFullYear(currentYear);
+    const remainingTimeInMilliseconds = usersBirthdayDate - today;
 
-    const differenceInMilliseconds = usersBirthdayDate - today;
-    const remainingDays = Math.ceil((differenceInMilliseconds / (MILLISECONDS_IN_DAY)));
-    
-    return getRemainingTime(remainingDays);
+    return formatRemainingTime(remainingTimeInMilliseconds, isLeapYear, currentHour, MILLISECONDS_IN_DAY);
   }) 
 
   return remainingTime;
 }
 
-function getRemainingTime(days) {
-  let remainingDays = days;
+function formatRemainingTime(remainingTime, isLeapYear, currentHour, MILLISECONDS_IN_DAY) {
+  const daysInMonth = [31, isLeapYear, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  let remainingDays = Math.ceil((remainingTime / (MILLISECONDS_IN_DAY)));
+
   let months = 0;
 
   for(let i = 0; i < daysInMonth.length; i++) {
@@ -99,14 +97,12 @@ function getRemainingTime(days) {
   }
 
   if(remainingDays === 1) {
-    const currentHour = today.getHours();
     const remainingHours = 24 - currentHour;
 
     return remainingHours;
   }
 
   if(months === 0) {
-    const currentHour = today.getHours();
     const remainingHours = 24 - currentHour;
 
     return { remainingDays: remainingDays - 1 , remainingHours };

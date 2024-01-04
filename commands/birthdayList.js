@@ -28,7 +28,7 @@ function createBirthdayListEmbed(client, users, dateList, guild, remainingTime) 
   const birthdayDates = dateList.map((date) => displayFormatedDate(date));
   
   const birthdayList = birthdayUsers.map((user, index) => { return `${index + 1}. ${user} - ${birthdayDates[index]} 
-  (${results[index].months 
+  (${remainingTime[index].months 
   ? `In ${remainingTime[index].months} Months ${remainingTime[index].remainingDays} Days` 
   : `In ${remainingTime[index].remainingDays} Days ${remainingTime[index].remainingHours} Hours` })`;}).join('\n');
 

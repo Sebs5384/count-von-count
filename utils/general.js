@@ -83,8 +83,16 @@ export async function calculateRemainingTime(users) {
 
 function formatRemainingTime(remainingTime, isLeapYear, currentHour, MILLISECONDS_IN_DAY) {
   const daysInMonth = [31, isLeapYear, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const HOURS_IN_DAY = 24;
   let remainingDays = Math.ceil((remainingTime / (MILLISECONDS_IN_DAY)));
   let months = 0;
+
+  if(remainingTime < 0) {
+    const DAYS_IN_YEAR = daysInMonth.reduce((acc, days) => acc + days, 0);
+    const MILLISECONDS_IN_YEAR = 1000 * 60 * 60 * 24 * DAYS_IN_YEAR;
+
+    remainingDays = Math.ceil((remainingTime + MILLISECONDS_IN_YEAR) / (MILLISECONDS_IN_DAY));
+  }
 
   for(let i = 0; i < daysInMonth.length; i++) {
     const daysInCurrentMonth = daysInMonth[i];
@@ -98,27 +106,31 @@ function formatRemainingTime(remainingTime, isLeapYear, currentHour, MILLISECOND
   }
 
   if(remainingDays === 1) {
-    const remainingHours = 24 - currentHour;
+    const remainingHours = HOURS_IN_DAY - currentHour;
     return remainingHours;
   }
 
   if(months === 0) {
-    const remainingHours = 24 - currentHour;
-    return { remainingDays: remainingDays - 1 , remainingHours };
+    const remainingHours = HOURS_IN_DAY - currentHour;
+    remainingDays = remainingDays - 1;
+
+    return { remainingDays, remainingHours };
   }
 
-  return {months, remainingDays}
+  return { months, remainingDays }
 }
 
 export function getBirthdayList(userList, birthdayDate, timeTillNextBirthday) {
   
   const remainingTime = timeTillNextBirthday.map((time) => {
-    if(time.months) {
+    if(time.months && time.remainingDays !== 0) {
       return `In ${time.months} Months ${time.remainingDays} Days`;
     } else if(time.remainingDays) {
       return `In ${time.remainingDays} Days ${time.remainingHours} Hours`;
-    } else {
+    } else if(time.remainingHours) {
       return `In ${time} Hours`;
+    } else {
+      return " 🍰🎉 Today 🎂🥳 ";
     }
   })
 

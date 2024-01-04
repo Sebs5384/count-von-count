@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { convertDateFormat, displayFormatedDate, isValidDateFormat } from '../utils/general.js';
+import { convertDateFormat, formatDate, isValidDateFormat } from '../utils/general.js';
 import Users from '../models/users.js';
 
 const command = new SlashCommandBuilder()
@@ -24,7 +24,7 @@ command.slashRun = async function slashRun(client, interaction) {
 
   const isValid = isValidDateFormat(birthdayDate) === true;
   const convertedDate = convertDateFormat(birthdayDate);
-  const formatedDate = displayFormatedDate(birthdayDate);
+  const formatedDate = formatDate(birthdayDate);
 
   if (isValid) {
     try {

@@ -9,10 +9,15 @@ const command = new SlashCommandBuilder()
 command.aliases = ['bl', 'bdaylist', 'blist'];
 
 command.slashRun = async function slashRun(client, interaction) {
-  const { guild } = interaction;
+  const channel = interaction.channel
   const send = interaction.followUp.bind(interaction);
   const users = await Users.findAll();
+  const guild = await channel.guild;
 
+  await runCommand(client, guild, users, send);
+}
+
+async function runCommand(client, guild, users, send) {
   const userList = await getUserList(client, users);
   const birthdayDateList = getUsersBirthdayDate(users).map((date) => formatDate(date));
   const timeTillNextBirthday = await calculateRemainingTime(users);
@@ -20,7 +25,7 @@ command.slashRun = async function slashRun(client, interaction) {
   const listEmbed = createBirthdayListEmbed(client, guild, birthdayList);
 
   send({ embeds: [listEmbed] });
-};
+}
 
 function createBirthdayListEmbed(client, guild, birthdayList) {
   const guildName = guild.name;
@@ -31,5 +36,6 @@ function createBirthdayListEmbed(client, guild, birthdayList) {
     .setDescription(`Here is the list of users with their birthday \n${birthdayList}`)
     .setColor(client.config.embedColor);
 }
+
 
 export default command;

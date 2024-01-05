@@ -1,8 +1,21 @@
 import fs from 'node:fs';
-import { Client, Collection, Events, GatewayIntentBits } from 'discord.js';
+import { Client, Collection, Events, GatewayIntentBits, Partials } from 'discord.js';
 import config from './config.json' assert { type: 'json' };
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ 
+  partials: [
+    Partials.Channel,
+    Partials.GuildMember,
+    Partials.User,
+  ],
+  intents: [
+    GatewayIntentBits.Guilds,   
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages, 
+    GatewayIntentBits.MessageContent,
+  ] 
+});
+
 client.commands = new Collection();
 client.commandAliases = new Collection();
 client.config = config

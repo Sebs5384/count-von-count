@@ -1,6 +1,5 @@
 import { Events } from 'discord.js';
 
-console.log("hi")
 export const event = Events.MessageCreate;
 
 export const callback = async (client, message) => {
@@ -20,8 +19,6 @@ export const callback = async (client, message) => {
     } else if(botWasMentioned) {
         contentWithoutPrefix = message.content.slice(client.user.mention.length);
     }
-
-    console.log(`Command: ${contentWithoutPrefix}`);
 
     const tokens = contentWithoutPrefix.trim().split(' ');
     const commandName = tokens.shift();

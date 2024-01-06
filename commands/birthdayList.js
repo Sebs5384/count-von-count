@@ -25,7 +25,7 @@ command.slashRun = async function slashRun(client, interaction) {
 }
 
 async function runCommand(client, guild, send) {
-  const users = await Users.findAll();
+  const users = await Users.findAll({ where: { channel_id: guild.id } });
   const userList = await getUserList(client, users);
   const birthdayDateList = getUsersBirthdayDate(users).map((date) => formatDate(date));
   const timeTillNextBirthday = await calculateRemainingTime(users);

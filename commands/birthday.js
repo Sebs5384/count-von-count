@@ -19,6 +19,7 @@ command.aliases = ['b', 'bday', 'birthday'];
 
 command.slashRun = async function slashRun(client, interaction) {
   const send = interaction.followUp.bind(interaction);
+  const guildId = interaction.guild.id;
   const birthdayDate = interaction.options.getString('date');
   const birthdayUser = interaction.options.getMentionable('user');
 
@@ -28,8 +29,10 @@ command.slashRun = async function slashRun(client, interaction) {
 
   if (isValid) {
     try {
+      await Users.sync({ force: false });
+
       const [user, created] = await Users.findOrCreate({
-        where: { user_id: birthdayUser.user.id },
+        where: { user_id: birthdayUser.user.id, channel_id: guildId },
         defaults: { birthday_date: convertedDate },
       });
 

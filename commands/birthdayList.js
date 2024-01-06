@@ -6,21 +6,30 @@ const command = new SlashCommandBuilder()
   .setName('birthdaylist')
   .setDescription('Displays the list of users with their birthday');
 
-command.aliases = ['bl', 'bdaylist', 'blist'];
+command.aliases = ['.bl', '.bdaylist', '.blist'];
+
+command.prefixRun = async function prefixRun(client, message) {
+  const channel = message.channel;
+  const send = channel.send.bind(channel);
+  const guild = await channel.guild;
+
+  await runCommand(client, guild, send);
+}
 
 command.slashRun = async function slashRun(client, interaction) {
   const channel = interaction.channel
   const send = interaction.followUp.bind(interaction);
-  const users = await Users.findAll();
   const guild = await channel.guild;
 
-  await runCommand(client, guild, users, send);
+  await runCommand(client, guild, send);
 }
 
-async function runCommand(client, guild, users, send) {
+async function runCommand(client, guild, send) {
+  const users = await Users.findAll();
   const userList = await getUserList(client, users);
   const birthdayDateList = getUsersBirthdayDate(users).map((date) => formatDate(date));
   const timeTillNextBirthday = await calculateRemainingTime(users);
+
   const birthdayList = getBirthdayList(userList, birthdayDateList, timeTillNextBirthday);
   const listEmbed = createBirthdayListEmbed(client, guild, birthdayList);
 

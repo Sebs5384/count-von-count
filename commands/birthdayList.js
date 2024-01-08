@@ -31,8 +31,12 @@ async function runCommand(client, guild, send) {
   const birthdayDateList = getUsersBirthdayDate(users).map((date) => formatDate(date));
   const timeTillNextBirthday = await calculateRemainingTime(users);
 
+  const guildName = guild.name;
+  const guildIcon = guild.iconURL({ dynamic: true, size: 2048 });
+  const embedColor = client.config.embedColor
+
   const birthdayList = getBirthdayList(userList, birthdayDateList, timeTillNextBirthday);
-  const listEmbed = createBirthdayListEmbed(client, guild, birthdayList);
+  const listEmbed = createBirthdayListEmbed(embedColor, guildIcon, guildName, birthdayList);
 
   send({ embeds: [listEmbed] });
 }

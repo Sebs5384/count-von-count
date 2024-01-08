@@ -1,5 +1,6 @@
-import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder } from 'discord.js';
 import { getUserList, getUsersBirthdayDate, formatDate, calculateRemainingTime, getBirthdayList } from '../utils/general.js';
+import { createBirthdayListEmbed } from '../utils/embeds.js';
 import Users from '../models/users.js';
 
 const command = new SlashCommandBuilder()
@@ -35,16 +36,5 @@ async function runCommand(client, guild, send) {
 
   send({ embeds: [listEmbed] });
 }
-
-function createBirthdayListEmbed(client, guild, birthdayList) {
-  const guildName = guild.name;
-
-  return new EmbedBuilder()
-    .setTitle(`🍰 ${guildName} Guild Upcoming Birthday List`)
-    .setThumbnail(guild.iconURL({ dynamic: true, size: 2048 }))
-    .setDescription(`Here is the list of users with their birthday \n${birthdayList}`)
-    .setColor(client.config.embedColor);
-}
-
 
 export default command;

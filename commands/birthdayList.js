@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { getUserList, getUsersBirthdayDate, formatDate, calculateRemainingTime, getBirthdayList } from '../utils/general.js';
+import { getUserList, getUsersBirthdayDate, formatDateToMonthDayWithSuffix, calculateRemainingTime, getBirthdayList } from '../utils/general.js';
 import { createBirthdayListEmbed } from '../utils/embeds.js';
 import Users from '../models/users.js';
 
@@ -28,14 +28,15 @@ command.slashRun = async function slashRun(client, interaction) {
 async function runCommand(client, guild, send) {
   const users = await Users.findAll({ where: { channel_id: guild.id } });
   const userList = await getUserList(client, users);
-  const birthdayDateList = getUsersBirthdayDate(users).map((date) => formatDate(date));
+  const usersBirthday = getUsersBirthdayDate(users);
+  const usersBirthdayWithSuffix = formatDateToMonthDayWithSuffix(usersBirthday);
   const timeTillNextBirthday = await calculateRemainingTime(users);
 
   const guildName = guild.name;
   const guildIcon = guild.iconURL({ dynamic: true, size: 2048 });
   const embedColor = client.config.embedColor
 
-  const birthdayList = getBirthdayList(userList, birthdayDateList, timeTillNextBirthday);
+  const birthdayList = getBirthdayList(userList, usersBirthdayWithSuffix, timeTillNextBirthday);
   const listEmbed = createBirthdayListEmbed(embedColor, guildIcon, guildName, birthdayList);
 
   send({ embeds: [listEmbed] });

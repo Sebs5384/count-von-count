@@ -25,7 +25,7 @@ command.slashRun = async function slashRun(client, interaction) {
 
   const isValid = isValidDateFormat(birthdayDate);
   const formatedDate = formatDate(birthdayDate);
-  const formatedDateWithSuffix = formatDateToMonthDayWithSuffix(birthdayDate);
+  const formatedDateWithSuffix = formatDateToMonthDayWithSuffix([birthdayDate]);
 
   if (isValid) {
     try { 

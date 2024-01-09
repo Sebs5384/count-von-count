@@ -9,4 +9,8 @@ export function createBirthdayListEmbed(embedColor, guildIcon, guildName, birthd
       .setColor(embedColor);
 }
 
-export function birthdayMessageEmbed(client, guild, user) {}
+export function birthdayMessageEmbed(embedColor, userIcon, userName) {
+    return new EmbedBuilder()
+      .setTitle(`Happy Birthday, ${userName}!`)
+      .setThumbnail(userIcon)
+}

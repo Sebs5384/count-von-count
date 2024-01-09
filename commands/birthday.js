@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { convertDateFormat, formatDate, isValidDateFormat } from '../utils/general.js';
+import { formatDate, formatDateToMonthDayWithSuffix, isValidDateFormat } from '../utils/general.js';
 import Users from '../models/users.js';
 
 const command = new SlashCommandBuilder()
@@ -23,24 +23,23 @@ command.slashRun = async function slashRun(client, interaction) {
   const birthdayDate = interaction.options.getString('date');
   const birthdayUser = interaction.options.getMentionable('user');
 
-  const isValid = isValidDateFormat(birthdayDate) === true;
-  const convertedDate = convertDateFormat(birthdayDate);
+  const isValid = isValidDateFormat(birthdayDate);
   const formatedDate = formatDate(birthdayDate);
+  const formatedDateWithSuffix = formatDateToMonthDayWithSuffix(birthdayDate);
 
   if (isValid) {
-    try {
+    try { 
       await Users.sync({ force: false });
 
       const [user, created] = await Users.findOrCreate({
         where: { user_id: birthdayUser.user.id, channel_id: guildId },
-        defaults: { birthday_date: convertedDate },
+        defaults: { birthday_date: formatedDate },
       });
 
       if (!created) {
-        await user.update({ birthday_date: convertedDate });
+        await user.update({ birthday_date: formatedDate });
       }
-
-      send(`Successfully set the birthday of ${birthdayUser} to ${formatedDate}`);
+      send(`Successfully set the birthday of ${birthdayUser} to ${formatedDateWithSuffix}`);
     } catch (error) {
       send('An error occurred while saving/updating the birthday record');
     }

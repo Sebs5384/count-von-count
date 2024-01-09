@@ -4,38 +4,6 @@ export function isValidDateFormat(date) {
   return dateRegex.test(date);
 }
 
-export function convertDateFormat(date) {
-  const [day, month] = date.split('-');
-  const year = new Date().getFullYear();
-  const dateObject = new Date(`${year}-${month}-${day}`);
-
-  if (dateObject.toString() === 'Invalid Date') return null;
-
-  const convertedDate = dateObject.toISOString().split('T')[0];
-
-  return convertedDate;
-}
-
-export function formatDate(date) {
-  const [day, month] = date.split('-');
-  const MONTHS_OF_YEAR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jum', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-  const MONTH = Number(month) - 1;
-  const parsedDay = Number(day).toString();
-
-  const dayWithSuffix = () => {
-    if (day >= 11 && day <= 13) return `${parsedDay}th`;
-
-    switch (day % 10) {
-      case 1: return `${parsedDay}st`;
-      case 2: return `${parsedDay}nd`;
-      case 3: return `${parsedDay}rd`;
-      default: return `${parsedDay}th`;
-    }
-  };
-
-  return `${dayWithSuffix()} of ${MONTHS_OF_YEAR[MONTH]}`;
-}
-
 export async function getUserList(client, users) {
   const userList = await Promise.all(users.map(async (user) => await client.users.fetch(user.user_id)));
 
@@ -45,18 +13,61 @@ export async function getUserList(client, users) {
 export function getUsersBirthdayDate(users) {
   const usersBirthdayDate = users.map((user) => user.birthday_date);
 
-  for (const date of usersBirthdayDate) {
-    const parsedDate = JSON.stringify(date);
-    const [day, month] = parsedDate.split('T')[0].split('-').reverse();
-    const formattedDay = Number(day).toString();
-
-    const birthDate = `${formattedDay}-${month}`;
-
-    usersBirthdayDate[usersBirthdayDate.indexOf(date)] = birthDate;
-  }
-
   return usersBirthdayDate;
 }
+
+export function formatToDayMonth(usersBirthdayDate){
+  usersBirthdayDate.map((date) => {
+    const [day, month] = date.toISOString().split('T')[0].split('-').reverse();
+    const formattedDay = Number(day).toString();
+  
+    const birthDate = `${formattedDay}-${month}`;
+  
+    usersBirthdayDate[usersBirthdayDate.indexOf(date)] = birthDate;
+  })
+  
+  return usersBirthdayDate
+}
+
+export function formatDate(date) {
+  const [day, month] = date.split('-');
+  const year = new Date().getFullYear();
+  const parsedDate = new Date(`${year}-${month}-${day}`);
+  
+  const invalidDate = parsedDate.toString() === 'Invalid Date';
+
+  if (invalidDate) return null;
+
+  const formatedDate = parsedDate.toISOString().split('T')[0];
+
+  return formatedDate;
+}
+
+export function formatDateToMonthDayWithSuffix(dateList) {
+  const dateListWithSuffix = dateList.map((date) => {
+    console.log(date.toISOString().split('T')[0].split('-'))
+    const [year, month, day] = date.toISOString().split('T')[0].split('-');
+    const MONTHS_OF_YEAR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jum', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+    const MONTH = Number(month) - 1;
+    const dayWithSuffix = getDayWithSuffix(day);
+  
+    return `${dayWithSuffix} of ${MONTHS_OF_YEAR[MONTH]}`;    
+  })
+
+  return dateListWithSuffix
+}
+
+function getDayWithSuffix(day) {
+  const parsedDay = Number(day).toString();
+  if (day >= 11 && day <= 13) return `${parsedDay}th`;
+
+  switch (day % 10) {
+    case 1: return `${parsedDay}st`;
+    case 2: return `${parsedDay}nd`;
+    case 3: return `${parsedDay}rd`;
+    default: return `${parsedDay}th`;
+  }
+};
 
 export async function calculateRemainingTime(users) {
   const today = new Date();
@@ -71,14 +82,14 @@ export async function calculateRemainingTime(users) {
   const totalDaysInYear = Math.ceil(millisecondsInYear / MILLISECONDS_IN_DAY);
   const isLeapYear = totalDaysInYear % 2 === 0 ?  29 : 28;
 
-  const remainingTime = users.map((user) => {  
+  const remainingTime = users.map((user) => {
     const usersBirthdayDate = new Date(user.birthday_date).setFullYear(currentYear);
     const remainingTimeInMilliseconds = usersBirthdayDate - today;
 
     return formatRemainingTime(remainingTimeInMilliseconds, isLeapYear, currentHour, MILLISECONDS_IN_DAY);
-  }) 
+  })
 
-  return remainingTime;
+  return remainingTime
 }
 
 function formatRemainingTime(remainingTime, isLeapYear, currentHour, MILLISECONDS_IN_DAY) {

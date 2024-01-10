@@ -1,9 +1,3 @@
-export function isValidDateFormat(date) {
-  const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])-([0]?[1-9]|1[0-2])$/;
-
-  return dateRegex.test(date);
-}
-
 export async function getUserList(client, users) {
   const userList = await Promise.all(users.map(async (user) => await client.users.fetch(user.user_id)));
 
@@ -14,6 +8,31 @@ export function getUsersBirthdayDate(users) {
   const usersBirthdayDate = users.map((user) => user.birthday_date);
 
   return usersBirthdayDate;
+}
+
+export async function getBirthdayUser(users, client){
+
+  for(const user of users) {
+    const today = new Date().toISOString().split('T')[0]
+    const userBirthdayDate = new Date(user.birthday_date).toISOString().split('T')[0]
+
+    const birthdayUser = await client.users.fetch(user.user_id)
+    const userGuildId = user.channel_id
+
+    if(userBirthdayDate === today) {
+      return {
+        birthdayUser,
+        userBirthdayDate,
+        userGuildId
+      }
+    }
+  }
+}
+
+export function isValidDateFormat(date) {
+  const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])-([0]?[1-9]|1[0-2])$/;
+
+  return dateRegex.test(date);
 }
 
 export function formatToDayMonth(usersBirthdayDate){
@@ -45,8 +64,7 @@ export function formatDate(date) {
 
 export function formatDateToMonthDayWithSuffix(dateList) {
   const dateListWithSuffix = dateList.map((date) => {
-    console.log(date.toISOString().split('T')[0].split('-'))
-    const [year, month, day] = date.toISOString().split('T')[0].split('-');
+    const [day, month] =  date.split('T')[0].split('-');
     const MONTHS_OF_YEAR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jum', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     const MONTH = Number(month) - 1;
     const dayWithSuffix = getDayWithSuffix(day);

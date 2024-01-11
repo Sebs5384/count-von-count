@@ -1,5 +1,5 @@
 import { Events } from "discord.js";
-import { getBirthdayUser, formatToDayMonth, formatDateToMonthDayWithSuffix } from "../utils/general.js";
+import { getBirthdayUser, formatDate, getDateWithSuffix } from "../utils/general.js";
 import { createBirthdayMessageEmbed } from "../utils/embeds.js";
 import  Users  from "../models/users.js";
 
@@ -24,14 +24,15 @@ export const callback = async (client, message) => {
             const memberJoinDate = guildMemberInfo.joinedAt;
             const guildName = guild.name;
             const embedColor = client.config.embedColor;
-            const formatedDate = formatToDayMonth([memberJoinDate]);
-            const userJoinedAt = formatDateToMonthDayWithSuffix(formatedDate);
+            const formatedDate = formatDate([memberJoinDate]);
+            const userJoinedAt = getDateWithSuffix(formatedDate, true);
+            ;
         
             const birthdayEmbed = createBirthdayMessageEmbed(embedColor, userIcon, birthdayUser, userJoinedAt, guildName, countVonCountIcon);
             send({ embeds: [birthdayEmbed] });
 
         } catch (error) {
-            console.log(`Error sending birthday message: ${error}`);
+            console.log(`Error sending birthday message or birthday users today: ${error}`);
         }
     })();
 }

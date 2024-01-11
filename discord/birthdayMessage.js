@@ -1,13 +1,15 @@
 import { Events } from "discord.js";
 import { getBirthdayUser, formatDate, getDateWithSuffix } from "../utils/general.js";
 import { createBirthdayMessageEmbed } from "../utils/embeds.js";
+import cron from "node-cron";
 import  Users  from "../models/users.js";
 
 export const event = Events.ClientReady;
 
 export const callback = async (client) => {
-
-    (async () => {
+     
+    const MIDNIGHT_TIME = '0 0 * * *' // Min/Hour/Day/Month/Weekday
+    cron.schedule( MIDNIGHT_TIME, (async () => {
         try {
             const users = (await Users.findAll()).map(user => user.dataValues);
             const channel = client.channels.cache.get('1184679139505078272');
@@ -19,7 +21,7 @@ export const callback = async (client) => {
         } catch (error) {
             console.log(`Error sending birthday message / no birthday users today: ${error}`);
         }
-    })();
+    }));
 }
 
 async function sendBirthdayMessage(send, client, guild, users) {

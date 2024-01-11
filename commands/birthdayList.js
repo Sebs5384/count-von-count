@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { getUserList, getUsersBirthdayDate, formatDateToMonthDayWithSuffix, calculateRemainingTime, getBirthdayList, formatToDayMonth } from '../utils/general.js';
+import { getUserList, getUsersBirthdayDate, getDateWithSuffix, calculateRemainingTime, getBirthdayList, formatDate } from '../utils/general.js';
 import { createBirthdayListEmbed } from '../utils/embeds.js';
 import Users from '../models/users.js';
 
@@ -30,8 +30,8 @@ async function runCommand(client, guild, send) {
   const userList = await getUserList(client, users);
   const usersBirthday = getUsersBirthdayDate(users);
   
-  const formatedDate = formatToDayMonth(usersBirthday);
-  const usersBirthdayWithSuffix = formatDateToMonthDayWithSuffix(formatedDate);
+  const formatedDate = formatDate(usersBirthday);
+  const usersBirthdayWithSuffix = getDateWithSuffix(formatedDate);
   const timeTillNextBirthday = await calculateRemainingTime(users);
 
   const guildName = guild.name;

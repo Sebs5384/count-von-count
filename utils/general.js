@@ -16,15 +16,11 @@ export async function getBirthdayUser(users, client){
     const today = new Date().toISOString().split('T')[0]
     const userBirthdayDate = new Date(user.birthday_date).toISOString().split('T')[0]
 
-    const birthdayUser = await client.users.fetch(user.user_id)
-    const userGuildId = user.channel_id
-
     if(userBirthdayDate === today) {
-      return {
-        birthdayUser,
-        userBirthdayDate,
-        userGuildId
-      }
+      const birthdayUser = await client.users.fetch(user.user_id)
+      const userGuildId = user.channel_id
+
+      return { birthdayUser, userBirthdayDate, userGuildId };
     }
   }
 }
@@ -35,12 +31,12 @@ export function isValidDateFormat(date) {
   return dateRegex.test(date);
 }
 
-export function formatToDayMonth(usersBirthdayDate){
+export function formatDate(usersBirthdayDate){
   usersBirthdayDate.map((date) => {
-    const [day, month] = date.toISOString().split('T')[0].split('-').reverse();
+    const [day, month, year] = date.toISOString().split('T')[0].split('-');
     const formattedDay = Number(day).toString();
   
-    const birthDate = `${formattedDay}-${month}`;
+    const birthDate = `${formattedDay}-${month}-${year}`;
   
     usersBirthdayDate[usersBirthdayDate.indexOf(date)] = birthDate;
   })
@@ -48,7 +44,7 @@ export function formatToDayMonth(usersBirthdayDate){
   return usersBirthdayDate
 }
 
-export function formatDate(date) {
+export function formatToFullDate(date) {
   const [day, month] = date.split('-');
   const year = new Date().getFullYear();
   const parsedDate = new Date(`${year}-${month}-${day}`);
@@ -57,19 +53,24 @@ export function formatDate(date) {
 
   if (invalidDate) return null;
 
-  const formatedDate = parsedDate.toISOString().split('T')[0];
+  const fullDate = parsedDate.toISOString().split('T')[0];
 
-  return formatedDate;
+  return fullDate;
 }
 
-export function formatDateToMonthDayWithSuffix(dateList) {
-  const dateListWithSuffix = dateList.map((date) => {
-    const [day, month] =  date.split('T')[0].split('-');
-    const MONTHS_OF_YEAR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jum', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+export function getDateWithSuffix(dateList, fullDate = false) {
+  const dateListWithSuffix = dateList.map((date) => { 
+    const [day, month, year] =  date.split('T')[0].split('-').reverse();
+    const MONTHS_OF_YEAR = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.'];
     const MONTH = Number(month) - 1;
     const dayWithSuffix = getDayWithSuffix(day);
   
-    return `${dayWithSuffix} of ${MONTHS_OF_YEAR[MONTH]}`;    
+    if (fullDate) {
+      return `${dayWithSuffix} of ${MONTHS_OF_YEAR[MONTH]} ${year}` 
+    } else {
+      return `${dayWithSuffix} of ${MONTHS_OF_YEAR[MONTH]}`; 
+    }
+
   })
 
   return dateListWithSuffix

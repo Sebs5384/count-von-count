@@ -10,13 +10,13 @@ export function getUsersBirthdayDate(users) {
   return usersBirthdayDate;
 }
 
-export async function getBirthdayUser(users, client){
+export async function getBirthdayUser(users, client) {
 
-  for(const user of users) {
+  for (const user of users) {
     const today = new Date().toISOString().split('T')[0]
     const userBirthdayDate = new Date(user.birthday_date).toISOString().split('T')[0]
 
-    if(userBirthdayDate === today) {
+    if (userBirthdayDate === today) {
       const birthdayUser = await client.users.fetch(user.user_id)
       const userGuildId = user.channel_id
 
@@ -31,16 +31,16 @@ export function isValidDateFormat(date) {
   return dateRegex.test(date);
 }
 
-export function formatDate(usersBirthdayDate){
+export function formatDate(usersBirthdayDate) {
   usersBirthdayDate.map((date) => {
     const [day, month, year] = date.toISOString().split('T')[0].split('-');
     const formattedDay = Number(day).toString();
-  
+
     const birthDate = `${formattedDay}-${month}-${year}`;
-  
+
     usersBirthdayDate[usersBirthdayDate.indexOf(date)] = birthDate;
   })
-  
+
   return usersBirthdayDate
 }
 
@@ -48,7 +48,7 @@ export function formatToFullDate(date) {
   const [day, month] = date.split('-');
   const year = new Date().getFullYear();
   const parsedDate = new Date(`${year}-${month}-${day}`);
-  
+
   const invalidDate = parsedDate.toString() === 'Invalid Date';
 
   if (invalidDate) return null;
@@ -59,16 +59,16 @@ export function formatToFullDate(date) {
 }
 
 export function getDateWithSuffix(dateList, fullDate = false) {
-  const dateListWithSuffix = dateList.map((date) => { 
-    const [day, month, year] =  date.split('T')[0].split('-').reverse();
+  const dateListWithSuffix = dateList.map((date) => {
+    const [day, month, year] = date.split('T')[0].split('-').reverse();
     const MONTHS_OF_YEAR = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.'];
     const MONTH = Number(month) - 1;
     const dayWithSuffix = getDayWithSuffix(day);
-  
+
     if (fullDate) {
-      return `${dayWithSuffix} of ${MONTHS_OF_YEAR[MONTH]} ${year}` 
+      return `${dayWithSuffix} of ${MONTHS_OF_YEAR[MONTH]} ${year}`
     } else {
-      return `${dayWithSuffix} of ${MONTHS_OF_YEAR[MONTH]}`; 
+      return `${dayWithSuffix} of ${MONTHS_OF_YEAR[MONTH]}`;
     }
 
   })
@@ -99,7 +99,7 @@ export async function calculateRemainingTime(users) {
 
   const millisecondsInYear = FIRST_DAY_OF_NEXT_YEAR - FIRST_DAY_OF_YEAR;
   const totalDaysInYear = Math.ceil(millisecondsInYear / MILLISECONDS_IN_DAY);
-  const isLeapYear = totalDaysInYear % 2 === 0 ?  29 : 28;
+  const isLeapYear = totalDaysInYear % 2 === 0 ? 29 : 28;
 
   const remainingTime = users.map((user) => {
     const usersBirthdayDate = new Date(user.birthday_date).setFullYear(currentYear);
@@ -117,17 +117,17 @@ function formatRemainingTime(remainingTime, isLeapYear, currentHour, MILLISECOND
   let remainingDays = Math.ceil((remainingTime / (MILLISECONDS_IN_DAY)));
   let months = 0;
 
-  if(remainingTime < 0) {
+  if (remainingTime < 0) {
     const DAYS_IN_YEAR = daysInMonth.reduce((acc, days) => acc + days, 0);
     const MILLISECONDS_IN_YEAR = 1000 * 60 * 60 * 24 * DAYS_IN_YEAR;
 
     remainingDays = Math.ceil((remainingTime + MILLISECONDS_IN_YEAR) / (MILLISECONDS_IN_DAY));
   }
 
-  for(let i = 0; i < daysInMonth.length; i++) {
+  for (let i = 0; i < daysInMonth.length; i++) {
     const daysInCurrentMonth = daysInMonth[i];
 
-    if(remainingDays >= daysInCurrentMonth) {
+    if (remainingDays >= daysInCurrentMonth) {
       remainingDays -= daysInCurrentMonth;
       months++;
     } else {
@@ -135,36 +135,40 @@ function formatRemainingTime(remainingTime, isLeapYear, currentHour, MILLISECOND
     }
   }
 
-  if(remainingDays === 1) {
-    const remainingHours = HOURS_IN_DAY - currentHour;
-    return remainingHours;
-  }
 
-  if(months === 0) {
+  if (months === 0 && remainingDays === 1) {
     const remainingHours = HOURS_IN_DAY - currentHour;
     remainingDays = remainingDays - 1;
 
     return { remainingDays, remainingHours };
+  } else if (months === 0) {
+    const remainingHours = HOURS_IN_DAY - currentHour;
+    remainingDays = remainingDays - 1;
+
+    return { remainingDays, remainingHours };
+  } else {
+    
+    return { months, remainingDays };    
   }
 
-  return { months, remainingDays }
 }
 
 export function getBirthdayList(userList, birthdayDate, timeTillNextBirthday) {
-  
+
   const remainingTime = timeTillNextBirthday.map((time) => {
-    if(time.months && time.remainingDays !== 0) {
-      return `In ${time.months} Months ${time.remainingDays} Days`;
-    } else if(time.remainingDays) {
-      return `In ${time.remainingDays} Days ${time.remainingHours} Hours`;
-    } else if(time.remainingHours) {
-      return `In ${time} Hours`;
-    } else {
+
+    if(time.months === 12) {
       return " 🍰🎉 Today 🎂🥳 ";
-    }
+    } else if (time.months) {
+      return ` In ${time.months > 1 ? `${time.months} Months` : `${time.months} Month`} ${time.remainingDays === 0 ? '' : `${time.remainingDays > 1 ? `${time.remainingDays} Days` : `${time.remainingDays} Day`} `}`;
+    } else if (time.remainingDays) {
+      return ` In ${time.remainingDays > 1 ? `${time.remainingDays} Days` : `${time.remainingDays} Day`} ${time.remainingHours === 0 ? '' : `${time.remainingHours} Hours `} `;
+    } else if (time.remainingHours) {
+      return ` In ${time.remainingHours > 1 ? `${time.remainingHours} Hours ` : `${time.remainingHours} Hour `}`;
+    } 
   })
 
   const birthdayList = userList.map((user, index) => `${index + 1}. ${user} - ${birthdayDate[index]} (${remainingTime[index]})`).join('\n');
-  
+
   return birthdayList;
 }

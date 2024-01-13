@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { GuildMember, Role, SlashCommandBuilder } from 'discord.js';
 import { formatToFullDate, getDateWithSuffix, isValidDateFormat } from '../utils/general.js';
 import Users from '../models/users.js';
 
@@ -24,30 +24,34 @@ command.slashRun = async function slashRun(client, interaction) {
   const birthdayDate = interaction.options.getString('date');
   const birthdayUser = interaction.options.getMentionable('user');
 
-  const isValid = isValidDateFormat(birthdayDate);
-  const fullDate = formatToFullDate(birthdayDate);
-  const formatedDateWithSuffix = isValid ? getDateWithSuffix([fullDate]) : null;
-  const isUser = birthdayUser.user.id === interaction.user.id;
-
-  if (isValid && isUser) {
-    try { 
-      await Users.sync({ force: false });
-
-      const [user, created] = await Users.findOrCreate({
-        where: { user_id: birthdayUser.user.id, channel_id: guildId },
-        defaults: { birthday_date: fullDate },
-      });
-
-      if (!created) {
-        await user.update({ birthday_date: fullDate });
+  if(birthdayUser instanceof GuildMember) {
+    const isValid = isValidDateFormat(birthdayDate);
+    const fullDate = formatToFullDate(birthdayDate);
+    const formatedDateWithSuffix = isValid ? getDateWithSuffix([fullDate]) : null;
+    const isUser = birthdayUser.user.id === interaction.user.id;
+    
+    if (isValid && isUser) {
+      try { 
+        await Users.sync({ force: false });
+  
+        const [user, created] = await Users.findOrCreate({
+          where: { user_id: birthdayUser.user.id, channel_id: guildId },
+          defaults: { birthday_date: fullDate },
+        });
+  
+        if (!created) {
+          await user.update({ birthday_date: fullDate });
+        }
+        send(`Successfully set the birthday of ${birthdayUser} to ${formatedDateWithSuffix}`);
+      } catch (error) {
+        send(`An error occurred while saving/updating the birthday record`);
       }
-      send(`Successfully set the birthday of ${birthdayUser} to ${formatedDateWithSuffix}`);
-    } catch (error) {
-      send(`An error occurred while saving/updating the birthday record`);
+    } else {
+      !isValid ? send(`Invalid date format given, please use DD-MM format with valid dates`) : null;
+      !isUser ? send(`You can only set your own birthday`) : null;
     }
   } else {
-    !isValid ? send(`Invalid date format given, please use DD-MM format with valid dates`) : null;
-    !isUser ? send(`You can only set your own birthday`) : null;
+    return send("You can't set the birthday of a role");
   }
 };
 

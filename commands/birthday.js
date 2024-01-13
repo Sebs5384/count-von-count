@@ -14,10 +14,11 @@ const command = new SlashCommandBuilder()
     .setName('user')
     .setDescription('Input the user you want to set the birthday for')
     .setRequired(true));
-
+  
 command.aliases = ['b', 'bday', 'birthday'];
 
 command.slashRun = async function slashRun(client, interaction) {
+
   const send = interaction.followUp.bind(interaction);
   const guildId = interaction.guild.id;
   const birthdayDate = interaction.options.getString('date');
@@ -25,9 +26,10 @@ command.slashRun = async function slashRun(client, interaction) {
 
   const isValid = isValidDateFormat(birthdayDate);
   const fullDate = formatToFullDate(birthdayDate);
-  const formatedDateWithSuffix = getDateWithSuffix([fullDate]);
+  const formatedDateWithSuffix = isValid ? getDateWithSuffix([fullDate]) : null;
+  const isUser = birthdayUser.user.id === interaction.user.id;
 
-  if (isValid) {
+  if (isValid && isUser) {
     try { 
       await Users.sync({ force: false });
 
@@ -42,10 +44,10 @@ command.slashRun = async function slashRun(client, interaction) {
       send(`Successfully set the birthday of ${birthdayUser} to ${formatedDateWithSuffix}`);
     } catch (error) {
       send(`An error occurred while saving/updating the birthday record`);
-      console.log(`Couldn't save/update birthday record: ${error}`);
     }
   } else {
-    send('Invalid date format given, please use DD-MM format with valid dates');
+    !isValid ? send(`Invalid date format given, please use DD-MM format with valid dates`) : null;
+    !isUser ? send(`You can only set your own birthday`) : null;
   }
 };
 

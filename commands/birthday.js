@@ -36,9 +36,10 @@ async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) 
     const guildId = interaction.guild.id
     const isGuildOwner = interaction.member.id === interaction.guild.ownerId
     const isUser = birthdayUser.user.id === interaction.user.id
+    const isBot = birthdayUser.user.bot
     
     
-    if ((isValid && isUser) || isGuildOwner) {
+    if ((isValid && isUser && !isBot) || isGuildOwner) {
       try { 
         await Users.sync({ force: false });
   

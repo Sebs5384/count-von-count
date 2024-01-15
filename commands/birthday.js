@@ -31,7 +31,7 @@ async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) 
   if(birthdayUser instanceof GuildMember) {
     const isValidDate = isValidDateFormat(birthdayDate);
     const fullDate = formatToFullDate(birthdayDate);
-    const formatedDateWithSuffix = isValidDate ? getDateWithSuffix([fullDate]) : null;
+    const formatedDateWithSuffix = isValidDate ? getDateWithSuffix([fullDate]) : undefined;
     
     const guildId = interaction.guild.id
     const isGuildOwner = interaction.member.id === interaction.guild.ownerId
@@ -41,6 +41,7 @@ async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) 
     
     if ((isValidDate && isUser && !isBot) || isGuildOwner) {
       try { 
+        if(!isValidDate || isBot) return send(`You might be the guild owner, but you can't input an invalid date / bot birthday`)
 
         await Users.sync({ force: false });
   

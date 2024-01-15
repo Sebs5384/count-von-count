@@ -23,12 +23,17 @@ command.slashRun = async function slashRun(client, interaction) {
   const guildId = interaction.guild.id;
   const birthdayDate = interaction.options.getString('date');
   const birthdayUser = interaction.options.getMentionable('user');
+  const interactionUser = interaction.user;
 
+  await runCommand(send, guildId, birthdayDate, birthdayUser, interactionUser);
+};
+
+async function runCommand(send, guildId, birthdayDate, birthdayUser, interactionUser) {
   if(birthdayUser instanceof GuildMember) {
     const isValid = isValidDateFormat(birthdayDate);
     const fullDate = formatToFullDate(birthdayDate);
     const formatedDateWithSuffix = isValid ? getDateWithSuffix([fullDate]) : null;
-    const isUser = birthdayUser.user.id === interaction.user.id;
+    const isUser = birthdayUser.user.id === interactionUser.id;
     
     if (isValid && isUser) {
       try { 
@@ -53,6 +58,6 @@ command.slashRun = async function slashRun(client, interaction) {
   } else {
     return send("You can't set the birthday of a role");
   }
-};
+}
 
 export default command;

@@ -29,9 +29,9 @@ command.slashRun = async function slashRun(client, interaction) {
 
 async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) {
   if(birthdayUser instanceof GuildMember) {
-    const isValid = isValidDateFormat(birthdayDate);
+    const isValidDate = isValidDateFormat(birthdayDate);
     const fullDate = formatToFullDate(birthdayDate);
-    const formatedDateWithSuffix = isValid ? getDateWithSuffix([fullDate]) : null;
+    const formatedDateWithSuffix = isValidDate ? getDateWithSuffix([fullDate]) : null;
     
     const guildId = interaction.guild.id
     const isGuildOwner = interaction.member.id === interaction.guild.ownerId
@@ -39,8 +39,9 @@ async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) 
     const isBot = birthdayUser.user.bot
     
     
-    if ((isValid && isUser && !isBot) || isGuildOwner) {
+    if ((isValidDate && isUser && !isBot) || isGuildOwner) {
       try { 
+
         await Users.sync({ force: false });
   
         const [user, created] = await Users.findOrCreate({
@@ -53,11 +54,16 @@ async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) 
         }
         send(`Successfully set the birthday of ${birthdayUser} to ${formatedDateWithSuffix}`);
       } catch (error) {
-        send(`An error occurred while saving/updating the birthday record`);
+        send(`An error occurred while saving/updating the birthday record: ${console.log(error)}`);
       }
     } else {
-      !isValid ? send(`Invalid date format given, please use DD-MM format with valid dates`) : null;
-      !isUser ? send(`You can only set your own birthday`) : null;
+      !isValidDate && !isUser
+        ? send(`You can't set others birthday with an invalid date format`)
+        : !isValidDate
+        ? send(`Invalid date format given, please use DD-MM format with valid dates`)
+        : !isUser
+        ? send(`You can only set your own birthday`)
+      : null;
     }
   } else {
     return send("You can't set the birthday of a role");

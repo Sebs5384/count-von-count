@@ -19,23 +19,26 @@ command.aliases = ['b', 'bday', 'birthday'];
 
 command.slashRun = async function slashRun(client, interaction) {
 
+  const guild = await interaction.guild;
   const send = interaction.followUp.bind(interaction);
-  const guildId = interaction.guild.id;
   const birthdayDate = interaction.options.getString('date');
-  const birthdayUser = interaction.options.getMentionable('user');
-  const interactionUser = interaction.user;
+  const birthdayUser = interaction.options.getMentionable('user');  
 
-  await runCommand(send, guildId, birthdayDate, birthdayUser, interactionUser);
+  await runCommand(send, guild, interaction, birthdayDate, birthdayUser);
 };
 
-async function runCommand(send, guildId, birthdayDate, birthdayUser, interactionUser) {
+async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) {
   if(birthdayUser instanceof GuildMember) {
     const isValid = isValidDateFormat(birthdayDate);
     const fullDate = formatToFullDate(birthdayDate);
     const formatedDateWithSuffix = isValid ? getDateWithSuffix([fullDate]) : null;
-    const isUser = birthdayUser.user.id === interactionUser.id;
     
-    if (isValid && isUser) {
+    const guildId = interaction.guild.id
+    const isGuildOwner = interaction.member.id === interaction.guild.ownerId
+    const isUser = birthdayUser.user.id === interaction.user.id
+    
+    
+    if ((isValid && isUser) || isGuildOwner) {
       try { 
         await Users.sync({ force: false });
   

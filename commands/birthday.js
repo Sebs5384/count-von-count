@@ -54,7 +54,7 @@ async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) 
         }
         send(`Successfully set the birthday of ${birthdayUser} to ${formatedDateWithSuffix}`);
       } catch (error) {
-        send(`An error occurred while saving/updating the birthday record: ${console.log(error)}`);
+        send(`An error occurred while saving/updating the birthday record`, console.log(error));
       }
     } else {
       !isValidDate && !isUser

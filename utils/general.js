@@ -26,7 +26,7 @@ export async function getBirthdayUser(users, client) {
 }
 
 export function isValidDateFormat(date) {
-  const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])-([0]?[1-9]|1[0-2])$/;
+  const dateRegex = /^(0?[1-9]|1[0-9]|2[0-9])-(0?[1-9]|1[0-2])$|(29|30)-(0?[13-9]|1[0-2])$|31-(0?[13578]|1[02])$|29-02-(0?[1-9]|1[0-2])$|30-04|30-06|30-09|30-11$/;
 
   return dateRegex.test(date);
 }

@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { getUserList, getUsersBirthdayDate, getDateWithSuffix, calculateRemainingTime, formatRemainingTime, getBirthdayList, formatDate } from '../utils/general.js';
+import { getUserList, getUsersBirthdayDate, getDateWithSuffix, calculateRemainingTime, formatRemainingTime, getBirthdayList, formatDate, getRemainingTimeMessage } from '../utils/general.js';
 import { createBirthdayListEmbed } from '../utils/embeds.js';
 import Users from '../models/users.js';
 
@@ -27,22 +27,21 @@ command.slashRun = async function slashRun(client, interaction) {
 
 async function runCommand(client, guild, send) {
   const today = new Date();
-  const users = await Users.findAll({ where: { channel_id: guild.id } });
+  const guildName = guild.name;
+  const guildIcon = guild.iconURL({ dynamic: true, size: 2048 });
+  const embedColor = client.config.embedColor;
+
+  const users = await Users.findAll({ where: { channel_id: guild.id }, order: [['birthday_date', 'ASC']] });
   const userList = await getUserList(client, users);
   const usersBirthday = getUsersBirthdayDate(users);
-  
+
   const formatedDate = formatDate(usersBirthday);
   const usersBirthdayWithSuffix = getDateWithSuffix(formatedDate);
   const remainingTime = await calculateRemainingTime(users, today);
   const timeTillNextBirthday = formatRemainingTime(remainingTime, today);
+  const remainingTimeMessage = getRemainingTimeMessage(timeTillNextBirthday);
 
-  console.log(timeTillNextBirthday);
-
-  const guildName = guild.name;
-  const guildIcon = guild.iconURL({ dynamic: true, size: 2048 });
-  const embedColor = client.config.embedColor
-
-  const birthdayList = getBirthdayList(userList, usersBirthdayWithSuffix, timeTillNextBirthday);
+  const birthdayList = getBirthdayList(userList, usersBirthdayWithSuffix, remainingTimeMessage);
   const listEmbed = createBirthdayListEmbed(embedColor, guildIcon, guildName, birthdayList);
 
   send({ embeds: [listEmbed] });

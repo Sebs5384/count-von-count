@@ -88,69 +88,73 @@ function getDayWithSuffix(day) {
   }
 };
 
-export async function calculateRemainingTime(users) {
-  const today = new Date();
+export async function calculateRemainingTime(users, today) {
   const currentYear = today.getFullYear();
-  const currentHour = today.getHours();
-
-  const FIRST_DAY_OF_YEAR = new Date(currentYear, 0, 1);
-  const FIRST_DAY_OF_NEXT_YEAR = new Date(currentYear + 1, 0, 1);
-  const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
-
-  const millisecondsInYear = FIRST_DAY_OF_NEXT_YEAR - FIRST_DAY_OF_YEAR;
-  const totalDaysInYear = Math.ceil(millisecondsInYear / MILLISECONDS_IN_DAY);
-  const isLeapYear = totalDaysInYear % 2 === 0 ? 29 : 28;
 
   const remainingTime = users.map((user) => {
     const usersBirthdayDate = new Date(user.birthday_date).setFullYear(currentYear);
     const remainingTimeInMilliseconds = usersBirthdayDate - today;
 
-    return formatRemainingTime(remainingTimeInMilliseconds, isLeapYear, currentHour, MILLISECONDS_IN_DAY);
+    return remainingTimeInMilliseconds
   })
 
   return remainingTime
 }
 
-function formatRemainingTime(remainingTime, isLeapYear, currentHour, MILLISECONDS_IN_DAY) {
-  const daysInMonth = [31, isLeapYear, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+export function formatRemainingTime(remainingTimeInMilliseconds, today) {
+  const currentYear = today.getFullYear();
+  const currentHour = today.getHours();
+  const FIRST_DAY_OF_YEAR = new Date(currentYear, 0, 1);
+  const FIRST_DAY_OF_NEXT_YEAR = new Date(currentYear + 1, 0, 1);
+  const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
   const HOURS_IN_DAY = 24;
-  let remainingDays = Math.ceil((remainingTime / (MILLISECONDS_IN_DAY)));
-  let months = 0;
+  const millisecondsInYear = FIRST_DAY_OF_NEXT_YEAR - FIRST_DAY_OF_YEAR;
 
-  if (remainingTime < 0) {
-    const DAYS_IN_YEAR = daysInMonth.reduce((acc, days) => acc + days, 0);
-    const MILLISECONDS_IN_YEAR = 1000 * 60 * 60 * 24 * DAYS_IN_YEAR;
-
-    remainingDays = Math.ceil((remainingTime + MILLISECONDS_IN_YEAR) / (MILLISECONDS_IN_DAY));
-  }
-
-  for (let i = 0; i < daysInMonth.length; i++) {
-    const daysInCurrentMonth = daysInMonth[i];
-
-    if (remainingDays >= daysInCurrentMonth) {
-      remainingDays -= daysInCurrentMonth;
-      months++;
-    } else {
-      break;
-    }
-  }
+  const totalDaysInYear = Math.ceil(millisecondsInYear / MILLISECONDS_IN_DAY);
+  const isLeapYear = totalDaysInYear % 2 === 0 ? 29 : 28;
+  
+  const daysInMonth = [31, isLeapYear, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 
-  if (months === 0 && remainingDays === 1) {
-    const remainingHours = HOURS_IN_DAY - currentHour;
-    remainingDays = remainingDays - 1;
-
-    return { remainingDays, remainingHours };
-  } else if (months === 0) {
-    const remainingHours = HOURS_IN_DAY - currentHour;
-    remainingDays = remainingDays - 1;
-
-    return { remainingDays, remainingHours };
-  } else {
+  const remainingTime = remainingTimeInMilliseconds.map((time) => {
+    let remainingDays = Math.ceil(time / MILLISECONDS_IN_DAY);
+    let months = 0;
     
-    return { months, remainingDays };    
-  }
+    if (remainingTime < 0) {
+      const DAYS_IN_YEAR = daysInMonth.reduce((acc, days) => acc + days, 0);
+      const MILLISECONDS_IN_YEAR = 1000 * 60 * 60 * 24 * DAYS_IN_YEAR;
+  
+       remainingDays = Math.ceil((remainingTime + MILLISECONDS_IN_YEAR) / (MILLISECONDS_IN_DAY));
+    }
+  
+    for (let i = 0; i < daysInMonth.length; i++) {
+      const daysInCurrentMonth = daysInMonth[i];
+  
+      if (remainingDays >= daysInCurrentMonth) {
+        remainingDays -= daysInCurrentMonth;
+        months++;
+      } else {
+        break;
+      }
+    }
+  
+    if (months === 0 && remainingDays === 1) {
+      const remainingHours = HOURS_IN_DAY - currentHour;
+      remainingDays = remainingDays - 1;
+  
+      return { remainingDays, remainingHours };
+    } else if (months === 0) {
+      const remainingHours = HOURS_IN_DAY - currentHour;
+      remainingDays = remainingDays - 1;
+  
+      return { remainingDays, remainingHours };
+    } else {
+      
+      return { months, remainingDays };    
+    }
+  })
 
+  return remainingTime;
 }
 
 export function getBirthdayList(userList, birthdayDate, timeTillNextBirthday) {

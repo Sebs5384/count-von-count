@@ -7,10 +7,6 @@ const Users = sequelize.define('user', {
         primaryKey: true,
         autoIncrement: true
     },
-    channel_id: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
     user_id: {
         type: Sequelize.STRING,
         allowNull: false
@@ -19,7 +15,8 @@ const Users = sequelize.define('user', {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
         allowNull: false
-    }
+    },
 });
+
 
 export default Users;

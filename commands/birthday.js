@@ -1,6 +1,7 @@
 import { GuildMember, Role, SlashCommandBuilder } from 'discord.js';
 import { formatToFullDate, getDateWithSuffix, isValidDateFormat } from '../utils/general.js';
 import Users from '../models/users.js';
+import Guilds from '../models/guilds.js';
 
 const command = new SlashCommandBuilder()
   .setName('birthday')
@@ -46,7 +47,7 @@ async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) 
         await Users.sync({ force: false });
   
         const [user, created] = await Users.findOrCreate({
-          where: { user_id: birthdayUser.user.id, channel_id: guildId },
+          where: { user_id: birthdayUser.user.id },
           defaults: { birthday_date: fullDate },
         });
   

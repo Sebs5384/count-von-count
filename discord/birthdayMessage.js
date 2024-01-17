@@ -12,7 +12,7 @@ export const callback = async (client) => {
     cron.schedule( MIDNIGHT_TIME, (async () => {
         try {
             const users = (await Users.findAll()).map(user => user.dataValues);
-            const channel = client.channels.cache.get('1184679139505078272');
+            const channel = client.channels.cache.get('457255287984881664'); 
             const send = channel.send.bind(channel)
             const guild = await channel.guild;
             

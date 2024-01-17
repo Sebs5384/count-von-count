@@ -120,11 +120,11 @@ export function formatRemainingTime(remainingTimeInMilliseconds, today) {
     let remainingDays = Math.ceil(time / MILLISECONDS_IN_DAY);
     let months = 0;
     
-    if (remainingTime < 0) {
+    if (remainingTimeInMilliseconds < 0) {
       const DAYS_IN_YEAR = daysInMonth.reduce((acc, days) => acc + days, 0);
       const MILLISECONDS_IN_YEAR = 1000 * 60 * 60 * 24 * DAYS_IN_YEAR;
   
-       remainingDays = Math.ceil((remainingTime + MILLISECONDS_IN_YEAR) / (MILLISECONDS_IN_DAY));
+      remainingDays = Math.ceil((remainingTime + MILLISECONDS_IN_YEAR) / (MILLISECONDS_IN_DAY));
     }
   
     for (let i = 0; i < daysInMonth.length; i++) {
@@ -157,9 +157,8 @@ export function formatRemainingTime(remainingTimeInMilliseconds, today) {
   return remainingTime;
 }
 
-export function getBirthdayList(userList, birthdayDate, timeTillNextBirthday) {
-
-  const remainingTime = timeTillNextBirthday.map((time) => {
+export function getRemainingTimeMessage(timeTillNextBirthday) {
+  const remainingTimeMessage = timeTillNextBirthday.map((time) => {
 
     if(time.months === 12) {
       return " 🍰🎉 Today 🎂🥳 ";
@@ -172,7 +171,14 @@ export function getBirthdayList(userList, birthdayDate, timeTillNextBirthday) {
     } 
   })
 
-  const birthdayList = userList.map((user, index) => `${index + 1}. ${user} - ${birthdayDate[index]} (${remainingTime[index]})`).join('\n');
+  return remainingTimeMessage
+}
+
+export function getBirthdayList(userList, birthdayDate, remainingTime) {
+
+  const birthdayList = userList.map((user, index) => 
+    `${index + 1}. ${user} - ${birthdayDate[index]} (${remainingTime[index]})`
+  ).join('\n');
 
   return birthdayList;
 }

@@ -1,25 +1,26 @@
-import { Sequelize } from "sequelize";
+import { Sequelize, Model } from "sequelize";
 import sequelize from "../database.js";
 
-const Users = sequelize.define('user', { 
-    id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
+class Users extends Model {}
+
+Users.init({
     user_id: {
+        type: Sequelize.STRING,
+        primaryKey: true,
+        allowNull: false
+    },
+    user_name: {
         type: Sequelize.STRING,
         allowNull: false
     },
     birthday_date: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
         allowNull: false
-    },
-    guild_id: {
-        type: Sequelize.STRING,
-        allowNull: false,
     }
-});
+},
+{
+    sequelize,
+}
+);
 
 export default Users;

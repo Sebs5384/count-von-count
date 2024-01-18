@@ -10,6 +10,14 @@ const Guilds = sequelize.define('guilds', {
     guild_id: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    guild_name: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    guild_master: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
 });
 

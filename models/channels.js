@@ -1,6 +1,5 @@
 import { Sequelize } from "sequelize";
 import sequelize from "../database.js";
-import Guilds from "./guilds.js";
 
 const Channels = sequelize.define('channel', {
     id: {
@@ -11,9 +10,11 @@ const Channels = sequelize.define('channel', {
     channel_id: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    channel_name: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
 })
-
-Channels.belongsTo(Guilds, { foreignKey: 'guild_id' });
 
 export default Channels;

@@ -16,7 +16,10 @@ const Users = sequelize.define('user', {
         defaultValue: Sequelize.NOW,
         allowNull: false
     },
+    guild_id: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    }
 });
-
 
 export default Users;

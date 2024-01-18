@@ -1,9 +1,9 @@
 import { Sequelize, Model } from "sequelize";
 import sequelize from "../database.js";
 
-class Channels extends Model {}
+class Channel extends Model {}
 
-Channels.init({
+Channel.init({
     channel_id: {
         type: Sequelize.STRING,
         primaryKey: true,
@@ -23,4 +23,4 @@ Channels.init({
 }
 );
 
-export default Channels;
+export default Channel;

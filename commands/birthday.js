@@ -1,7 +1,6 @@
 import { GuildMember, Role, SlashCommandBuilder } from 'discord.js';
 import { formatToFullDate, getDateWithSuffix, isValidDateFormat } from '../utils/general.js';
-import Users from '../models/users.js';
-import Guilds from '../models/guilds.js';
+import { User, Guild, UserGuild } from '../models/index.js';
 
 const command = new SlashCommandBuilder()
   .setName('birthday')
@@ -46,17 +45,16 @@ async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) 
       try { 
         if(!isValidDate) return send(`You might be the guild owner, but you can't input an invalid date / bot birthday`)
 
-        const [user, created] = await Users.findOrCreate({
+        const [user, createdUser] = await User.findOrCreate({
           where: { user_id: birthdayUser.user.id },
-          defaults: { birthday_date: fullDate, guild_id: guildId },
+          defaults: { user_name: birthdayUser.user.username, birthday_date: fullDate },
         });
-
-        const [guild, createdGuild] = await Guilds.findOrCreate({
-          where: { guild_id: guildId },
-          defaults: { guild_name: guildName, guild_master: guildOwner },
-        });
-  
-        if (!created) {
+   
+        const [userGuild, createdUserGuild] = await UserGuild.findOrCreate({
+          where: { user_id: user.user_id, guild_id: guildId },
+        })
+        
+        if (!createdUser) {
           await user.update({ birthday_date: fullDate });
         }
         send(`Successfully set the birthday of ${birthdayUser} to ${formatedDateWithSuffix}`);

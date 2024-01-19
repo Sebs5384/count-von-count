@@ -7,4 +7,6 @@ const sequelize = new Sequelize('database', 'user', 'password', {
     logging: false
 })
 
-export default sequelize;
+const queryInterface = sequelize.getQueryInterface();
+
+export { sequelize, queryInterface }

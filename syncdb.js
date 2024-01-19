@@ -1,6 +1,6 @@
-import { Users, Guilds, Channels, UsersGuilds } from './models/index.js';
+import { User, Guild, BirthdayChannel, UserGuild } from './models/index.js';
 
-Users.sync({alter: true});
-Guilds.sync({alter: true});
-Channels.sync({alter: true});
-UsersGuilds.sync({alter: true});
+User.sync({alter: true});
+Guild.sync({alter: true});
+BirthdayChannel.sync({alter: true});
+UserGuild.sync({alter: true});

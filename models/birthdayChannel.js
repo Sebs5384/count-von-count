@@ -1,10 +1,10 @@
 import { Sequelize, Model } from "sequelize";
-import sequelize from "../database.js";
+import { sequelize } from "../database.js";
 
-class Channel extends Model {}
+class BirthdayChannel extends Model {}
 
-Channel.init({
-    channel_id: {
+BirthdayChannel.init({
+    birthday_channel: {
         type: Sequelize.STRING,
         primaryKey: true,
         allowNull: false
@@ -16,11 +16,11 @@ Channel.init({
     guild_id: {
         type: Sequelize.STRING,
         allowNull: false
-    }
+    },
 },
 {
     sequelize,
 }
 );
 
-export default Channel;
+export default BirthdayChannel;

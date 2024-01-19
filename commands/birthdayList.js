@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { getUserList, getUsersBirthdayDate, getDateWithSuffix, calculateRemainingTime, formatRemainingTime, getBirthdayList, formatDate, getRemainingTimeMessage } from '../utils/general.js';
 import { createBirthdayListEmbed } from '../utils/embeds.js';
-import Users from '../models/users.js';
+import { User, Guild } from '../models/index.js';
 
 const command = new SlashCommandBuilder()
   .setName('birthdaylist')
@@ -31,7 +31,13 @@ async function runCommand(client, guild, send) {
   const guildIcon = guild.iconURL({ dynamic: true, size: 2048 });
   const embedColor = client.config.embedColor;
 
-  const users = await Users.findAll({ where: { channel_id: guild.id }, order: [['birthday_date', 'ASC']] });
+  const guildUsers = await Guild.findByPk(guild.id, {
+    include: [{ model: User }],
+    order: [[User, 'birthday_date', 'ASC']],
+  })
+
+  const users = guildUsers.Users;
+
   const userList = await getUserList(client, users);
   const usersBirthday = getUsersBirthdayDate(users);
 

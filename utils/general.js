@@ -119,12 +119,13 @@ export function formatRemainingTime(remainingTimeInMilliseconds, today) {
   const remainingTime = remainingTimeInMilliseconds.map((time) => {
     let remainingDays = Math.ceil(time / MILLISECONDS_IN_DAY);
     let months = 0;
+    console.log(remainingDays);
     
-    if (remainingTimeInMilliseconds < 0) {
+    if (time < 0) {
       const DAYS_IN_YEAR = daysInMonth.reduce((acc, days) => acc + days, 0);
       const MILLISECONDS_IN_YEAR = 1000 * 60 * 60 * 24 * DAYS_IN_YEAR;
   
-      remainingDays = Math.ceil((remainingTime + MILLISECONDS_IN_YEAR) / (MILLISECONDS_IN_DAY));
+      remainingDays = Math.ceil((time + MILLISECONDS_IN_YEAR) / (MILLISECONDS_IN_DAY));
     }
   
     for (let i = 0; i < daysInMonth.length; i++) {
@@ -137,6 +138,8 @@ export function formatRemainingTime(remainingTimeInMilliseconds, today) {
         break;
       }
     }
+
+    console.log(months);
   
     if (months === 0 && remainingDays === 1) {
       const remainingHours = HOURS_IN_DAY - currentHour;
@@ -154,6 +157,7 @@ export function formatRemainingTime(remainingTimeInMilliseconds, today) {
     }
   })
 
+  console.log(remainingTime);
   return remainingTime;
 }
 

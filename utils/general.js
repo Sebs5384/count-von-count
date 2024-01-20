@@ -4,6 +4,17 @@ export async function getUserList(client, users) {
   return userList;
 }
 
+export async function getMembersList(guild, members) {
+  const memberList = await Promise.all(members.map(async (member) => {
+    const guildMember = await guild.members.fetch({ user: member, force: true });
+
+    return guildMember;
+  }));
+
+
+  return memberList.flat();
+}
+
 export function getUsersBirthdayDate(users) {
   const usersBirthdayDate = users.map((user) => user.birthday_date);
 
@@ -11,6 +22,7 @@ export function getUsersBirthdayDate(users) {
 }
 
 export async function getBirthdayUser(users, client) {
+  const birthdayUsers = [];
 
   for (const user of users) {
     const today = new Date().toISOString().split('T')[0]
@@ -20,9 +32,11 @@ export async function getBirthdayUser(users, client) {
       const birthdayUser = await client.users.fetch(user.user_id)
       const userGuildId = user.channel_id
 
-      return { birthdayUser, userBirthdayDate, userGuildId };
+      birthdayUsers.push({birthdayUser, userGuildId, userGuildId})
     }
   }
+
+  return birthdayUsers;
 }
 
 export function isValidDateFormat(date) {
@@ -119,7 +133,6 @@ export function formatRemainingTime(remainingTimeInMilliseconds, today) {
   const remainingTime = remainingTimeInMilliseconds.map((time) => {
     let remainingDays = Math.ceil(time / MILLISECONDS_IN_DAY);
     let months = 0;
-    console.log(remainingDays);
     
     if (time < 0) {
       const DAYS_IN_YEAR = daysInMonth.reduce((acc, days) => acc + days, 0);
@@ -138,8 +151,6 @@ export function formatRemainingTime(remainingTimeInMilliseconds, today) {
         break;
       }
     }
-
-    console.log(months);
   
     if (months === 0 && remainingDays === 1) {
       const remainingHours = HOURS_IN_DAY - currentHour;
@@ -157,7 +168,6 @@ export function formatRemainingTime(remainingTimeInMilliseconds, today) {
     }
   })
 
-  console.log(remainingTime);
   return remainingTime;
 }
 

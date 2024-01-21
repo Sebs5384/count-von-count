@@ -4,15 +4,10 @@ export async function getUserList(client, users) {
   return userList;
 }
 
-export async function getMembersList(guild, members) {
-  const memberList = await Promise.all(members.map(async (member) => {
-    const guildMember = await guild.members.fetch({ user: member, force: true });
+export async function getMember(guild, member) {
+  const guildMember = await guild.members.fetch({ user: member, force: true });
 
-    return guildMember;
-  }));
-
-
-  return memberList.flat();
+  return guildMember;
 }
 
 export function getUsersBirthdayDate(users) {

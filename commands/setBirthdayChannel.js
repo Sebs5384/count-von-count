@@ -8,7 +8,8 @@ const command = new SlashCommandBuilder()
         .setName('channel')
         .setDescription('Input the channel where the birthday message will be sent')
         .addChannelTypes(ChannelType.GuildText)
-        .setRequired(true));
+        .setRequired(true))
+        .setDefaultMemberPermissions(0);
 command.aliases = ['configbday, cbday'];
 
 command.slashRun = async function slashRun(client, interaction) {

@@ -28,6 +28,7 @@ command.slashRun = async function slashRun(client, interaction) {
     
         if(existingChannel) {
 
+            console.log(channel.id);
             await existingChannel.update({
                 birthday_channel: channel.id,
                 channel_name: channel.name,
@@ -35,10 +36,10 @@ command.slashRun = async function slashRun(client, interaction) {
     
             await send(`Successfully updated the birthday channel to ${channel}`);
         } else {
-            const [channelData, createdChannel] = await BirthdayChannel.findOrCreate({
-                where: { birthday_channel: channel.id },
-                defaults: { channel_name: channel.name, guild_id: interaction.guild.id },     
-            });
+            const [createdChannel, created] = await BirthdayChannel.findOrCreate({
+                where: { guild_id: guild.guild_id },
+                defaults: { channel_name: channel.name, birthday_channel: channel.id },
+            })
             await send(`Successfully set the birthday channel to ${channel}`);
         }
      

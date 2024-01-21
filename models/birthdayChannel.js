@@ -4,9 +4,14 @@ import { sequelize } from "../database.js";
 class BirthdayChannel extends Model {}
 
 BirthdayChannel.init({
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+      autoIncrement: true,
+    },
     birthday_channel: {
         type: Sequelize.STRING,
-        primaryKey: true,
         allowNull: false
     },
     channel_name: {

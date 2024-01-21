@@ -14,7 +14,7 @@ command.prefixRun = async function prefixRun(client, message) {
   const send = channel.send.bind(channel);
   const guild = await channel.guild;
 
-  await runCommand(client, guild, send);
+  await runCommand(client, guild, send, channel);
 }
 
 command.slashRun = async function slashRun(client, interaction) {

@@ -1,5 +1,5 @@
 import { Events } from "discord.js";
-import { getBirthdayUser, formatDate, getDateWithSuffix, getMembersList } from "../utils/general.js";
+import { getBirthdayUser, formatDate, getDateWithSuffix, getMember } from "../utils/general.js";
 import { createBirthdayMessageEmbed } from "../utils/embeds.js";
 import { User, Guild, BirthdayChannel } from "../models/index.js";
 import cron from "node-cron";
@@ -16,25 +16,41 @@ export const callback = async (client) => {
             }))
 
             const birthdayUsers= await getBirthdayUser(users, client);
-            console.log(birthdayUsers)
             const hasBirthday = birthdayUsers.length > 0;
-   
+    
             if(hasBirthday) {
-                for( const userT of birthdayUsers) {
-     
-                
-                    const channel = client.channels.cache.get('1173789996017254472'); 
-                    const send = channel.send.bind(channel)
-                    const guild = await channel.guild;
+                for(const birthdayUser of birthdayUsers) {
 
-                    const birthdayUsersId = user.id
-                    const guildMembers = await getMembersList(guild, birthdayUsersId);
+                    const userWithGuild = [];
+                    const user = await User.findByPk(birthdayUser.id, {
+                        include: { model: Guild },
+                    })
+                    userWithGuild.push(user);
+
+                    const guildId = userWithGuild.flatMap((user) => user.Guilds.map((guild) => guild.dataValues.guild_id));
+                   
+                    const guildWithBirthdayChannel = []
+                    for(const guild of guildId) {
+                        const guilds = await Guild.findByPk(guild, {
+                            include: { model: BirthdayChannel },
+                        })      
+                        guildWithBirthdayChannel.push(guilds);
+                    }
                 
-                
-                    await sendBirthdayMessage(send, client, guild, member);    
+                    const birthdayChannelId = guildWithBirthdayChannel.flatMap((guild) => guild.BirthdayChannels.map((channel) => channel.dataValues.birthday_channel));
+                    
+                    for(const birthdayChannel of birthdayChannelId) {
+                        const channel = await client.channels.fetch(birthdayChannel);
+                        const send = channel.send.bind(channel)
+                        const guild = await channel.guild;
+
+                        const birthdayUsersId = birthdayUser.id
+                        const member = await getMember(guild, birthdayUsersId);
+                    
+                        await sendBirthdayMessage(send, client, guild, member); 
+                    }
                 }
             }
-
         } catch (error) {
             console.log(`Error sending birthday message / no birthday users today: ${error}`);
         }
@@ -42,10 +58,6 @@ export const callback = async (client) => {
 }
 
 async function sendBirthdayMessage(send, client, guild, member) {
-    const birthdayChannel = await Guild.findByPk(member.guild.id, {
-        include: { model: BirthdayChannel },
-    })
-    const birthdayChannelId = birthdayChannel.BirthdayChannels[0].dataValues.birthday_channel;
 
     const countVonCount = await client.users.fetch('1184628941194018869');
     const guildName = guild.name;

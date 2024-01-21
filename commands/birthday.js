@@ -1,6 +1,6 @@
 import { GuildMember, Role, SlashCommandBuilder } from 'discord.js';
 import { formatToFullDate, getDateWithSuffix, isValidDateFormat } from '../utils/general.js';
-import { User, Guild, UserGuild } from '../models/index.js';
+import { User, Guild, UserGuild, BirthdayChannel } from '../models/index.js';
 
 const command = new SlashCommandBuilder()
   .setName('birthday')
@@ -34,7 +34,6 @@ async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) 
     const formatedDateWithSuffix = isValidDate ? getDateWithSuffix([fullDate]) : undefined;
 
     const guildOwner = interaction.guild.ownerId
-    const guildName = guild.name
     const guildId = interaction.guild.id
     const isGuildOwner = interaction.member.id === guildOwner
     const isUser = birthdayUser.user.id === interaction.user.id
@@ -43,7 +42,13 @@ async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) 
     
     if ((isValidDate && isUser && !isBot) || isGuildOwner) {
       try { 
-        if(!isValidDate) return send(`You might be the guild owner, but you can't input an invalid date / bot birthday`)
+        if(!isValidDate && isBot) return send(`You might be the guild owner, but you can't input an invalid date / bot birthday`);
+
+        const isGuildRegistered = await Guild.findOne({ where: { guild_id: guildId } });
+        if(!isGuildRegistered) return send(`The guild master must set the birthday channel first`);
+
+        const isBirthdayChannel = await BirthdayChannel.findOne({ where: { guild_id: guildId } });
+        if(!(isBirthdayChannel.birthday_channel === interaction.channel.id)) return send(`You can only set commands at ${isBirthdayChannel.channel_name}`)
 
         const [user, createdUser] = await User.findOrCreate({
           where: { user_id: birthdayUser.user.id },
@@ -52,11 +57,10 @@ async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) 
    
         const [userGuild, createdUserGuild] = await UserGuild.findOrCreate({
           where: { user_id: user.user_id, guild_id: guildId },
-        })
+        });
         
-        if (!createdUser) {
-          await user.update({ birthday_date: fullDate });
-        }
+        if (!createdUser) await user.update({ birthday_date: fullDate });
+      
         send(`Successfully set the birthday of ${birthdayUser} to ${formatedDateWithSuffix}`);
       } catch (error) {
         send(`An error occurred while saving/updating the birthday record`, console.log(error));

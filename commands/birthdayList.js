@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { getUserList, getUsersBirthdayDate, getDateWithSuffix, calculateRemainingTime, formatRemainingTime, getBirthdayList, formatDate, getRemainingTimeMessage } from '../utils/general.js';
 import { createBirthdayListEmbed } from '../utils/embeds.js';
-import { User, Guild } from '../models/index.js';
+import { User, Guild, BirthdayChannel } from '../models/index.js';
 
 const command = new SlashCommandBuilder()
   .setName('birthdaylist')
@@ -22,14 +22,20 @@ command.slashRun = async function slashRun(client, interaction) {
   const send = interaction.followUp.bind(interaction);
   const guild = await channel.guild;
 
-  await runCommand(client, guild, send);
+  await runCommand(client, guild, send, channel);
 }
 
-async function runCommand(client, guild, send) {
+async function runCommand(client, guild, send, channel) {
   const today = new Date();
   const guildName = guild.name;
   const guildIcon = guild.iconURL({ dynamic: true, size: 2048 });
   const embedColor = client.config.embedColor;
+
+  const isGuildRegistered = await Guild.findOne({where: {guild_id: guild.id}});
+  if(!isGuildRegistered) return send(`The guild master must set the birthday channel first`);
+
+  const isBirthdayChannel = await BirthdayChannel.findOne({where: {guild_id: guild.id}});
+  if(!(isBirthdayChannel.birthday_channel === channel.id)) return send(`You can only set commands at ${isBirthdayChannel.channel_name}`);
 
   const guildUsers = await Guild.findByPk(guild.id, {
     include: [{ model: User }],

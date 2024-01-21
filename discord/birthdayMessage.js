@@ -8,8 +8,9 @@ export const event = Events.ClientReady;
 
 export const callback = async (client) => {
      
+    const MIDNIGHT_TIME = '0 0 0 * * *'
     
-    ((async () => {
+    cron.schedule(MIDNIGHT_TIME, ((async () => {
         try {
             const users = (await User.findAll({
                 include: { model: Guild },
@@ -54,7 +55,7 @@ export const callback = async (client) => {
         } catch (error) {
             console.log(`Error sending birthday message / no birthday users today: ${error}`);
         }
-    }))();
+    })));
 }
 
 async function sendBirthdayMessage(send, client, guild, member) {

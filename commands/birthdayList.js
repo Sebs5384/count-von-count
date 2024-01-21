@@ -35,7 +35,7 @@ async function runCommand(client, guild, send, channel) {
   if(!isGuildRegistered) return send(`The guild master must set the birthday channel first`);
 
   const isBirthdayChannel = await BirthdayChannel.findOne({where: {guild_id: guild.id}});
-  if(!(isBirthdayChannel.birthday_channel === channel.id)) return send(`You can only set commands at ${isBirthdayChannel.channel_name}`);
+  if(!(isBirthdayChannel.birthday_channel === channel.id)) return send(`You can only set commands at <#${isBirthdayChannel.birthday_channel}>`);
 
   const guildUsers = await Guild.findByPk(guild.id, {
     include: [{ model: User }],

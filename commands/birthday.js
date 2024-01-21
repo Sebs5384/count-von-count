@@ -48,7 +48,7 @@ async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) 
         if(!isGuildRegistered) return send(`The guild master must set the birthday channel first`);
 
         const isBirthdayChannel = await BirthdayChannel.findOne({ where: { guild_id: guildId } });
-        if(!(isBirthdayChannel.birthday_channel === interaction.channel.id)) return send(`You can only set commands at ${isBirthdayChannel.channel_name}`)
+        if(!(isBirthdayChannel.birthday_channel === interaction.channel.id)) return send(`You can only set commands at <#${isBirthdayChannel.birthday_channel}>`)
 
         const [user, createdUser] = await User.findOrCreate({
           where: { user_id: birthdayUser.user.id },

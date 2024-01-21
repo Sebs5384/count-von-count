@@ -29,10 +29,9 @@ export async function getBirthdayUser(users, client) {
     const userBirthdayDate = new Date(user.birthday_date).toISOString().split('T')[0]
 
     if (userBirthdayDate === today) {
-      const birthdayUser = await client.users.fetch(user.user_id)
-      const userGuildId = user.channel_id
+      const birthdayUser = await client.users.fetch(user.user_id);
 
-      birthdayUsers.push({birthdayUser, userGuildId, userGuildId})
+      birthdayUsers.push(birthdayUser)
     }
   }
 

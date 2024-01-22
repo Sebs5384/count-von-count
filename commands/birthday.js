@@ -1,4 +1,4 @@
-import { GuildMember, Role, SlashCommandBuilder } from 'discord.js';
+import { GuildMember, SlashCommandBuilder } from 'discord.js';
 import { formatToFullDate, getDateWithSuffix, isValidDateFormat } from '../utils/general.js';
 import { User, Guild, UserGuild, BirthdayChannel } from '../models/index.js';
 
@@ -38,9 +38,10 @@ async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) 
     const isGuildOwner = interaction.member.id === guildOwner
     const isUser = birthdayUser.user.id === interaction.user.id
     const isBot = birthdayUser.user.bot
+    const botOwner = interaction.member.id === client.config.owner
     
     
-    if ((isValidDate && isUser && !isBot) || isGuildOwner) {
+    if ((isValidDate && isUser && !isBot) || isGuildOwner || botOwner) {
       try { 
         if(!isValidDate && isBot) return send(`You might be the guild owner, but you can't input an invalid date / bot birthday`);
 

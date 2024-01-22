@@ -1,6 +1,6 @@
 import { Events } from "discord.js";
 import { getBirthdayUser, formatDate, getDateWithSuffix, getMember } from "../utils/general.js";
-import { createBirthdayMessageEmbed } from "../utils/embeds.js";
+import { createBirthdayMessageEmbed } from "../embeds/index.js";
 import { User, Guild, BirthdayChannel } from "../models/index.js";
 import cron from "node-cron";
 
@@ -8,7 +8,7 @@ export const event = Events.ClientReady;
 
 export const callback = async (client) => {
      
-    const MIDNIGHT_TIME = '0 0 0 * * *'
+    const MIDNIGHT_TIME = '0 10 0 * * *'
     
     cron.schedule(MIDNIGHT_TIME, ((async () => {
         try {
@@ -60,7 +60,7 @@ export const callback = async (client) => {
 
 async function sendBirthdayMessage(send, client, guild, member) {
 
-    const countVonCount = await client.users.fetch('1184628941194018869');
+    const countVonCount = await client.users.fetch(client.config.botId);
     const guildName = guild.name;
     const embedColor = client.config.embedColor;
     const memberJoinDate = member.joinedAt;

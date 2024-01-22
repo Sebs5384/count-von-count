@@ -1,14 +1,6 @@
-import { EmbedBuilder } from 'discord.js';
+import { EmbedBuilder } from "discord.js";
 
-export function createBirthdayListEmbed(embedColor, guildIcon, guildName, birthdayList) {
-    return new EmbedBuilder()
-      .setTitle(`🍰 ${guildName} Upcoming Birthday List`)
-      .setThumbnail(guildIcon)
-      .setDescription(`Here is the list of users with their birthday \n${birthdayList}`)
-      .setColor(embedColor);
-}
-
-export function createBirthdayMessageEmbed(embedColor, userName, joinedAt, guildName, bot) {
+function createBirthdayMessageEmbed(embedColor, userName, joinedAt, guildName, bot) {
     return new EmbedBuilder()
       .setAuthor({ name: 'Birthday Announcement 🎉 ', iconURL: 'https://cdn-icons-png.flaticon.com/512/1553/1553725.png?ga=GA1.1.1369033001.1704853799&'})
       .setThumbnail('https://cdn-icons-png.flaticon.com/512/5022/5022305.png?ga=GA1.1.1369033001.1704853799&')
@@ -24,3 +16,5 @@ export function createBirthdayMessageEmbed(embedColor, userName, joinedAt, guild
 
       .setColor(embedColor);
 };
+
+export default createBirthdayMessageEmbed;

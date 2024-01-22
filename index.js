@@ -49,11 +49,11 @@ for(const file in commandFiles){
   }
 }
 
-const discordEventsPath = './discord'
+const discordEventsPath = './events'
 const discordEventFiles = fs.readdirSync(discordEventsPath).filter(file => file.endsWith('.js'));
 
 for(const file in discordEventFiles){
-  const {event, callback} = await import(`./discord/${discordEventFiles[file]}`)
+  const {event, callback} = await import(`./events/${discordEventFiles[file]}`)
 
   client.on(event, callback.bind(null, client))
 }

@@ -190,3 +190,33 @@ export function getBirthdayList(userList, birthdayDate, remainingTime) {
 
   return birthdayList;
 }
+
+export function getCommandByType(commands) {
+  const commandTypes = {};
+
+  commands.forEach((command) => {
+      const typeKeys = Object.keys(commandTypes);
+      const commandType = typeKeys.find(type => command.name.includes(type));
+
+      if(commandType) {
+          commandTypes[commandType].push(command);
+      } else {
+          commandTypes[command.name] = [command];
+      }
+  });
+
+  return commandTypes;
+}
+
+export function getCommands(commands) {
+  const commandName = {};
+  for(const type in commands) {
+      const commandType = commands[type];
+
+      for(const command of commandType) {
+        commandName[command.name] = command;
+      }
+  }
+
+  return commandName;
+}

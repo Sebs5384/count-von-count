@@ -15,9 +15,10 @@ export const callback = async (client, message) => {
     let contentWithoutPrefix = undefined;
 
     if(hasPrefix) {
-        contentWithoutPrefix = message.content.slice(botPrefix.length);
+        contentWithoutPrefix = message.content.substring(botPrefix.length);
     } else if(botWasMentioned) {
-        contentWithoutPrefix = message.content.slice(client.user.mention.length);
+
+        contentWithoutPrefix = message.content.substring(`<@${client.user.id}>`.length);
     }
 
     const tokens = contentWithoutPrefix.trim().split(' ');

@@ -18,7 +18,7 @@ export const callback = async (client) => {
 
             const birthdayUsers= await getBirthdayUser(users, client);
             const hasBirthday = birthdayUsers.length > 0;
-    
+            
             if(hasBirthday) {
                 for(const birthdayUser of birthdayUsers) {
 
@@ -51,6 +51,8 @@ export const callback = async (client) => {
                         await sendBirthdayMessage(send, client, guild, member); 
                     }
                 }
+            } else {
+                console.log('No birthday users today');
             }
         } catch (error) {
             console.log(`Error sending birthday message / no birthday users today: ${error}`);

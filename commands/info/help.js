@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import { getCommandByType, getCommands } from "../utils/general.js";
-import { createHelpEmbed } from "../embeds/index.js";
+import { getCommandByType, getCommands } from "../../utils/general.js";
+import { createHelpEmbed } from "../../embeds/index.js";
 
 
 const command = new SlashCommandBuilder()

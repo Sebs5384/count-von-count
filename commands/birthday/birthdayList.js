@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { getUserList, getUsersBirthdayDate, getDateWithSuffix, calculateRemainingTime, formatRemainingTime, getBirthdayList, formatDate, getRemainingTimeMessage } from '../utils/general.js';
-import { createBirthdayListEmbed } from '../embeds/index.js';
-import { User, Guild, BirthdayChannel } from '../models/index.js';
+import { getUserList, getUsersBirthdayDate, getDateWithSuffix, calculateRemainingTime, formatRemainingTime, getBirthdayList, formatDate, getRemainingTimeMessage } from '../../utils/general.js';
+import { createBirthdayListEmbed } from '../../embeds/index.js';
+import { User, Guild, BirthdayChannel } from '../../models/index.js';
 
 const command = new SlashCommandBuilder()
   .setName('birthdaylist')

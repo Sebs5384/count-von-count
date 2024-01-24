@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import path from 'node:path';
 import { Client, Collection, Events, GatewayIntentBits, Partials } from 'discord.js';
 import config from './config.json' assert { type: 'json' };
 
@@ -21,31 +22,39 @@ client.commandAliases = new Collection();
 client.config = config
 
 const commandsPath = './commands'
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+const commandFolders = fs.readdirSync(commandsPath);
 
-for(const file in commandFiles){
-  const { default: command } = await import(`./commands/${commandFiles[file]}`)
+for(const folder of commandFolders) {
+  const folderPath = path.join(commandsPath, folder);
 
-  if('name' in command){
-    const isSlashCommand = 'slashRun' in command
-    const isPrefixCommand = 'prefixRun' in command
+  const commandFiles = fs.readdirSync(folderPath).filter(file => file.endsWith('.js'));  
 
-    if(!(isSlashCommand || isPrefixCommand)){
-      console.log(`Command ${file} in ${commandsPath} is missing either slashRun or prefixRun`) 
-      continue
-    }
+  for(const file of commandFiles){
 
-    client.commands.set(command.name, command)
-
-    if(command.aliases){
-      for(const alias of command.aliases){
-        client.commandAliases.set(alias, command)
+    const filePath = path.join(folderPath, file);
+    const { default: command } = await import(`./${filePath}`);
+  
+    if('name' in command){
+      const isSlashCommand = 'slashRun' in command
+      const isPrefixCommand = 'prefixRun' in command
+  
+      if(!(isSlashCommand || isPrefixCommand)){
+        console.log(`Command ${file} in ${commandsPath} is missing either slashRun or prefixRun`) 
+        continue
+      };
+  
+      client.commands.set(command.name, command)
+  
+      if(command.aliases){
+        for(const alias of command.aliases){
+          client.commandAliases.set(alias, command)
+        }
       }
+  
+      console.log(`Loaded command ${command.name} as [Slash: ${isSlashCommand}], [Prefix: ${isPrefixCommand}], [Aliases: ${command.aliases}]`)
+    } else {
+      console.log(`Command ${commandFiles[file]} in ${commandsPath} is missing name`)
     }
-
-    console.log(`Loaded command ${command.name} as [Slash: ${isSlashCommand}], [Prefix: ${isPrefixCommand}], [Aliases: ${command.aliases}]`)
-  } else {
-    console.log(`Command ${commandFiles[file]} in ${commandsPath} is missing name`)
   }
 }
 

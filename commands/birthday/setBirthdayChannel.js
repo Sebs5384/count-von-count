@@ -1,5 +1,5 @@
 import { ChannelType, SlashCommandBuilder } from "discord.js";
-import { BirthdayChannel, Guild } from "../models/index.js";
+import { BirthdayChannel, Guild } from "../../models/index.js";
 
 const command = new SlashCommandBuilder()
     .setName('setbirthdaychannel')
@@ -29,7 +29,6 @@ command.slashRun = async function slashRun(client, interaction) {
     
         if(existingChannel) {
 
-            console.log(channel.id);
             await existingChannel.update({
                 birthday_channel: channel.id,
                 channel_name: channel.name,

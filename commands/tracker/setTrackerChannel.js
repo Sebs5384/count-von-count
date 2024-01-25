@@ -30,8 +30,15 @@ command.slashRun = async function slashRun(client, interaction) {
 
     collector.on('collect', async (selectInteraction) => {
         const selectedValue = selectInteraction.values;
-     
+        const category = await guild.channels.cache.get(selectedValue[0]);
+
         await message.edit({ content: `You have selected the category <#${selectedValue}> to create tracker channel`, components: [] });
+        const permaTracker = await guild.channels.create({
+            name: 'perma-tracker',
+            type: ChannelType.GuildText,
+            parent: category.id,
+        });
+
         collector.stop();
     })
 

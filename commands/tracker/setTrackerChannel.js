@@ -1,4 +1,5 @@
-import { ChannelType, SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder} from "discord.js";
+import { ChannelType, PermissionsBitField, SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder} from "discord.js";
+import { createTrackerEmbed } from "../../embeds/index.js";
 
 const command = new SlashCommandBuilder()
     .setName('settrackerchannel')
@@ -9,6 +10,7 @@ command.aliases = ['configtracker, ctracker'];
 command.slashRun = async function slashRun(client, interaction) {
     const guild = await interaction.guild;
     const send = interaction.followUp.bind(interaction);
+    const embedColor = client.config.embedColor;
     const categoriesChannel = await guild.channels.cache.filter(channel => channel.type === ChannelType.GuildCategory);
 
     const options = categoriesChannel.map(channel => {
@@ -31,13 +33,28 @@ command.slashRun = async function slashRun(client, interaction) {
     collector.on('collect', async (selectInteraction) => {
         const selectedValue = selectInteraction.values;
         const category = await guild.channels.cache.get(selectedValue[0]);
-
-        await message.edit({ content: `You have selected the category <#${selectedValue}> to create tracker channel`, components: [] });
+        const bot = '1184628941194018869'
+        
         const permaTracker = await guild.channels.create({
             name: 'perma-tracker',
             type: ChannelType.GuildText,
             parent: category.id,
+            permissionOverwrites: [
+                {
+                    id: guild.id,
+                    deny: PermissionsBitField.Flags.SendMessages,
+                },
+                {
+                    id: bot,
+                    allow: PermissionsBitField.Flags.SendMessages,
+                }
+            ]
         });
+        
+        await permaTracker.send({ embeds: [createTrackerEmbed(embedColor)] });
+
+        await message.edit({ content: `Perma-tracker channel has been created in the <#${selectedValue}> category`, components: [] });
+        
 
         collector.stop();
     })

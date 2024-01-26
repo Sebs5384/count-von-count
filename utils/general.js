@@ -220,3 +220,12 @@ export function getCommands(commands) {
 
   return commandName;
 }
+
+export async function getCategoryValues(guild, typeOfChannel) {
+  const categoriesChannel = await guild.channels.cache.filter(channel => channel.type === typeOfChannel);
+  const categoryValues = categoriesChannel.map(channel => {
+      return { label: channel.name, value: channel.id }
+  })
+
+  return categoryValues;
+};

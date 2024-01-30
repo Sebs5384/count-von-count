@@ -8,7 +8,7 @@ export const event = Events.ClientReady;
 
 export const callback = async (client) => {
      
-    const MIDNIGHT_TIME = '0 0 0 * * *'
+    const MIDNIGHT_TIME = '0 1 0 * * *'
     
     cron.schedule(MIDNIGHT_TIME, ((async () => {
         try {

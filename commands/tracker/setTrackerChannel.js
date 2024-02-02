@@ -1,7 +1,8 @@
-import { ChannelType, PermissionsBitField, SlashCommandBuilder} from "discord.js";
+import { ChannelType, PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import { getCategoryValues } from "../../utils/general.js";
 import { createSelectCategoryRow } from "../../rows/index.js";
-import { createTrackerEmbed } from "../../embeds/index.js";
+import { createTrackerEmbed, createMessageEmbed } from "../../embeds/index.js";
+import { TrackerChannel } from "../../models/index.js";
 
 const command = new SlashCommandBuilder()
     .setName('settrackerchannel')
@@ -17,35 +18,100 @@ command.slashRun = async function slashRun(client, interaction) {
     const botId = client.config.botId;
     const guildCategory = ChannelType.GuildCategory;
 
-    await runCommand(guild, send, interaction,embedColor, guildCategory, userId, botId);
+    await runCommand(guild, send, interaction, embedColor, guildCategory, userId, botId);
 };
 
 
 async function runCommand(guild, send, interaction, embedColor, guildCategory, userId, botId) {
     const categoryValues = await getCategoryValues(guild, guildCategory);
     const rows = createSelectCategoryRow(categoryValues);
+
+
+    try {
+        const selectCategoryTitle = "Select the category where the perma-tracker will be displayed";
+        const selectCategoryMessage = "Below is the list of categories in your discord channel"
+        const message = await send({ embeds: [createMessageEmbed(selectCategoryTitle, selectCategoryMessage, embedColor, '🤖')], components: [rows] });
+        const selectedCategoryFilter = i => i.customId === 'selectcategory' && i.user.id === userId;
+        const ONE_MINUTE = 600000;
     
-    const message = await send({ content: 'Please select the category where you would like the tracker to be created', components: [rows] });
-    const selectedCategoryFilter = i => i.customId === 'selectcategory' && i.user.id === userId;
-    const ONE_MINUTE = 600000;
+        const collector = interaction.channel.createMessageComponentCollector({ selectedCategoryFilter, time: ONE_MINUTE });
 
-    const collector = interaction.channel.createMessageComponentCollector({ selectedCategoryFilter, time: ONE_MINUTE });
-
-    collector.on('collect', async (selectInteraction) => {
-        const selectedValue = selectInteraction.values;
-        const category = await guild.channels.cache.get(selectedValue[0]);
-        const permaTrackerChannel = await createPermaTrackerChannel(guild, category, botId);
+        collector.on('collect', async (selectInteraction) => {
         
-        await permaTrackerChannel.send({ embeds: [createTrackerEmbed(embedColor)] });
-        await message.edit({ content: `Perma-tracker channel has been created in the <#${selectedValue}> category`, components: [] });
-        collector.stop();
-    });
+            const selectedValue = selectInteraction.values;
+            const category = await guild.channels.cache.get(selectedValue[0]);
+            let trackerChannel, permaTrackerChannel;
 
-    collector.on('end', (collected, reason) => {
-        if(reason === 'time') {
-            message.edit({ content: 'Time is up for selecting, try using /settrackerchannel command again.', components: [] });
-        };
-    });
+            const existingTrackerChannel = await TrackerChannel.findOne({
+                where: { guild_id: guild.id },
+            })
+
+            if(existingTrackerChannel) {
+                permaTrackerChannel = await guild.channels.cache.get(existingTrackerChannel.perma_tracker_channel_id);
+                trackerChannel = await guild.channels.cache.get(existingTrackerChannel.tracker_channel_id);
+                
+                if(permaTrackerChannel && trackerChannel) {
+                    await permaTrackerChannel.edit({parent: category});
+                    await trackerChannel.edit({parent: category});      
+                } else {
+                    permaTrackerChannel = await createPermaTrackerChannel(guild, category, botId);
+                    trackerChannel = await createTrackerChannel(guild, category);
+                }
+              
+                await existingTrackerChannel.update({
+                    perma_tracker_channel_id: permaTrackerChannel.id,
+                    tracker_channel_id: trackerChannel.id,
+                    category_name: category.name,
+                    guild_category_id: category.id        
+                })
+
+                const trackerMessageTitle = "Tracker channel has been updated"
+                const trackerMessage = "Please set mvps by using /setmvp command"
+                const editedMessageTitle = 'Succesfully updated tracker channel'
+                const editedMessageContent = `Perma-tracker channel has been updated in the <#${selectedValue}> category`
+
+                await trackerChannel.send({ embeds: [createMessageEmbed(trackerMessageTitle, trackerMessage, embedColor, '✅')] });
+                await message.edit({ embeds: [createMessageEmbed(editedMessageTitle, editedMessageContent, embedColor, '✅')], components: [] });
+                collector.stop();
+            } else {
+                permaTrackerChannel = await createPermaTrackerChannel(guild, category, botId);
+                trackerChannel = await createTrackerChannel(guild, category);
+
+                const [createdTrackerChannel] = await TrackerChannel.findOrCreate({
+                    where: { guild_id: guild.id },
+                    defaults: { perma_tracker_channel_id: permaTrackerChannel.id, tracker_channel_id: trackerChannel.id, category_name: category.name, guild_category_id: category.id },
+                });
+        
+                if(createdTrackerChannel){
+                    const trackerMessageTitle = "Tracker channel has been created"
+                    const trackerMessage = "Please set mvps by using /setmvp command"
+                    const editedMessageTitle = 'Succesfully settled perma-tracker channel'
+                    const editedMessageContent = `Perma-tracker channel has been created in the <#${selectedValue}> category`
+    
+                    await permaTrackerChannel.send({ embeds: [createTrackerEmbed(embedColor)] });
+                    await trackerChannel.send({ embeds: [createMessageEmbed(trackerMessageTitle, trackerMessage, embedColor, '✅')] });
+                    await message.edit({ embeds: [createMessageEmbed(editedMessageTitle, editedMessageContent, embedColor, '✅')], components: [] });
+                    collector.stop();
+                } else {
+                    const errorTitle = 'Error updating tracker channel'
+                    const errorMessage = 'Something went wrong, please try again'
+    
+                    await message.edit({ embeds: [createMessageEmbed(errorTitle, errorMessage, embedColor, '❌')], components: [] });
+                }   
+            }
+        });
+    
+        collector.on('end', (collected, reason) => {
+            const timeUpMessage = "Time is up for selecting, try using /settrackerchannel command again."
+    
+            if(reason === 'time') {
+                message.edit({ content: timeUpMessage, components: [] });
+            };
+        });
+
+    } catch (error) {
+        console.error(`Error setting perma-tracker channel : ${error}`);
+    }
 }
 
 async function createPermaTrackerChannel(guild, category, botId){
@@ -66,6 +132,16 @@ async function createPermaTrackerChannel(guild, category, botId){
     });
 
     return permaTrackerChannel;
+}
+
+async function createTrackerChannel(guild, category) {
+    const trackerChannel = await guild.channels.create({
+        name: 'tracker',
+        type: ChannelType.GuildText,
+        parent: category.id,       
+    });
+
+    return trackerChannel;
 }
 
 export default command;

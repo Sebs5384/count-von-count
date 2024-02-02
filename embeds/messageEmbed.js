@@ -1,8 +1,8 @@
 import { EmbedBuilder } from "discord.js";
 
-function createMessageEmbed(message, description, embedColor, state) {
+function createMessageEmbed(message, description, embedColor, emoji = '') {
     return new EmbedBuilder()   
-        .setTitle(`${state ? '✅' : '❌'} ${message} `)
+        .setTitle(`${emoji}  ${message} `)
         .setDescription(description)
         .setColor(embedColor);
 }

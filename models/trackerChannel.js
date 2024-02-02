@@ -10,11 +10,15 @@ TrackerChannel.init({
         allowNull: false,
         autoIncrement: true
     },
+    perma_tracker_channel_id: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     tracker_channel_id: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    channel_name: {
+    category_name: {
         type: Sequelize.STRING,
         allowNull: false
     },

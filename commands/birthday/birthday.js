@@ -25,6 +25,7 @@ command.slashRun = async function slashRun(client, interaction) {
   const birthdayUser = interaction.options.getMentionable('user');  
 
   await runCommand(send, guild, interaction, birthdayDate, birthdayUser);
+
 };
 
 async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) {
@@ -55,7 +56,7 @@ async function runCommand(send, guild, interaction, birthdayDate, birthdayUser) 
           defaults: { user_name: birthdayUser.user.username, birthday_date: fullDate },
         });
    
-        const [userGuild, createdUserGuild] = await UserGuild.findOrCreate({
+        await UserGuild.findOrCreate({
           where: { user_id: user.user_id, guild_id: guildId },
         });
         

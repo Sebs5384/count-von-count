@@ -28,7 +28,7 @@ Boss.init({
     },
     boss_emoji: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     guild_id: {
         type: Sequelize.STRING,

@@ -4,7 +4,7 @@ const command = new SlashCommandBuilder()
     .setName('tracker')
     .setDescription('Displays the list of MVPs that are currently tracked')
     .setDefaultMemberPermissions(0);
-command.aliases = ['t, tracker'];
+command.aliases = ['t, tracker', 'mvps', 'bosses'];
 
 command.slashRun = async function slashRun(client, interaction ) {
     console.log("hello mars")

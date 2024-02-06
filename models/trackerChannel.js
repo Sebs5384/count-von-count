@@ -4,11 +4,10 @@ import { sequelize } from "../database.js";
 class TrackerChannel extends Model {};
 
 TrackerChannel.init({
-    id: {
-        type: Sequelize.INTEGER,
+    guild_id: {
+        type: Sequelize.STRING,
         primaryKey: true,
         allowNull: false,
-        autoIncrement: true
     },
     perma_tracker_channel_id: {
         type: Sequelize.STRING,
@@ -26,10 +25,6 @@ TrackerChannel.init({
         type: Sequelize.STRING,
         allowNull: false
     },
-    guild_id: {
-        type: Sequelize.STRING,
-        allowNull: false
-    }
 },
     {
         sequelize,

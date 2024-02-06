@@ -39,6 +39,18 @@ export function isValidDateFormat(date) {
   return dateRegex.test(date);
 }
 
+export function isValidBossNameFormat(bossName) {
+  const validBossRegex = /^[a-zA-Z0-9 ]+$/;
+
+  return validBossRegex.test(bossName);
+}
+
+export function isValidMapNameFormat(mapName) {
+  const validMapRegex = /^([a-zA-Z]+_\d{2}|[a-zA-Z]+\d{2})$/;
+
+  return validMapRegex.test(mapName);
+}
+
 export function formatDate(usersBirthdayDate) {
   usersBirthdayDate.map((date) => {
     const [day, month, year] = date.toISOString().split('T')[0].split('-');

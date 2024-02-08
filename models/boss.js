@@ -30,6 +30,10 @@ Boss.init({
         type: Sequelize.STRING,
         allowNull: true
     },
+    boss_killed_at: {
+        type: Sequelize.DATE,
+        allowNull: true
+    },
     guild_id: {
         type: Sequelize.STRING,
         allowNull: false

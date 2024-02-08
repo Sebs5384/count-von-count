@@ -46,7 +46,7 @@ export function isValidBossNameFormat(bossName) {
 }
 
 export function isValidMapNameFormat(mapName) {
-  const validMapRegex = /^([a-zA-Z]+_\d{2}|[a-zA-Z]+\d{2})$/;
+  const validMapRegex = /^[a-zA-Z]+(_[a-zA-Z]+\d{1,2})$/;
 
   return validMapRegex.test(mapName);
 }

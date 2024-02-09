@@ -1,20 +1,20 @@
 import { Sequelize, Model } from "sequelize";
-import { sequelize } from "../database.js";
+import { sequelize } from "../../database.js";
 
-class User extends Model {}
+class Guild extends Model {}
 
-User.init({
-    user_id: {
+Guild.init({
+    guild_id: {
         type: Sequelize.STRING,
         primaryKey: true,
         allowNull: false
     },
-    user_name: {
+    guild_name: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    birthday_date: {
-        type: Sequelize.DATE,
+    guild_master: {
+        type: Sequelize.STRING,
         allowNull: false
     }
 },
@@ -23,4 +23,4 @@ User.init({
 }
 );
 
-export default User;
+export default Guild;

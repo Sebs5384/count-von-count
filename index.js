@@ -21,7 +21,7 @@ client.commands = new Collection();
 client.commandAliases = new Collection();
 client.config = config
 
-const commandsPath = './commands'
+const commandsPath = 'src/commands'
 const commandFolders = fs.readdirSync(commandsPath);
 
 for(const folder of commandFolders) {
@@ -58,11 +58,11 @@ for(const folder of commandFolders) {
   }
 }
 
-const discordEventsPath = './events'
+const discordEventsPath = 'src/events'
 const discordEventFiles = fs.readdirSync(discordEventsPath).filter(file => file.endsWith('.js'));
 
 for(const file in discordEventFiles){
-  const {event, callback} = await import(`./events/${discordEventFiles[file]}`)
+  const {event, callback} = await import(`./src/events/${discordEventFiles[file]}`)
 
   client.on(event, callback.bind(null, client))
 }

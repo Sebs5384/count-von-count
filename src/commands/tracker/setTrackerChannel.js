@@ -26,7 +26,6 @@ async function runCommand(guild, send, interaction, embedColor, guildCategory, u
     const categoryValues = await getCategoryValues(guild, guildCategory);
     const rows = createSelectCategoryRow(categoryValues);
 
-
     try {
         const selectCategoryTitle = 'Select the category where the perma-tracker will be displayed';
         const selectCategoryMessage = 'Below is the list of categories in your discord channel';
@@ -35,9 +34,9 @@ async function runCommand(guild, send, interaction, embedColor, guildCategory, u
 
         const message = await send({ embeds: [createMessageEmbed(selectCategoryTitle, selectCategoryMessage, embedColor, '🤖', selectCategoryMessageFooter)], components: [rows] });
         const selectedCategoryFilter = i => i.customId === 'selectcategory' && i.user.id === userId;
-        const ONE_MINUTE = 600000;
+        const ONE_MINUTE = 60000;
     
-        const collector = interaction.channel.createMessageComponentCollector({ selectedCategoryFilter, time: ONE_MINUTE });
+        const collector = interaction.channel.createMessageComponentCollector({ filter: selectedCategoryFilter, time: ONE_MINUTE });
 
         collector.on('collect', async (selectInteraction) => {
         
@@ -107,10 +106,15 @@ async function runCommand(guild, send, interaction, embedColor, guildCategory, u
         });
     
         collector.on('end', (collected, reason) => {
-            const timeUpMessage = "Time is up for selecting, try using /settrackerchannel command again";
+            const timeUpTitle = 'Time is up';
+            const timeUpMessage = "You didn't select anything in time, please try again";
     
             if(reason === 'time') {
-                message.edit({ content: timeUpMessage, components: [] });
+                try{
+                    message.edit({ embeds: [createMessageEmbed(timeUpTitle, timeUpMessage, embedColor, '❗', helpMvpMessage)], components: [] });
+                } catch(error) {
+                    console.error(`Error editing message : ${error}`);
+                }
             };
         });
 

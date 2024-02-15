@@ -51,17 +51,28 @@ export function isValidMapNameFormat(mapName) {
   return validMapRegex.test(mapName);
 }
 
-export function formatDate(usersBirthdayDate) {
-  usersBirthdayDate.map((date) => {
+export function formatToClockHour(minutes){
+  const totalHours = Math.floor(Number(minutes / 60));
+  const formattedHours = totalHours % 24;
+  const totalMinutes = Math.floor(Number(minutes % 60));
+  
+  switch (totalMinutes) {
+    case 0: return `${String(formattedHours).padStart(2, '0')}:00`
+    default: return `${String(formattedHours).padStart(2, '0')}:${String(totalMinutes).padStart(2, '0')}`
+  }
+}
+
+export function formatDate(dates) {
+  const formattedDates = dates.map((date) => {
     const [day, month, year] = date.toISOString().split('T')[0].split('-');
     const formattedDay = Number(day).toString();
 
     const birthDate = `${formattedDay}-${month}-${year}`;
 
-    usersBirthdayDate[usersBirthdayDate.indexOf(date)] = birthDate;
+    dates[dates.indexOf(date)] = birthDate;
   })
 
-  return usersBirthdayDate
+  return formattedDates;
 }
 
 export function formatToFullDate(date) {

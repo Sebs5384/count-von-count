@@ -51,17 +51,6 @@ export function isValidMapNameFormat(mapName) {
   return validMapRegex.test(mapName);
 }
 
-export function formatToClockHour(minutes){
-  const totalHours = Math.floor(Number(minutes / 60));
-  const formattedHours = totalHours % 24;
-  const totalMinutes = Math.floor(Number(minutes % 60));
-  
-  switch (totalMinutes) {
-    case 0: return `${String(formattedHours).padStart(2, '0')}:00`
-    default: return `${String(formattedHours).padStart(2, '0')}:${String(totalMinutes).padStart(2, '0')}`
-  }
-}
-
 export function formatDate(dates) {
   const formattedDates = dates.map((date) => {
     const [day, month, year] = date.toISOString().split('T')[0].split('-');
@@ -251,4 +240,126 @@ export async function getCategoryValues(guild, typeOfChannel) {
   })
 
   return categoryValues;
+};
+
+
+export function getBossTimers(bosses) {
+
+  const bossTimers =  bosses.map((boss) => {
+      const bossDownTime = Number(boss.downtime);
+      const bossSpawnWindow = Number(boss.spawnWindow);
+      const bossKilledAt = boss.killed;
+
+      const totalMinutesSinceKilled = getTotalMinutesSinceKilled(bossKilledAt);
+      const totalMinutesTillRange = getMinutesTillRange(bossDownTime, totalMinutesSinceKilled);
+      const nextRange = formatToClockHour(totalMinutesTillRange);
+      const bossRange = getBossRange(totalMinutesSinceKilled + 131, totalMinutesTillRange, bossSpawnWindow);
+      const bossField = getBossField(boss, bossRange);
+
+      return {
+          name: `${boss.emoji ? `${boss.emoji} ` : ''} ${boss.name} \nStart Time: ${nextRange}`,
+          value: `${bossField}`,
+          inline: true
+      };
+  });
+
+  return bossTimers;
+};
+
+export function getGuildBosses(bosses) {
+
+  const guildBosses = [];
+  for(const boss of bosses) {
+      const mvp = {
+          name: boss.boss_name,
+          map: boss.boss_map,
+          downtime: boss.boss_downtime,
+          spawnWindow: boss.boss_spawn_window,
+          emoji: boss.boss_emoji,
+          killed: boss.boss_killed_at
+      }
+
+      guildBosses.push(mvp);
+  }
+
+  return guildBosses;
+}
+
+function getBossField(boss, bossRange) {
+    
+  let downTimeHours = bossRange.remainingDownTimeInHours;
+  let downTimeMinutes = bossRange.remainingDownTimeInMinutes;
+  let spawnWindowHours = bossRange.remainingTimeTillSpawnInHours;
+  let spawnWindowMinutes = bossRange.remainingTimeTillSpawnInMinutes;
+
+  const formatTime = (hours, minutes) => {
+      if(hours === 0 && minutes === 0) {
+          return "Now";
+      };
+
+      let timeString = "";    
+      if(hours !== 0) {
+          timeString += `${Math.abs(hours)} ${hours === 1 ? "hour" : "hours"} `;
+      }
+
+      if(minutes !== 0) {
+          timeString += `${Math.abs(minutes)} ${minutes === 1 ? "minute" : "minutes"}`;
+      }
+
+      return timeString;
+  }
+
+  let formattedDownTime = formatTime(downTimeHours, downTimeMinutes);
+  let formattedSpawnWindow = formatTime(spawnWindowHours, spawnWindowMinutes);
+
+  formattedDownTime = downTimeHours < 0 || (downTimeHours === 0 && downTimeMinutes < 0) ? `From ${formattedDownTime} ago` : `From ${formattedDownTime}`;
+  formattedSpawnWindow = spawnWindowHours < 0 || (spawnWindowHours === 0 && spawnWindowMinutes < 0) ? `to ${formattedSpawnWindow} ago` : `to ${formattedSpawnWindow}`;
+
+  const bossFieldMessage = `${formattedDownTime} ${formattedSpawnWindow}`;
+
+  return bossFieldMessage;
+};   
+
+function getTotalMinutesSinceKilled(bossKilledAt) {
+  const [hours, minutes] = bossKilledAt.split(':').map((time) => Number(time));
+  const totalMinutesSinceKilled = hours * 60 + minutes;
+
+  return totalMinutesSinceKilled;
+};
+
+function getMinutesTillRange(bossDownTime, totalMinutesSinceKilled) {
+  const totalMinutesTillRange = totalMinutesSinceKilled + bossDownTime;
+  
+  return totalMinutesTillRange;
+};
+
+function getBossRange(totalMinutesSinceKilled, totalMinutesTillRange, bossSpawnWindow) {
+  const bossRemainingDownTime = totalMinutesTillRange - totalMinutesSinceKilled;
+  const bossRemainingTimeTillSpawn = (bossSpawnWindow + totalMinutesTillRange) - totalMinutesSinceKilled;
+
+  const remainingDownTimeInHours = Math.floor(bossRemainingDownTime / 60);
+  const remainingDownTimeInMinutes = bossRemainingDownTime % 60;
+
+  const remainingTimeTillSpawnInHours = Math.floor(bossRemainingTimeTillSpawn / 60);
+  const remainingTimeTillSpawnInMinutes = bossRemainingTimeTillSpawn % 60;
+
+  const bossRange = {
+    remainingDownTimeInHours,
+    remainingDownTimeInMinutes,
+    remainingTimeTillSpawnInHours,
+    remainingTimeTillSpawnInMinutes
+  };
+
+  return bossRange;
+};
+
+function formatToClockHour(minutes){
+  const totalHours = Math.floor(Number(minutes / 60));
+  const formattedHours = totalHours % 24;
+  const totalMinutes = Math.floor(Number(minutes % 60));
+  
+  switch (totalMinutes) {
+    case 0: return `${String(formattedHours).padStart(2, '0')}:00`
+    default: return `${String(formattedHours).padStart(2, '0')}:${String(totalMinutes).padStart(2, '0')}`
+  };
 };

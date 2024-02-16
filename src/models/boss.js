@@ -15,11 +15,11 @@ Boss.init({
         allowNull: false
     },
     boss_downtime: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false
     }, 
     boss_spawn_window: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false
     },
     boss_map: {

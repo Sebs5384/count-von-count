@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { createMessageEmbed } from "../../embeds/index.js";
 import { TrackerChannel, Boss } from "../../models/index.js";
-import  getServerTime  from "../../api/serverTime.js";
+import { getServerTime } from "../../service/serverTime.js";
 
 const command = new SlashCommandBuilder()
     .setName('track')

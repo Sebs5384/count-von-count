@@ -2,7 +2,6 @@ const URL = 'https://timeapi.io/api/Time/current';
 
 export async function getServerTime(timeZone) {
   const timeZoneURL = `${URL}/zone?timeZone=${timeZone}`
-  console.log('Helloboiz')
 
   return await fetch(timeZoneURL)
     .then((response) => response.json())

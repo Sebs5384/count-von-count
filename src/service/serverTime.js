@@ -14,9 +14,8 @@ export async function getServerTime(serverTime) {
         cachedTime = currentTime.toISOString();
     
         console.log(`Fetched server time: ${await serverTimeFromApi}`);
-        return serverTime;
+        return serverTimeFromApi;
     }
-        
 }
 
 function updateServerTime(cachedTime, cachedServerTime, currentTime) {
@@ -38,6 +37,4 @@ function updateServerTime(cachedTime, cachedServerTime, currentTime) {
             return serverTime;
         }
     }
-   
- 
 }

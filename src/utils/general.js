@@ -243,7 +243,7 @@ export async function getCategoryValues(guild, typeOfChannel) {
 };
 
 
-export function getBossTimers(bosses) {
+export function getBossTimers(bosses, currentServerTime) {
 
   const bossTimers =  bosses.map((boss) => {
       const bossDownTime = boss.downtime;
@@ -253,7 +253,8 @@ export function getBossTimers(bosses) {
       const totalMinutesSinceKilled = getTotalMinutesSinceKilled(bossKilledAt);
       const totalMinutesTillRange = getMinutesTillRange(bossDownTime, totalMinutesSinceKilled);
       const nextRange = formatToClockHour(totalMinutesTillRange);
-      const bossRange = getBossRange(totalMinutesSinceKilled + 131, totalMinutesTillRange, bossSpawnWindow);
+      
+      const bossRange = getBossRange(totalMinutesSinceKilled, totalMinutesTillRange, bossSpawnWindow);
       const bossField = getBossField(boss, bossRange);
 
       return {

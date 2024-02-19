@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import { isValidBossNameFormat, isValidMapNameFormat } from "../../utils/general.js";
 import { createMessageEmbed } from "../../embeds/index.js";
 import { TrackerChannel, Boss } from "../../models/index.js";
-import { Op } from "sequelize";
+import { operator } from "../../../database.js";
 
 const command = new SlashCommandBuilder()
     .setName('setmvp')
@@ -71,7 +71,7 @@ async function runCommand(embedColor, send, guild, bossName, bossDowntime, bossS
                 options: {
                     where: {
                         boss_name: {
-                            [Op.like]: bossName
+                            [operator.like]: bossName
                         }
                     },
                     collate: 'NOCASE'

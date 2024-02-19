@@ -2,6 +2,8 @@ import { SlashCommandBuilder } from "discord.js";
 import { createMessageEmbed } from "../../embeds/index.js";
 import { TrackerChannel, Boss } from "../../models/index.js";
 import { getServerTime } from "../../service/serverTime.js";
+import { operator } from "../../../database.js";
+import { Op } from "sequelize";
 
 const command = new SlashCommandBuilder()
     .setName('track')
@@ -25,12 +27,20 @@ command.slashRun = async function slashRun(client, interaction) {
 
 async function runCommand(send, guild, embedColor, mvpName){
     const trackerChannel = await TrackerChannel.findOne({
-        where: { guild_id: guild.id }
+        where: { guild_id: guild.id },
     })
 
     if(trackerChannel) {
         const boss = await Boss.findOne({
-            where: { guild_id: guild.id, boss_name: mvpName }
+            where: { guild_id: guild.id },
+            options: {
+                where: {
+                    boss_name: {
+                        [operator.like]: mvpName
+                    }
+                },
+                collate: 'NOCASE'
+            }
         });
 
         if(boss) {

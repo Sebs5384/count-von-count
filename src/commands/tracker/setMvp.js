@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import { isValidBossNameFormat, isValidMapNameFormat } from "../../utils/general.js";
 import { createMessageEmbed } from "../../embeds/index.js";
 import { TrackerChannel, Boss } from "../../models/index.js";
+import { Op } from "sequelize";
 
 const command = new SlashCommandBuilder()
     .setName('setmvp')
@@ -64,7 +65,17 @@ async function runCommand(embedColor, send, guild, bossName, bossDowntime, bossS
             })
         
             const existingBoss = await Boss.findOne({
-                where: { guild_id: trackerChannel.guild_id, boss_name: bossName }
+                where: { 
+                    guild_id: trackerChannel.guild_id, 
+                },
+                options: {
+                    where: {
+                        boss_name: {
+                            [Op.like]: bossName
+                        }
+                    },
+                    collate: 'NOCASE'
+                }
             })
         
             if(existingBoss) {

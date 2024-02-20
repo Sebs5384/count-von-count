@@ -1,9 +1,9 @@
 import { EmbedBuilder } from 'discord.js'
 
-function createTrackerEmbed(mvpList, embedColor) { 
+function createTrackerEmbed(mvpList, trackerFooter,embedColor) { 
   const trackerEmbed = new EmbedBuilder()
     .setTitle('MVP Tracker')
-    .setFooter({ text: `This tracker updates every minute, last updated at: `})
+    .setFooter({ text: trackerFooter })
     .setColor(embedColor);
   if(mvpList) {
     trackerEmbed.addFields(mvpList);

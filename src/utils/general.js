@@ -243,28 +243,44 @@ export async function getCategoryValues(guild, typeOfChannel) {
 };
 
 
-export function getBossTimers(bosses, currentServerTime) {
+export function getBossTimers(bosses, serverTime) {
 
-  const bossTimers =  bosses.map((boss) => {
-      const bossDownTime = boss.downtime;
-      const bossSpawnWindow = boss.spawnWindow;
-      const bossKilledAt = boss.killed;
+  const mvpTimers =  bosses.map((boss) => {
 
-      const totalMinutesSinceKilled = getTotalMinutesSinceKilled(bossKilledAt);
-      const totalMinutesTillRange = getMinutesTillRange(bossDownTime, totalMinutesSinceKilled);
-      const nextRange = formatToClockHour(totalMinutesTillRange);
-      
-      const bossRange = getBossRange(totalMinutesSinceKilled, totalMinutesTillRange, bossSpawnWindow);
-      const bossField = getBossField(boss, bossRange);
+    const bossDownTime = boss.downtime;
+    const bossSpawnWindow = boss.spawnWindow;
+    const bossKilledAt = boss.killed;
+    const currentServerTimeInClockFormat = serverTime.time;
 
-      return {
-          name: `${boss.emoji ? `${boss.emoji} ` : ''} ${boss.name} \nStart Time: ${nextRange}`,
-          value: `${bossField}`,
-          inline: true
-      };
+    if(!bossKilledAt) {
+      return;
+    }
+
+    const totalMinutesWhenKilled = getTotalMinutesFromClockFormat(bossKilledAt);
+    const currentServerTimeInMinutes = getTotalMinutesFromClockFormat(currentServerTimeInClockFormat);
+    const totalMinutesTillRange = getMinutesTillRange(bossDownTime, totalMinutesWhenKilled);
+    const nextRange = formatToClockHour(totalMinutesTillRange);
+    const mvpTimer = (currentServerTimeInMinutes - totalMinutesWhenKilled) + totalMinutesWhenKilled;
+    const maxMinutesUntilMvpVanishFromTracker = (totalMinutesWhenKilled + (bossDownTime / 2))
+
+    if(currentServerTimeInMinutes >= maxMinutesUntilMvpVanishFromTracker) {
+      return;
+    }
+  
+    const bossRange = getBossRange(mvpTimer, totalMinutesTillRange, bossSpawnWindow);
+    const bossStatus = getBossStatus(currentServerTimeInMinutes, totalMinutesTillRange, bossSpawnWindow);
+    const bossField = getBossField(boss, bossRange);
+
+    return {
+      name: `${boss.emoji ? `${boss.emoji} ` : ''} ${boss.name} ${bossStatus ? `(${bossStatus})` : ''} \nStart Time: ${nextRange}`,
+      value: `${bossField}`,
+      inline: true
+    };
   });
+  
+  const filteredMvpTimers = mvpTimers.filter(field => field)
 
-  return bossTimers;
+  return filteredMvpTimers;
 };
 
 export function getGuildBosses(bosses) {
@@ -294,20 +310,16 @@ function getBossField(boss, bossRange) {
   let spawnWindowMinutes = bossRange.remainingTimeTillSpawnInMinutes;
 
   const formatTime = (hours, minutes) => {
-      if(hours === 0 && minutes === 0) {
-          return "Now";
-      };
+    let timeString = "";    
+    if(hours !== 0) {
+      timeString += `${Math.abs(hours)} ${hours === 1 ? "hour" : "hours"} `;
+    }
 
-      let timeString = "";    
-      if(hours !== 0) {
-          timeString += `${Math.abs(hours)} ${hours === 1 ? "hour" : "hours"} `;
-      }
+    if(minutes !== 0) {
+      timeString += `${Math.abs(minutes)} ${minutes === 1 ? "minute" : "minutes"}`;
+    }
 
-      if(minutes !== 0) {
-          timeString += `${Math.abs(minutes)} ${minutes === 1 ? "minute" : "minutes"}`;
-      }
-
-      return timeString;
+    return timeString;
   }
 
   let formattedDownTime = formatTime(downTimeHours, downTimeMinutes);
@@ -321,22 +333,34 @@ function getBossField(boss, bossRange) {
   return bossFieldMessage;
 };   
 
-function getTotalMinutesSinceKilled(bossKilledAt) {
-  const [hours, minutes] = bossKilledAt.split(':').map((time) => Number(time));
-  const totalMinutesSinceKilled = hours * 60 + minutes;
-
-  return totalMinutesSinceKilled;
+function getBossStatus(currentServerTimeInMinutes, minutesTillRange, bossSpawnWindow) {
+  const totalBossRange = minutesTillRange + bossSpawnWindow;
+  
+  if(currentServerTimeInMinutes >= totalBossRange) {
+    return 'Still not dead';
+  } else if (currentServerTimeInMinutes >= minutesTillRange) {
+    return 'In range';
+  } else {
+    return '';
+  }
 };
 
-function getMinutesTillRange(bossDownTime, totalMinutesSinceKilled) {
-  const totalMinutesTillRange = totalMinutesSinceKilled + bossDownTime;
+function getTotalMinutesFromClockFormat(timeInClockFormat) {
+  const [hours, minutes] = timeInClockFormat.split(':').map((time) => Number(time));
+  const totalMinutesWhenKilled = hours * 60 + minutes;
+
+  return totalMinutesWhenKilled;
+};
+
+function getMinutesTillRange(bossDownTime, totalMinutesWhenKilled) {
+  const totalMinutesTillRange = totalMinutesWhenKilled + bossDownTime;
   
   return totalMinutesTillRange;
 };
 
-function getBossRange(totalMinutesSinceKilled, totalMinutesTillRange, bossSpawnWindow) {
-  const bossRemainingDownTime = totalMinutesTillRange - totalMinutesSinceKilled;
-  const bossRemainingTimeTillSpawn = (bossSpawnWindow + totalMinutesTillRange) - totalMinutesSinceKilled;
+function getBossRange(totalMinutesWhenKilled, totalMinutesTillRange, bossSpawnWindow) {
+  const bossRemainingDownTime = totalMinutesTillRange - totalMinutesWhenKilled;
+  const bossRemainingTimeTillSpawn = (bossSpawnWindow + totalMinutesTillRange) - totalMinutesWhenKilled;
 
   const remainingDownTimeInHours = Math.floor(bossRemainingDownTime / 60);
   const remainingDownTimeInMinutes = bossRemainingDownTime % 60;

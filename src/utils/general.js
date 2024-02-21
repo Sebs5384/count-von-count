@@ -261,7 +261,7 @@ export function getBossTimers(bosses, serverTime) {
     const totalMinutesTillRange = getMinutesTillRange(bossDownTime, totalMinutesWhenKilled);
     const nextRange = formatToClockHour(totalMinutesTillRange);
     const mvpTimer = (currentServerTimeInMinutes - totalMinutesWhenKilled) + totalMinutesWhenKilled;
-    const maxMinutesUntilMvpVanishFromTracker = (totalMinutesWhenKilled + (bossDownTime / 2))
+    const maxMinutesUntilMvpVanishFromTracker = (totalMinutesWhenKilled + (bossDownTime + bossSpawnWindow * 2))
 
     if(currentServerTimeInMinutes >= maxMinutesUntilMvpVanishFromTracker) {
       return;
@@ -311,9 +311,12 @@ function getBossField(boss, bossRange) {
 
   const formatTime = (hours, minutes) => {
     let timeString = "";    
-    if(hours !== 0) {
+    
+    if(hours < 0) { 
+      timeString += ''
+    } else if(hours !== 0) {
       timeString += `${Math.abs(hours)} ${hours === 1 ? "hour" : "hours"} `;
-    }
+    } 
 
     if(minutes !== 0) {
       timeString += `${Math.abs(minutes)} ${minutes === 1 ? "minute" : "minutes"}`;
@@ -325,8 +328,21 @@ function getBossField(boss, bossRange) {
   let formattedDownTime = formatTime(downTimeHours, downTimeMinutes);
   let formattedSpawnWindow = formatTime(spawnWindowHours, spawnWindowMinutes);
 
-  formattedDownTime = downTimeHours < 0 || (downTimeHours === 0 && downTimeMinutes < 0) ? `From ${formattedDownTime} ago` : `From ${formattedDownTime}`;
-  formattedSpawnWindow = spawnWindowHours < 0 || (spawnWindowHours === 0 && spawnWindowMinutes < 0) ? `to ${formattedSpawnWindow} ago` : `to ${formattedSpawnWindow}`;
+  if(downTimeHours < 0 ) {
+    formattedDownTime = `Range: From ${formattedDownTime} ago`
+  } else if(downTimeHours === 0 && downTimeMinutes === 0) {
+    formattedDownTime = `Range: From now`
+  } else {
+    formattedDownTime = `Range: From ${formattedDownTime}`
+  }
+
+  if(spawnWindowHours < 0 ) {
+    formattedSpawnWindow = `to ${formattedSpawnWindow} ago`
+  } else if(spawnWindowHours === 0 && spawnWindowMinutes === 0) {
+    formattedSpawnWindow = `to now`
+  } else {
+    formattedSpawnWindow = `to ${formattedSpawnWindow}`
+  }
 
   const bossFieldMessage = `${formattedDownTime} ${formattedSpawnWindow}`;
 

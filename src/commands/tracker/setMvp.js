@@ -77,7 +77,7 @@ async function runCommand(embedColor, send, guild, bossName, bossDowntime, bossS
                 }
             });
 
-            if(existingBoss.boss_name === bossName) {
+            if(existingBoss && existingBoss.boss_name === bossName) {
                 
                 const existingBossTitle = `The MVP already exists`
                 const existingBossMessage = `${bossName} already exists in the tracker list`

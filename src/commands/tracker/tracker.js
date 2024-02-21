@@ -26,14 +26,12 @@ command.slashRun = async function slashRun(client, interaction) {
     
     const serverTimeZone = 'America/Los_Angeles';
     const serverTime = await getServerTime(serverTimeZone);
-    const trackerFooter = `This tracker auto updates every minute, last updated at: ${serverTime.time} `
+    const trackerFooter = `This tracker auto updates every minute, last updated at: ${serverTime.time} Server Time `
 
     if(hasBosses) {
         const guildBosses = getGuildBosses(bosses);
         const mvpTimers = getBossTimers(guildBosses, serverTime);
         const hasMvpsTracked = mvpTimers.length > 0;
-        
-        console.log(mvpTimers);
 
         if(hasMvpsTracked) {
 

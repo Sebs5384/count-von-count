@@ -3,7 +3,6 @@ import { createMessageEmbed } from "../../embeds/index.js";
 import { TrackerChannel, Boss } from "../../models/index.js";
 import { getServerTime } from "../../service/serverTime.js";
 import { operator } from "../../../database.js";
-import { Op } from "sequelize";
 
 const command = new SlashCommandBuilder()
     .setName('track')
@@ -21,29 +20,29 @@ command.slashRun = async function slashRun(client, interaction) {
     const guild = await interaction.guild;
     const embedColor = client.config.embedColor;
     const mvpName = interaction.options.getString('mvp-name');
+    const mvpHelpMessage = 'For more information use /mvphelp';
 
-    await runCommand(send, guild, embedColor, mvpName)
+    await runCommand(send, guild, embedColor, mvpName, mvpHelpMessage);
 };
 
-async function runCommand(send, guild, embedColor, mvpName){
+async function runCommand(send, guild, embedColor, mvpName, footer){
+        
     const trackerChannel = await TrackerChannel.findOne({
         where: { guild_id: guild.id },
     })
 
     if(trackerChannel) {
         const boss = await Boss.findOne({
-            where: { guild_id: guild.id },
-            options: {
-                where: {
-                    boss_name: {
-                        [operator.like]: mvpName
-                    }
-                },
-                collate: 'NOCASE'
-            }
+            where: { 
+                guild_id: guild.id, 
+                boss_name: {
+                    [operator.like]: mvpName
+                }
+            },
+            collate: 'NOCASE'
         });
 
-        if(boss) {
+        if(boss.boss_name === mvpName) {
             const serverTimeZone = 'America/Los_Angeles';
             const serverTime = await getServerTime(serverTimeZone);
 
@@ -53,9 +52,13 @@ async function runCommand(send, guild, embedColor, mvpName){
 
             const trackerTitle = 'MvP Tracker';
             const trackerMessage = `${updatedBoss.boss_name} died at ${updatedBoss.boss_killed_at}`;
-            const mvpHelpMessage = 'For more information use /mvphelp';
             
-            send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '✅', mvpHelpMessage)] });
+            send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '✅', footer)] });
+        } else {
+            const trackerTitle = 'No MvP found';
+            const trackerMessage = `This mvp is not found in the tracker list, reading: ${mvpName}`;
+            
+            send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '❌', footer)] });
         }
     }
 }

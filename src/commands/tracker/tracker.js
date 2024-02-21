@@ -9,7 +9,7 @@ const command = new SlashCommandBuilder()
     .setDescription('Displays the list of MVPs that are currently tracked')
 command.aliases = ['t, tracker', 'mvps', 'bosses'];
 
-command.slashRun = async function slashRun(client, interaction ) {
+command.slashRun = async function slashRun(client, interaction) {
     const guild = await interaction.guild;
     const send = interaction.followUp.bind(interaction);
     const embedColor = client.config.embedColor;
@@ -23,15 +23,18 @@ command.slashRun = async function slashRun(client, interaction ) {
 
     const bosses = trackerChannelWithBosses.flatMap((trackerChannel) => trackerChannel.Bosses.map((boss) => boss.dataValues));
     const hasBosses = bosses.length > 0
-    const trackerFooter = `This tracker auto updates every minute, last updated at: `
+    
+    const serverTimeZone = 'America/Los_Angeles';
+    const serverTime = await getServerTime(serverTimeZone);
+    const trackerFooter = `This tracker auto updates every minute, last updated at: ${serverTime.time} `
 
     if(hasBosses) {
-        const serverTimeZone = 'America/Los_Angeles';
-        const serverTime = await getServerTime(serverTimeZone);
         const guildBosses = getGuildBosses(bosses);
         const mvpTimers = getBossTimers(guildBosses, serverTime);
         const hasMvpsTracked = mvpTimers.length > 0;
         
+        console.log(mvpTimers);
+
         if(hasMvpsTracked) {
 
             await send({ embeds: [createTrackerEmbed(mvpTimers, trackerFooter, embedColor)] });

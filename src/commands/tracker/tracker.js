@@ -42,11 +42,11 @@ command.slashRun = async function slashRun(client, interaction) {
             await send({ embeds: [createTrackerEmbed(noMvpsField, trackerFooter, embedColor)] });
         }
     } else {
-        const errorTrackerTitle = 'Error while using /tracker';
-        const errorTrackerMessage = 'There has been an error while using the command';
+        const noBossesOnTrackerListTitle = 'No bosses on the tracker list';
+        const noBossesOnTrackerListMessage = 'There are currently no bosses on the tracker \nList try using /setmvp to add them into it';
         const errorTrackerFooter = 'Please try again later or use /mvphelp to get more information';
         
-        await send({ embeds: [createMessageEmbed(errorTrackerTitle, errorTrackerMessage, embedColor, '❌', errorTrackerFooter)] });
+        await send({ embeds: [createMessageEmbed(noBossesOnTrackerListTitle, noBossesOnTrackerListMessage, embedColor, '❌', errorTrackerFooter)] });
     };
        
 }

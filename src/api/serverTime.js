@@ -7,5 +7,8 @@ export async function getServerTime(timeZone) {
     .then((response) => response.json())
     .catch((error) => {
       throw new Error(error);
-    });  
+    })
+    .finally(() => {
+      console.log(`Warning, using API call URL: ${timeZoneURL}`)
+    })
 };

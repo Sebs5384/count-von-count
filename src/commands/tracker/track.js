@@ -41,7 +41,7 @@ async function runCommand(send, guild, embedColor, mvpName, footer){
             collate: 'NOCASE'
         });
 
-        if(boss.boss_name === mvpName) {
+        if(boss) {
             const serverTimeZone = 'America/Los_Angeles';
             const serverTime = await getServerTime(serverTimeZone);
 

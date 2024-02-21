@@ -23,7 +23,7 @@ const command = new SlashCommandBuilder()
     .addIntegerOption((option) => option
         .setName('spawn-window')
         .setDescription('Input the spawn window of the MVP in minutes')
-        .setMinValue(1)
+        .setMinValue(0)
         .setMaxValue(1440)
         .setRequired(true)
     )
@@ -66,21 +66,17 @@ async function runCommand(embedColor, send, guild, bossName, bossDowntime, bossS
             const existingBoss = await Boss.findOne({
                 where: { 
                     guild_id: trackerChannel.guild_id, 
+                    boss_name: {
+                        [operator.like]: bossName
+                    }
                 },
-                options: {
-                    where: {
-                        boss_name: {
-                            [operator.like]: bossName
-                        }
-                    },
-                    collate: 'NOCASE'
-                }
+                collate: 'NOCASE'
             });
 
-            if(existingBoss && existingBoss.boss_name === bossName) {
+            if(existingBoss) {
                 
                 const existingBossTitle = `The MVP already exists`
-                const existingBossMessage = `${bossName} already exists in the tracker list`
+                const existingBossMessage = `${bossName} already exists in the tracker list as: ${existingBoss.boss_name}`
                 const existingBossFooterMessage = `If you wish to manage this MVP please check out /mvphelp`
 
                 send({ embeds: [createMessageEmbed(existingBossTitle, existingBossMessage, embedColor, '❌', existingBossFooterMessage)] })

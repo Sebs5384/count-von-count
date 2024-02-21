@@ -36,8 +36,7 @@ const command = new SlashCommandBuilder()
         .setName('emoji')
         .setDescription('This is not required but you can input an emoji for the MVP')
         .setRequired(false)
-    )
-    .setDefaultMemberPermissions(0);
+    );
 command.aliases = ['setmvp, smvp, sm'];
 
 command.slashRun = async function slashRun(client, interaction) {
@@ -76,8 +75,8 @@ async function runCommand(embedColor, send, guild, bossName, bossDowntime, bossS
                     },
                     collate: 'NOCASE'
                 }
-            })
-        
+            });
+
             if(existingBoss.boss_name === bossName) {
                 
                 const existingBossTitle = `The MVP already exists`
@@ -96,7 +95,7 @@ async function runCommand(embedColor, send, guild, bossName, bossDowntime, bossS
                         boss_emoji: bossEmoji
                     }
                 })
-
+    
                 const bossCreatedTitle = `The MVP has been created successfully`
                 const bossCreatedMessage = `${bossName} has been added to the tracker list`
                 const bossCreatedFooterMessage = `If you wish to manage this MVP please check out /mvphelp`

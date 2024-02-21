@@ -12,7 +12,6 @@ const command = new SlashCommandBuilder()
         .setDescription('Input the name of the MVP you want to track')
         .setRequired(true)
     )
-    .setDefaultMemberPermissions(0);
 command.aliases = ['t', 'track'];
 
 command.slashRun = async function slashRun(client, interaction) {

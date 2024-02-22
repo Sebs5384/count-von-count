@@ -256,7 +256,7 @@ export function getBossTimers(bosses, serverTime) {
       return;
     }
 
-    const totalMinutesWhenKilled = getTotalMinutesFromClockFormat(bossKilledAt);
+    const totalMinutesWhenKilled = bossKilledAt;
     const currentServerTimeInMinutes = getTotalMinutesFromClockFormat(currentServerTimeInClockFormat);
     const totalMinutesTillRange = getMinutesTillRange(bossDownTime, totalMinutesWhenKilled);
     const nextRange = formatToClockHour(totalMinutesTillRange);
@@ -266,7 +266,7 @@ export function getBossTimers(bosses, serverTime) {
     if(currentServerTimeInMinutes >= maxMinutesUntilMvpVanishFromTracker) {
       return;
     }
-  
+    
     const bossRange = getBossRange(mvpTimer, totalMinutesTillRange, bossSpawnWindow);
     const bossStatus = getBossStatus(currentServerTimeInMinutes, totalMinutesTillRange, bossSpawnWindow);
     const bossField = getBossField(boss, bossRange);
@@ -361,11 +361,14 @@ function getBossStatus(currentServerTimeInMinutes, minutesTillRange, bossSpawnWi
   }
 };
 
-function getTotalMinutesFromClockFormat(timeInClockFormat) {
-  const [hours, minutes] = timeInClockFormat.split(':').map((time) => Number(time));
-  const totalMinutesWhenKilled = hours * 60 + minutes;
+export function getTotalMinutesFromDate(date) {
+  const timestamp = new Date(date);
+  const hour = timestamp.getHours();
+  const minutes = timestamp.getMinutes();
 
-  return totalMinutesWhenKilled;
+  const totalMinutes = hour * 60 + minutes;
+
+  return totalMinutes;
 };
 
 function getMinutesTillRange(bossDownTime, totalMinutesWhenKilled) {

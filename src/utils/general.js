@@ -250,14 +250,15 @@ export function getBossTimers(bosses, serverTime) {
     const bossDownTime = boss.downtime;
     const bossSpawnWindow = boss.spawnWindow;
     const bossKilledAt = boss.killed;
-    const currentServerTimeInClockFormat = serverTime.time;
+    const bossKilledAtTimestamp = new Date(bossKilledAt);
+    const currentServerTimestamp = new Date(serverTime.dateTime);
 
     if(!bossKilledAt) {
       return;
     }
 
-    const totalMinutesWhenKilled = bossKilledAt;
-    const currentServerTimeInMinutes = getTotalMinutesFromClockFormat(currentServerTimeInClockFormat);
+    const totalMinutesWhenKilled = getTotalMinutesFromDate(bossKilledAtTimestamp);
+    const currentServerTimeInMinutes = getTotalMinutesFromDate(currentServerTimestamp);
     const totalMinutesTillRange = getMinutesTillRange(bossDownTime, totalMinutesWhenKilled);
     const nextRange = formatToClockHour(totalMinutesTillRange);
     const mvpTimer = (currentServerTimeInMinutes - totalMinutesWhenKilled) + totalMinutesWhenKilled;
@@ -287,7 +288,7 @@ export function getGuildBosses(bosses) {
 
   const guildBosses = [];
   for(const boss of bosses) {
-      const mvp = {
+      const bossDetails = {
           name: boss.boss_name,
           map: boss.boss_map,
           downtime: boss.boss_downtime,
@@ -296,7 +297,7 @@ export function getGuildBosses(bosses) {
           killed: boss.boss_killed_at
       }
 
-      guildBosses.push(mvp);
+      guildBosses.push(bossDetails);
   }
 
   return guildBosses;
@@ -361,8 +362,7 @@ function getBossStatus(currentServerTimeInMinutes, minutesTillRange, bossSpawnWi
   }
 };
 
-export function getTotalMinutesFromDate(date) {
-  const timestamp = new Date(date);
+export function getTotalMinutesFromDate(timestamp) {
   const hour = timestamp.getHours();
   const minutes = timestamp.getMinutes();
 

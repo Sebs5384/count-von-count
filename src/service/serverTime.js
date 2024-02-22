@@ -29,8 +29,9 @@ function updateServerTime(cachedTime, cachedServerTime, currentTime) {
         if(timeDifference > 1000) {
             const serverTime = { ...cachedServerTime };
             const updatedServerTime = new Date(serverTime.dateTime);
-    
             updatedServerTime.setSeconds(updatedServerTime.getSeconds() + Math.floor(timeDifference / 1000));
+
+            serverTime.dateTime = updatedServerTime.toISOString();
             serverTime.time = `${updatedServerTime.getHours() < 10 ? '0' : ''}${updatedServerTime.getHours()}:${updatedServerTime.getMinutes() < 10 ? '0' : ''}${updatedServerTime.getMinutes()}`
     
             return serverTime;

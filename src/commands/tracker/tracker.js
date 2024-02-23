@@ -9,7 +9,7 @@ const command = new SlashCommandBuilder()
     .setDescription('Displays the list of MVPs that are currently tracked')
 command.aliases = ['t, tracker', 'mvps', 'bosses'];
 
-command.slashRun = async function slashRun(client, interaction) {
+command.slashRun = async function slashRun(client, interaction, permaTrackerMessage, permaTrackerChannelId) {
     const guild = await interaction.guild;
     const send = interaction.followUp.bind(interaction);
     const embedColor = client.config.embedColor;
@@ -35,20 +35,35 @@ command.slashRun = async function slashRun(client, interaction) {
 
         if(hasMvpsTracked) {
 
-            await send({ embeds: [createTrackerEmbed(mvpTimers, trackerFooter, embedColor)] });
+            if(permaTrackerMessage && permaTrackerChannelId) {
+
+                await permaTrackerMessage.edit({ embeds: [createTrackerEmbed(mvpTimers, trackerFooter, embedColor)] });
+                return;
+            }
+
+            const mvpList = await send({ embeds: [createTrackerEmbed(mvpTimers, trackerFooter, embedColor)] });
+            return mvpList;
         } else {
 
             const noMvpsField = { name: 'No mvps currently tracked 🛑', value: 'Its quiet for now, go get some bosses !' }
-            await send({ embeds: [createTrackerEmbed(noMvpsField, trackerFooter, embedColor)] });
+
+            if(permaTrackerMessage && permaTrackerChannelId) {
+                await permaTrackerMessage.edit({ embeds: [createTrackerEmbed(noMvpsField, trackerFooter, embedColor)] });
+                return;
+            }
+            
+            const noMvps = await send({ embeds: [createTrackerEmbed(noMvpsField, trackerFooter, embedColor)] });
+            return noMvps;
         }
     } else {
         const noBossesOnTrackerListTitle = 'No bosses on the tracker list';
         const noBossesOnTrackerListMessage = 'There are currently no bosses on the tracker \nList try using /setmvp to add them into it';
         const errorTrackerFooter = 'Please try again later or use /mvphelp to get more information';
         
-        await send({ embeds: [createMessageEmbed(noBossesOnTrackerListTitle, noBossesOnTrackerListMessage, embedColor, '❌', errorTrackerFooter)] });
+        const noBossesOnTrackerList = await send({ embeds: [createMessageEmbed(noBossesOnTrackerListTitle, noBossesOnTrackerListMessage, embedColor, '❌', errorTrackerFooter)] });
+        
+        return noBossesOnTrackerList;
     };
-       
 }
 
 export default command;

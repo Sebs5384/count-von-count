@@ -24,9 +24,9 @@ command.slashRun = async function slashRun(client, interaction, permaTrackerMess
     const bosses = trackerChannelWithBosses.flatMap((trackerChannel) => trackerChannel.Bosses.map((boss) => boss.dataValues));
     const hasBosses = bosses.length > 0
     
-    const serverTimeZone = 'Europe/Paris';
+    const serverTimeZone = 'America/Los_Angeles';
     const serverTime = await getServerTime(serverTimeZone);
-    const trackerFooter = `Tracker updates every minute, last updated at: ${serverTime.date} ${serverTime.time} Server Time (${serverTimeZone})`;
+    const trackerFooter = `Tracker updates every minute, last updated at: ${serverTime.date} ${serverTime.time} Server Time \n(${serverTimeZone.replace('_', ' ')})`;
 
     if(hasBosses) {
         const guildBosses = getGuildBosses(bosses);

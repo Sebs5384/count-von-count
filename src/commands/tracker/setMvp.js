@@ -62,6 +62,15 @@ async function runCommand(embedColor, send, guild, bossName, bossDowntime, bossS
             const trackerChannel = await TrackerChannel.findOne({
                 where: { guild_id: guild.id }
             })
+
+            if(!trackerChannel) {
+                const noTrackerTitle = 'No tracker channel found'
+                const noTrackerMessage = 'Please configure the tracker channel first'
+                const noTrackerFooter = 'Use /settrackerchannel to create your own tracker channel'
+
+                await send({ embeds: [createMessageEmbed(noTrackerTitle, noTrackerMessage, embedColor, '❌', noTrackerFooter)] })
+                return; 
+            }
         
             const existingBoss = await Boss.findOne({
                 where: { 
@@ -107,7 +116,13 @@ async function runCommand(embedColor, send, guild, bossName, bossDowntime, bossS
                 };
             };
         } catch (error) {
-            console.error(`There was an error while executing this command: ${error}`);
+
+            console.error(`Error while creating the MVP: ${error}`);
+            const errorMessageTitle = `Error while creating the MVP`
+            const errorMessage = `There was an error while creating this entry for ${bossName}`
+            const errorMessageFooterMessage = `If you wish to manage this MVP please check out /mvphelp`
+
+            send({ embeds: [createMessageEmbed(errorMessageTitle, errorMessage, embedColor, '❌', errorMessageFooterMessage)] })
         }
     } else {
         const invalidMessageTitle = `Invalid values provided`

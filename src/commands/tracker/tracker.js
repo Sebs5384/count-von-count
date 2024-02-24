@@ -24,9 +24,9 @@ command.slashRun = async function slashRun(client, interaction, permaTrackerMess
     const bosses = trackerChannelWithBosses.flatMap((trackerChannel) => trackerChannel.Bosses.map((boss) => boss.dataValues));
     const hasBosses = bosses.length > 0
     
-    const serverTimeZone = 'America/Los_Angeles';
+    const serverTimeZone = 'Europe/Paris';
     const serverTime = await getServerTime(serverTimeZone);
-    const trackerFooter = `This tracker auto updates every minute, last updated at: ${serverTime.time} Server Time `
+    const trackerFooter = `Tracker updates every minute, last updated at: ${serverTime.date} ${serverTime.time} Server Time (${serverTimeZone})`;
 
     if(hasBosses) {
         const guildBosses = getGuildBosses(bosses);
@@ -60,8 +60,12 @@ command.slashRun = async function slashRun(client, interaction, permaTrackerMess
         const noBossesOnTrackerListMessage = 'There are currently no bosses on the tracker \nList try using /setmvp to add them into it';
         const errorTrackerFooter = 'Please try again later or use /mvphelp to get more information';
         
+        if(permaTrackerMessage && permaTrackerChannelId) {
+            await permaTrackerMessage.edit({ embeds: [createMessageEmbed(noBossesOnTrackerListTitle, noBossesOnTrackerListMessage, embedColor, '❌', errorTrackerFooter)] });
+            return;
+        }
+
         const noBossesOnTrackerList = await send({ embeds: [createMessageEmbed(noBossesOnTrackerListTitle, noBossesOnTrackerListMessage, embedColor, '❌', errorTrackerFooter)] });
-        
         return noBossesOnTrackerList;
     };
 }

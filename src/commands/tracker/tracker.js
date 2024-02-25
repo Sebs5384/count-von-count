@@ -26,7 +26,7 @@ command.slashRun = async function slashRun(client, interaction, permaTrackerMess
     
     const serverTimeZone = 'America/Los_Angeles';
     const serverTime = await getServerTime(serverTimeZone);
-    const trackerFooter = `Tracker updates every minute, last updated at: ${serverTime.date} ${serverTime.time} Server Time \n(${serverTimeZone.replace('_', ' ')})`;
+    const trackerFooter = `Tracker updates every minute, last updated at: ${serverTime.date} ${serverTime.time} Server Time \nCurrent Location: (${serverTimeZone.replace('_', ' ')})`;
 
     if(hasBosses) {
         const guildBosses = getGuildBosses(bosses);

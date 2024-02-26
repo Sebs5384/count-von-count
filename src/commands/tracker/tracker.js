@@ -30,30 +30,30 @@ command.slashRun = async function slashRun(client, interaction, permaTrackerMess
 
     if(hasBosses) {
         const guildBosses = getGuildBosses(bosses);
-        const mvpTimers = getBossTimers(guildBosses, serverTime);
-        const hasMvpsTracked = mvpTimers.length > 0;
+        const bossTimers = getBossTimers(guildBosses, serverTime);
+        const hasBossesTracked = bossTimers.length > 0;
 
-        if(hasMvpsTracked) {
+        if(hasBossesTracked) {
 
             if(permaTrackerMessage && permaTrackerChannelId) {
 
-                await permaTrackerMessage.edit({ embeds: [createTrackerEmbed(mvpTimers, trackerFooter, embedColor)] });
+                await permaTrackerMessage.edit({ embeds: [createTrackerEmbed(bossTimers, trackerFooter, embedColor)] });
                 return;
             }
 
-            const mvpList = await send({ embeds: [createTrackerEmbed(mvpTimers, trackerFooter, embedColor)] });
-            return mvpList;
+            const bossList = await send({ embeds: [createTrackerEmbed(bossTimers, trackerFooter, embedColor)] });
+            return bossList;
         } else {
 
-            const noMvpsField = { name: 'No mvps currently tracked 🛑', value: 'Its quiet for now, go get some bosses !' }
+            const noBossesField = { name: 'No mvps currently tracked 🛑', value: 'Its quiet for now, go get some bosses !' }
 
             if(permaTrackerMessage && permaTrackerChannelId) {
-                await permaTrackerMessage.edit({ embeds: [createTrackerEmbed(noMvpsField, trackerFooter, embedColor)] });
+                await permaTrackerMessage.edit({ embeds: [createTrackerEmbed(noBossesField, trackerFooter, embedColor)] });
                 return;
             }
             
-            const noMvps = await send({ embeds: [createTrackerEmbed(noMvpsField, trackerFooter, embedColor)] });
-            return noMvps;
+            const noBosses = await send({ embeds: [createTrackerEmbed(noBossesField, trackerFooter, embedColor)] });
+            return noBosses;
         }
     } else {
         const noBossesOnTrackerListTitle = 'No bosses on the tracker list';

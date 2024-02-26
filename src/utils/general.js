@@ -272,6 +272,7 @@ export function getBossTimers(bosses, serverTime) {
     const bossKilledAtDay = bossKilledAtTimestamp.getDate();
     const currentServerDay = currentServerTimestamp.getDate();
     const MINUTES_IN_DAY = 1440; 
+    const ONE_HOUR = 60;
 
     if(!bossKilledAt) {
       return;
@@ -279,25 +280,35 @@ export function getBossTimers(bosses, serverTime) {
 
     const currentServerTimeInMinutes = getTotalMinutesFromDate(currentServerTimestamp);
     const totalMinutesWhenKilled = getTotalMinutesFromDate(bossKilledAtTimestamp);
-    const totalMinutesTillRange = getMinutesTillRange(bossDownTime, totalMinutesWhenKilled);
+    let totalMinutesTillRange = getMinutesTillRange(bossDownTime, totalMinutesWhenKilled);
     const nextRange = formatToClockHour(totalMinutesTillRange);
 
     let timeElapsedSinceKilled = (currentServerTimeInMinutes - totalMinutesWhenKilled) + totalMinutesWhenKilled;
     const maxMinutesUntilMvpVanishFromTracker = (totalMinutesWhenKilled + (bossDownTime + bossSpawnWindow * 2))
 
+    let bossRemainingDowntime;
+    let bossRemainingTimeTillSpawn;
+
     if(currentServerDay !== bossKilledAtDay) {
-      if(totalMinutesTillRange < MINUTES_IN_DAY) {
+      if(totalMinutesTillRange + bossSpawnWindow < MINUTES_IN_DAY) {
         return;
       }
 
       timeElapsedSinceKilled = (currentServerTimeInMinutes + MINUTES_IN_DAY - totalMinutesWhenKilled) + totalMinutesWhenKilled;
+
+      bossRemainingDowntime = totalMinutesTillRange - timeElapsedSinceKilled;
+      bossRemainingTimeTillSpawn = (bossSpawnWindow + totalMinutesTillRange) - timeElapsedSinceKilled;
+    } else {
+      
+      bossRemainingDowntime = totalMinutesTillRange - timeElapsedSinceKilled;
+      bossRemainingTimeTillSpawn = (bossSpawnWindow + totalMinutesTillRange) - timeElapsedSinceKilled;
     }
 
     if(timeElapsedSinceKilled > maxMinutesUntilMvpVanishFromTracker) {
       return;
     }
 
-    const bossRange = getBossRange(timeElapsedSinceKilled, totalMinutesTillRange, bossSpawnWindow);
+    const bossRange = getBossRange(bossRemainingDowntime, bossRemainingTimeTillSpawn);
     const bossStatus = getBossStatus(currentServerTimeInMinutes, totalMinutesTillRange, bossSpawnWindow);
     const bossField = getBossField(boss, bossRange);
 
@@ -313,10 +324,7 @@ export function getBossTimers(bosses, serverTime) {
   return filteredBossTimers;
 };
 
-function getBossRange(timeElapsedSinceKilled, totalMinutesTillRange, bossSpawnWindow) {
-  const bossRemainingDownTime = totalMinutesTillRange - timeElapsedSinceKilled;
-  const bossRemainingTimeTillSpawn = (bossSpawnWindow + totalMinutesTillRange) - timeElapsedSinceKilled;
-
+function getBossRange(bossRemainingDownTime, bossRemainingTimeTillSpawn) {
   const remainingDownTimeInHours = Math.floor(bossRemainingDownTime / 60);
   const remainingDownTimeInMinutes = bossRemainingDownTime % 60;
 
@@ -334,7 +342,6 @@ function getBossRange(timeElapsedSinceKilled, totalMinutesTillRange, bossSpawnWi
 };
 
 function getBossField(boss, bossRange) {
-    
   let downTimeHours = bossRange.remainingDownTimeInHours;
   let downTimeMinutes = bossRange.remainingDownTimeInMinutes;
   let spawnWindowHours = bossRange.remainingTimeTillSpawnInHours;
@@ -343,9 +350,7 @@ function getBossField(boss, bossRange) {
   const formatTime = (hours, minutes) => {
     let timeString = "";    
     
-    if(hours < 0) { 
-      timeString += ''
-    } else if(hours !== 0) {
+    if(hours !== 0) {
       timeString += `${Math.abs(hours)} ${hours === 1 ? "hour" : "hours"} `;
     } 
 

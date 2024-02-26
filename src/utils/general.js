@@ -397,6 +397,25 @@ function getBossStatus(currentServerTimeInMinutes, minutesTillRange, bossSpawnWi
   }
 };
 
+export function getBossValuesField(boss) {
+  const downtimeHours = Math.floor(boss.downtime / 60);
+  const downtimeMinutes = boss.downtime % 60;
+  const spawnWindowHours = Math.floor(boss.spawnWindow / 60);
+  const spawnWindowMinutes = boss.spawnWindow % 60;
+  
+  const downtimeHourString = `${downtimeHours !== 0 ? `${downtimeHours !== 1 ? `${downtimeHours} hours` : `${downtimeHours} hour`}` : ''}`
+  const downtimeMinutesString = `${downtimeMinutes !== 0 ? `${downtimeMinutes !== 1 ? `${downtimeMinutes} minutes` : `${downtimeMinutes} minute`}` : ''}`
+  const spawnWindowHourString = `${spawnWindowHours !== 0 ? `${spawnWindowHours !== 1 ? `${spawnWindowHours} hours` : `${spawnWindowHours} hour`}` : ''}`
+  const spawnWindowMinutesString = `${spawnWindowMinutes !== 0 ? `${spawnWindowMinutes !== 1 ? `${spawnWindowMinutes} minutes` : `${spawnWindowMinutes} minute`}` : ''}`
+
+  return {
+    name: `Name: ${boss.name}  ${boss.emoji ? boss.emoji : ''}`,
+    value: `Map of Spawn: ${boss.map}
+    Downtime: ${downtimeHourString} ${downtimeMinutesString}
+    Spawn Window: ${spawnWindowHourString} ${spawnWindowMinutesString}`
+  }
+}
+
 export function getTotalMinutesFromDate(timestamp) {
   const hour = timestamp.getHours();
   const minutes = timestamp.getMinutes();

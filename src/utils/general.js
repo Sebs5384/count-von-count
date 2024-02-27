@@ -208,14 +208,16 @@ export async function getCommandsByFolder(client, folderPath) {
   const path = await import('node:path');
   const commandFiles = fs.readdirSync(folderPath).filter((file) => file.endsWith('.js'));
 
+  const folderCommands = [];
+
   for(const file of commandFiles) {
     const filePath = path.join(folderPath, file);
     const { default: command } = await import(`../../${filePath}`);
 
-    client.commands.set(command.name, command);
+    folderCommands.push(command);
   };
 
-  return client.commands
+  return folderCommands;
 };
 
 export async function getCategoryValues(guild, typeOfChannel) {

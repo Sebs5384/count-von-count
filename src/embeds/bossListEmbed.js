@@ -7,7 +7,7 @@ function createBossListEmbed(bossList, guild, embedColor) {
         .setDescription(`**Here's the list of all the MvPs that are currently settled**.\nCurrent amount: ${bossList.length}`)
         .addFields(bossList)
         .setColor(embedColor)
-        .setFooter({ text: 'If you wish to manage these bosses use /editmvp, /removemvp or /setmvp to create a new one' });
+        .setFooter({ text: 'If you wish to manage these bosses use /editmvp, /removemvp or /setmvp' });
 };
 
 export default createBossListEmbed;

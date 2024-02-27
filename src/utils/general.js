@@ -201,37 +201,7 @@ export function getBirthdayList(userList, birthdayDate, remainingTime) {
   ).join('\n');
 
   return birthdayList;
-}
-
-export function getCommandByType(commands) {
-  const commandTypes = {};
-
-  commands.forEach((command) => {
-      const typeKeys = Object.keys(commandTypes);
-      const commandType = typeKeys.find(type => command.name.includes(type));
-
-      if(commandType) {
-          commandTypes[commandType].push(command);
-      } else {
-          commandTypes[command.name] = [command];
-      }
-  });
-
-  return commandTypes;
-}
-
-export function getCommands(commands) {
-  const commandName = {};
-  for(const type in commands) {
-      const commandType = commands[type];
-
-      for(const command of commandType) {
-        commandName[command.name] = command;
-      }
-  }
-
-  return commandName;
-}
+};
 
 export async function getCategoryValues(guild, typeOfChannel) {
   const categoriesChannel = await guild.channels.cache.filter(channel => channel.type === typeOfChannel);
@@ -411,8 +381,9 @@ export function getBossValuesField(boss) {
   return {
     name: `Name: ${boss.name}  ${boss.emoji ? boss.emoji : ''}`,
     value: `Map of Spawn: ${boss.map}
-    Downtime: ${downtimeHourString} ${downtimeMinutesString}
-    Spawn Window: ${spawnWindowHourString} ${spawnWindowMinutesString}`
+    Downtime: ${downtimeHourString} ${downtimeMinutesString} / Spawn Window: ${spawnWindowHourString} ${spawnWindowMinutesString}
+    Aliases: '' 
+    `
   }
 }
 

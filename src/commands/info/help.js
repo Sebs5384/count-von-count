@@ -1,11 +1,10 @@
 import { SlashCommandBuilder } from "discord.js";
-import { getCommandByType, getCommands } from "../../utils/general.js";
 import { createHelpEmbed } from "../../embeds/index.js";
 
 
 const command = new SlashCommandBuilder()
     .setName('help')
-    .setDescription('Shows all the commands and descriptions')
+    .setDescription('Shows all the commands and their descriptions')
 command.aliases = ['h', 'commands', 'cmds'];
 
 command.slashRun = async function slashRun(client, interaction) {
@@ -20,10 +19,7 @@ async function runCommand(client, guild, send) {
     const embedColor = client.config.embedColor;
     const commands = client.commands;
     const botIcon = countVonCount.displayAvatarURL({ dynamic: true, size: 2048 })
-    const commandByType = getCommandByType(commands);
-    const commandList = getCommands(commandByType);
-    const commandsMessage = `${Object.values(commandList).map(command => `\`${command.name}\`: \`${command.description}\``).join('\n')}`
-
+    const commandsMessage = `${commands.map(command => `\`${command.name}\`: \`${command.description}\``).join('\n')}`
 
     send({embeds: [createHelpEmbed(commandsMessage, embedColor, botIcon)]});
 }

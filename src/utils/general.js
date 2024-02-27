@@ -203,6 +203,21 @@ export function getBirthdayList(userList, birthdayDate, remainingTime) {
   return birthdayList;
 };
 
+export async function getCommandsByFolder(client, folderPath) {
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const commandFiles = fs.readdirSync(folderPath).filter((file) => file.endsWith('.js'));
+
+  for(const file of commandFiles) {
+    const filePath = path.join(folderPath, file);
+    const { default: command } = await import(`../../${filePath}`);
+
+    client.commands.set(command.name, command);
+  };
+
+  return client.commands
+};
+
 export async function getCategoryValues(guild, typeOfChannel) {
   const categoriesChannel = await guild.channels.cache.filter(channel => channel.type === typeOfChannel);
   const categoryValues = categoriesChannel.map(channel => {

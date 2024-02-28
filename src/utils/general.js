@@ -404,6 +404,16 @@ export function getBossValuesField(boss) {
   }
 }
 
+export function getMvpHelpFieldValue(commandsFromTracker) {
+  const fieldValue = `${commandsFromTracker.map((command) => {
+      return `\`${command.name}\`: \`${command.description}\`
+          \`Options:\` ${command.options.length > 0 ? command.options.map(option => `\`${option.name}\``).join(', ') : `\`None\``}
+      `; 
+  }).join('\n')}`;
+
+  return fieldValue;
+};
+
 export function getTotalMinutesFromDate(timestamp) {
   const hour = timestamp.getHours();
   const minutes = timestamp.getMinutes();

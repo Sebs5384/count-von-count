@@ -8,7 +8,7 @@ const command = new SlashCommandBuilder()
     .setDescription('Removes an MVP From the tracker list permanently')
     .addStringOption((option) => option
         .setName('name')
-        .setDescription('Input the name of the MVP to be removed')
+        .setDescription('Input the name of the MVP to be removed e.g Kraken, required field')
         .setMaxLength(30)
         .setRequired(true)
     )

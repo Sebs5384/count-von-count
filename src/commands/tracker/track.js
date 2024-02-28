@@ -10,12 +10,12 @@ const command = new SlashCommandBuilder()
     .setDescription('Tracks an MVP')
     .addStringOption((option) => option
         .setName('mvp-name')
-        .setDescription('Input the name of the MVP you want to track')
+        .setDescription('Input the name of the MVP you want to track e.g Kraken, required field')
         .setRequired(true)
     )
     .addIntegerOption((option) => option
         .setName('stimate')
-        .setDescription('Input the stimate of the kill in minutes')
+        .setDescription('Input the stimate of the kill in minutes e.g 10 to add and -10 to subtract time, optional field')
         .setRequired(false)
     )
 command.aliases = ['t', 'track'];

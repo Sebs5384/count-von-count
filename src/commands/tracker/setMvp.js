@@ -9,32 +9,32 @@ const command = new SlashCommandBuilder()
     .setDescription('Configures the MVP characteristics')
     .addStringOption((option) => option
         .setName('name')
-        .setDescription('Input the name of the MVP')
+        .setDescription('Input the name of the MVP e.g Kraken, required field')
         .setMaxLength(30)
         .setRequired(true)
     )
     .addIntegerOption((option) => option
         .setName('downtime')
-        .setDescription('Input the downtime of the MVP in minutes')
+        .setDescription('Input the downtime of the MVP in minutes e.g 100 (1:40HS), required field')
         .setMinValue(1)
         .setMaxValue(1440)
         .setRequired(true)
     )
     .addIntegerOption((option) => option
         .setName('spawn-window')
-        .setDescription('Input the spawn window of the MVP in minutes')
+        .setDescription('Input the spawn window of the MVP in minutes e.g 70 (1:10HS), required field')
         .setMinValue(0)
         .setMaxValue(1440)
         .setRequired(true)
     )
     .addStringOption((option) => option
         .setName('map')
-        .setDescription('Input the name of the map with the following format e.g prt_fild01')
+        .setDescription('Input the name of the map with the following formats e.g iz_dun05, geffenia, abbey03, required field')
         .setRequired(true)
     )
     .addStringOption((option) => option
         .setName('emoji')
-        .setDescription('This is not required but you can input an emoji for the MVP')
+        .setDescription('This is not required but you can input an emoji for the MVP e.g 🐙, optional field')
         .setRequired(false)
     );
 command.aliases = ['setmvp, smvp, sm'];

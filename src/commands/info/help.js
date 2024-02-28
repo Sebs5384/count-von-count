@@ -24,8 +24,9 @@ async function runCommand(client, guild, send) {
     const helpDescription = `**Here is a list of all commands available and their descriptions**`
     const helpFieldName = '**Commands**'
     const helpFieldValue = `${commands.map(command => `\`${command.name}\`: \`${command.description}\``).join('\n')}`
+    const helpFooter = 'Ha ha ha glad to help you !'
 
-    send({embeds: [createInfoEmbed(helpTitle, helpDescription, helpFieldName, helpFieldValue, embedColor, botIcon)]});
+    send({embeds: [createInfoEmbed(helpTitle, helpDescription, helpFieldName, helpFieldValue, helpFooter, embedColor, botIcon)]});
 }
 
 export default command;

@@ -1,12 +1,12 @@
 import { EmbedBuilder } from "discord.js";
 
-function createInfoEmbed(authorMessage, descriptionMessage, fieldName, fieldValue, embedColor, botIcon) {
+function createInfoEmbed(authorMessage, descriptionMessage, fieldName, fieldValue, footer, embedColor, botIcon) {
 
     return new EmbedBuilder()
         .setAuthor({ name: authorMessage, iconURL: botIcon })
         .setDescription(descriptionMessage)
         .addFields({name: fieldName, value: fieldValue})
-        .setFooter({ text: 'Ha ha ha, glad to help you !'})
+        .setFooter({ text: footer })
         .setColor(embedColor)
 }
 

@@ -8,7 +8,7 @@ const command = new SlashCommandBuilder()
     .setName('setmvp')
     .setDescription('Configures the MVP characteristics')
     .addStringOption((option) => option
-        .setName('name')
+        .setName('mvp-name')
         .setDescription('Input the name of the MVP e.g Kraken, required field')
         .setMaxLength(30)
         .setRequired(true)

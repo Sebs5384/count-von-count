@@ -7,7 +7,7 @@ import { TrackerChannel } from "../../models/index.js";
 
 const command = new SlashCommandBuilder()
     .setName('settrackerchannel')
-    .setDescription('Sets the category where the perma-tracker channel will be created')
+    .setDescription('Set the category where tracker channels will be created')
     .setDefaultMemberPermissions(0);
 command.aliases = ['configtracker, ctracker'];
 

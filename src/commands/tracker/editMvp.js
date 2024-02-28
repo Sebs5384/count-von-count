@@ -8,7 +8,7 @@ const command = new SlashCommandBuilder()
     .setName('editmvp')
     .setDescription('Edits an MVP characteristics')
     .addStringOption((option) => option
-        .setName('name')
+        .setName('current-name')
         .setDescription('Input the current name of the MVP to be edited e.g Kraken, required field')
         .setMaxLength(30)
         .setRequired(true)

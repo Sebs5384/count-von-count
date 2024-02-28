@@ -5,7 +5,7 @@ import { getBossValuesField, getGuildBosses } from "../../utils/general.js";
 
 const command = new SlashCommandBuilder()
     .setName('listmvp')
-    .setDescription('Displays the list of MVPs that are currently settled on your guild')
+    .setDescription('Displays the list of MVPs that are currently settled on guild')
 command.aliases = ['lm', 'listmvp', 'lmvp'];
 
 command.slashRun = async function slashRun(client, interaction) {

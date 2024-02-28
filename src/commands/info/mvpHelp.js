@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "discord.js";
-import { getCommandsByFolder } from "../../utils/general.js";
+import { getCommandsByFolder, getMvpHelpFieldValue } from "../../utils/general.js";
 import { createInfoEmbed } from "../../embeds/index.js";
 
 const command = new SlashCommandBuilder()
@@ -19,12 +19,17 @@ async function runCommand(client, guild, send) {
     const countVonCount = await client.users.fetch(client.config.botId);
     const commandsFromTracker = await getCommandsByFolder(client, trackerFolderPath);
     
-    const mvpHelpTitle = `**List of commands related to the MvP Tracker 📖**`;
-    const mvpHelpDescription = `**Below is a description of each command and a brief explanation of usage**`;
+    const mvpHelpTitle = `List of commands related to the MvP Tracker 🔍`;
+    const mvpHelpDescription = `**Below is a description of each command and their options**`;
     const mvpHelpFieldName = `**Tracker commands**`
-    
-    const commandsWithOptions = commandsFromTracker.filter(command => command.options.length > 0);
-    
+    const mvpHelpFieldValue = getMvpHelpFieldValue(commandsFromTracker);
+    const mvpHelpFooter = `If you wish to obtain more information of an specific command use /mvphelp <command>`
+    const botIcon = countVonCount.displayAvatarURL({ dynamic: true, size: 2048 });
+    const embedColor = client.config.embedColor;
+
+   
+    await send({ embeds: [createInfoEmbed(mvpHelpTitle, mvpHelpDescription, mvpHelpFieldName, mvpHelpFieldValue, mvpHelpFooter, embedColor, botIcon)] });
+
 };
 
 export default command

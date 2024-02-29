@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "discord.js";
-import { getCommandsByFolder, getMvpHelpFieldValue } from "../../utils/general.js";
+import { getCommandsByFolder, getMvpHelpFieldValue, getCommandOptionValues } from "../../utils/general.js";
 import { createInfoEmbed } from "../../embeds/index.js";
 
 const command = new SlashCommandBuilder()
@@ -34,7 +34,7 @@ async function runCommand(client, guild, send, commandName) {
         const mvpHelpTitle = `Command selected 🔍`;
         const mvpHelpDescription = '**Below is the description of the command, its options and usage**';
         const mvpHelpFieldName = `**Name: /${selectedCommand.name}\nDescription: ${selectedCommand.description}**\n\n**Options**`;
-        const mvpHelpFieldValue = getMvpHelpFieldValue(selectedCommandOptions);
+        const mvpHelpFieldValue = getCommandOptionValues(selectedCommandOptions);
         const mvpHelpFooter = `If you wish to see the full list run /mvphelp with no command name`;
 
         await send({ embeds: [createInfoEmbed(mvpHelpTitle, mvpHelpDescription, mvpHelpFieldName, mvpHelpFieldValue, mvpHelpFooter, embedColor, botIcon)] });

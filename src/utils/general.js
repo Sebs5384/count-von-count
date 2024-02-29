@@ -405,13 +405,15 @@ export function getBossValuesField(boss) {
 }
 
 export function getMvpHelpFieldValue(commandsFromTracker) {
-  const fieldValue = `${commandsFromTracker.map((command) => {
+  if(!commandsFromTracker.length){
+    return `\n${commandsFromTracker.length > 0 ? commandsFromTracker.map(option => `\`${option.name}: ${option.description}\``).join('\n\n') : `\`This command have no options\``}`
+  } else {
+    return `${commandsFromTracker.map((command) => {
       return `\`${command.name}\`: \`${command.description}\`
-          \`Options:\` ${command.options.length > 0 ? command.options.map(option => `\`${option.name}\``).join(', ') : `\`None\``}
+        \`Options:\` ${command.options.length > 0 ? command.options.map(option => `\`${option.name}\``).join(', ') : `\`None\``}
       `; 
   }).join('\n')}`;
-
-  return fieldValue;
+  };
 };
 
 export function getTotalMinutesFromDate(timestamp) {

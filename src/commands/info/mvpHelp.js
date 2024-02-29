@@ -29,11 +29,13 @@ async function runCommand(client, guild, send, commandName) {
     
     if (commandName) {
         const selectedCommand = commandsFromTracker.find((command) => command.name === commandName);
+        const selectedCommandOptions = selectedCommand.options;
+
         const mvpHelpTitle = `Command selected 🔍`;
-        const mvpHelpDescription = '**Below is the description of the command its options and usage**';
-        const mvpHelpFieldName = `**Name: /${selectedCommand.name}\nDescription: ${selectedCommand.description}**\n\n**Options**`
-        const mvpHelpFooter = `If you wish to see the full list run /mvphelp with no command name`
-        const mvpHelpFieldValue = `\n${selectedCommand.options.length > 0 ? selectedCommand.options.map(option => `\`${option.name}: ${option.description}\``).join('\n\n') : `\`This command have no options\``}`
+        const mvpHelpDescription = '**Below is the description of the command, its options and usage**';
+        const mvpHelpFieldName = `**Name: /${selectedCommand.name}\nDescription: ${selectedCommand.description}**\n\n**Options**`;
+        const mvpHelpFieldValue = getMvpHelpFieldValue(selectedCommandOptions);
+        const mvpHelpFooter = `If you wish to see the full list run /mvphelp with no command name`;
 
         await send({ embeds: [createInfoEmbed(mvpHelpTitle, mvpHelpDescription, mvpHelpFieldName, mvpHelpFieldValue, mvpHelpFooter, embedColor, botIcon)] });
     } else {

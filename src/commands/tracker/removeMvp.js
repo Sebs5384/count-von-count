@@ -19,8 +19,7 @@ command.slashRun = async function slashRun(client, interaction) {
     const guild = await interaction.guild;
     const embedColor = client.config.embedColor;
 
-    const bossName = interaction.options.getString('name');
-
+    const bossName = interaction.options.getString('mvp-name');
 
     await runCommand(send, guild, embedColor, bossName);
 };

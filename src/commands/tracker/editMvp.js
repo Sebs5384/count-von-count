@@ -50,7 +50,7 @@ command.slashRun = async function slashRun(client, interaction) {
     const guild = await interaction.guild
     const embedColor = client.config.embedColor
 
-    const bossName = interaction.options.getString('name');
+    const bossName = interaction.options.getString('current-name');
     const newBossName = interaction.options.getString('new-name');
     const newDowntime = interaction.options.getInteger('new-downtime');
     const newSpawnWindow = interaction.options.getInteger('new-spawn-window');

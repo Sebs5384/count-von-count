@@ -248,6 +248,10 @@ export function formatBossesData(bosses) {
   return guildBosses;
 }
 
+export function filterBossTimers(bossTimers) {
+  bossTimers.filter(field => field)
+};
+
 export function getBossTimers(bosses, serverTime) {
 
   const bossTimers =  bosses.map((boss) => {
@@ -259,14 +263,8 @@ export function getBossTimers(bosses, serverTime) {
     const bossFullRange = bossDowntime + bossSpawnWindow;
     const bossKilledAtTimestamp = new Date(bossKilledAt);
     const currentServerTimestamp = new Date(serverTime.dateTime);
-    const bossKilledAtDay = bossKilledAtTimestamp.getDate();
-    const currentServerDay = currentServerTimestamp.getDate();
-    const MINUTES_IN_DAY = 1440; 
-    const ONE_HOUR = 60;
 
-    if(!bossKilledAt) {
-      return;
-    }
+    if(!bossKilledAt) return;
 
     const currentServerTimeInMinutes = getTotalMinutesFromDate(currentServerTimestamp); 
     const totalMinutesWhenKilled = getTotalMinutesFromDate(bossKilledAtTimestamp);
@@ -277,27 +275,37 @@ export function getBossTimers(bosses, serverTime) {
 
     const bossRemainingDowntime = (bossDowntime - timeElapsedSinceKilled);
     const bossRemainingTimeTillSpawn = (bossFullRange - timeElapsedSinceKilled);
+    const minutesTillBossVanishFromTracker = -(bossFullRange / 2);
+
+    if(bossRemainingTimeTillSpawn < minutesTillBossVanishFromTracker) {
+      return {
+        bossToRemove: bossName,
+      }
+    }
+
     const formattedRangeTiming = formatBossTimeMinutes(bossRemainingDowntime, bossRemainingTimeTillSpawn);
+    const bossStatus = getBossStatus(bossRemainingDowntime, bossRemainingTimeTillSpawn);
+    const bossTitleString = getBossTitleString(bossName, bossEmoji, bossStatus, nextRange)
     const bossRangeString = getBossRangeString(formattedRangeTiming);
-    const bossStatus = getBossStatus(bossRemainingDowntime, bossRemainingTimeTillSpawn); 
 
     return {
-      name: `${bossEmoji ? `${bossEmoji}` : ''} ${bossName} ${bossStatus ? `(${bossStatus})` : ''}  \nStart Time: ${nextRange}`,
+      name: bossTitleString,
       value: bossRangeString,
       inline: true
     };
   });
-  
-  const filteredBossTimers = bossTimers.filter(field => field)
 
-  return filteredBossTimers;
+  return bossTimers;
 };
 
 function formatBossTimeMinutes(bossRemainingDowntime, bossRemainingTimeTillSpawn) {
-  const remainingDowntimeInHours = Math.floor(bossRemainingDowntime / 60);
+  const isPastDowntime = bossRemainingDowntime < 0;
+  const isPastSpawn = bossRemainingTimeTillSpawn < 0;
+
+  const remainingDowntimeInHours = isPastDowntime ? Math.ceil(bossRemainingDowntime / 60) : Math.floor(bossRemainingDowntime / 60);
   const remainingDowntimeInMinutes = bossRemainingDowntime % 60;
 
-  const remainingTimeTillSpawnInHours = Math.floor(bossRemainingTimeTillSpawn / 60);
+  const remainingTimeTillSpawnInHours = isPastSpawn ? Math.ceil(bossRemainingTimeTillSpawn / 60) : Math.floor(bossRemainingTimeTillSpawn / 60);
   const remainingTimeTillSpawnInMinutes = bossRemainingTimeTillSpawn % 60;
 
   const bossRemainingTime = {
@@ -310,6 +318,10 @@ function formatBossTimeMinutes(bossRemainingDowntime, bossRemainingTimeTillSpawn
   return bossRemainingTime;
 };
 
+function getBossTitleString(bossName, bossEmoji, bossStatus, nextRange) {
+  return `${bossEmoji ? `${bossEmoji}` : ''} ${bossName} ${bossStatus ? `(${bossStatus})` : ''}  \nStart Time: ${nextRange}`;
+}
+
 function getBossRangeString(bossRange) {
   const downtimeHours = bossRange.remainingDowntimeInHours;
   const downtimeMinutes = bossRange.remainingDowntimeInMinutes;
@@ -318,24 +330,25 @@ function getBossRangeString(bossRange) {
   let downtimeRangeString = "";
   let spawnWindowRangeString = "";    
   
+
   if(downtimeHours !== 0) downtimeRangeString += `${Math.abs(downtimeHours)} ${downtimeHours === 1 ? "hour" : "hours"} `;
   if(downtimeMinutes !== 0) downtimeRangeString += `${Math.abs(downtimeMinutes)} ${downtimeMinutes === 1 ? "minute" : "minutes"}`;
 
   if(spawnWindowHours !== 0) spawnWindowRangeString += `${Math.abs(spawnWindowHours)} ${spawnWindowHours === 1 ? "hour" : "hours"} `;
   if(spawnWindowMinutes !== 0) spawnWindowRangeString += `${Math.abs(spawnWindowMinutes)} ${spawnWindowMinutes === 1 ? "minute" : "minutes"}`;
 
-  if(downtimeHours < 0 ) {
+  if(downtimeHours < 0 || downtimeMinutes < 0) {
     downtimeRangeString = `Range: From ${downtimeRangeString} ago`
   } else if(downtimeHours === 0 && downtimeMinutes === 0) {
-    downtimeRangeString = `Range: From now`
+    downtimeRangeString = `Range: From Now`
   } else {
     downtimeRangeString = `Range: From ${downtimeRangeString}`
   }
 
-  if(spawnWindowHours < 0 ) {
+  if(spawnWindowHours < 0 || spawnWindowMinutes < 0) {
     spawnWindowRangeString = `to ${spawnWindowRangeString} ago`
   } else if(spawnWindowHours === 0 && spawnWindowMinutes === 0) {
-    spawnWindowRangeString = `to now`
+    spawnWindowRangeString = `to Now`
   } else {
     spawnWindowRangeString = `to ${spawnWindowRangeString}`
   }

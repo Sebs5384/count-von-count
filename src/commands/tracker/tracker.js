@@ -31,17 +31,37 @@ command.slashRun = async function slashRun(client, interaction, permaTrackerMess
     if(hasBosses) {
         const formattedBosses = formatBossesData(bosses);
         const bossTimers = getBossTimers(formattedBosses, serverTime);
+        const updatedBossTimers = await Promise.all(bossTimers.map( async (boss) => {
+            if(!boss) {
+                return boss;
+            }
+
+            if(boss.bossToRemove) {
+                await Boss.update(
+                    { boss_killed_at: null },
+                    { where: {
+                        guild_id: guild.id,
+                        boss_name: boss.bossToRemove
+                    }}
+                );
+
+                return;
+            } else {
+                return boss;
+            };
+        }));
+        const filteredBossTimers = updatedBossTimers.filter(field => field)
         const hasBossesTracked = bossTimers.length > 0;
 
         if(hasBossesTracked) {
 
             if(permaTrackerMessage && permaTrackerChannelId) {
 
-                await permaTrackerMessage.edit({ embeds: [createTrackerEmbed(bossTimers, trackerFooter, embedColor)] });
+                await permaTrackerMessage.edit({ embeds: [createTrackerEmbed(filteredBossTimers, trackerFooter, embedColor)] });
                 return;
             }
 
-            const bossList = await send({ embeds: [createTrackerEmbed(bossTimers, trackerFooter, embedColor)] });
+            const bossList = await send({ embeds: [createTrackerEmbed(filteredBossTimers, trackerFooter, embedColor)] });
             return bossList;
         } else {
 

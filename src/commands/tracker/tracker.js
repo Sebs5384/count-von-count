@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { createMessageEmbed, createTrackerEmbed } from "../../embeds/index.js";
 import { Boss, TrackerChannel } from "../../models/index.js";
-import { getBossTimers, getGuildBosses } from "../../utils/general.js";
+import { getBossTimers, formatBossesData } from "../../utils/general.js";
 import { getServerTime } from "../../service/serverTime.js";
 
 const command = new SlashCommandBuilder()
@@ -29,8 +29,8 @@ command.slashRun = async function slashRun(client, interaction, permaTrackerMess
     const trackerFooter = `Tracker updates every minute, last updated at: ${serverTime.date} ${serverTime.time} Server Time \nCurrent Location: (${serverTimeZone.replace('_', ' ')})`;
 
     if(hasBosses) {
-        const guildBosses = getGuildBosses(bosses);
-        const bossTimers = getBossTimers(guildBosses, serverTime);
+        const formattedBosses = formatBossesData(bosses);
+        const bossTimers = getBossTimers(formattedBosses, serverTime);
         const hasBossesTracked = bossTimers.length > 0;
 
         if(hasBossesTracked) {

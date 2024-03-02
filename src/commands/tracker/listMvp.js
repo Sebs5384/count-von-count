@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { createMessageEmbed, createBossListEmbed } from "../../embeds/index.js";
 import { Boss, TrackerChannel } from "../../models/index.js";
-import { getBossValuesField, getGuildBosses } from "../../utils/general.js";
+import { getBossValuesField, formatBossesData } from "../../utils/general.js";
 
 const command = new SlashCommandBuilder()
     .setName('listmvp')
@@ -38,8 +38,8 @@ async function runCommand(send, guild, embedColor) {
         const hasBosses = bosses.length > 0;
 
         if(hasBosses) {
-            const guildBosses = getGuildBosses(bosses);
-            const bossesValuesString = guildBosses.map((boss) => {
+            const formattedBosses = formatBossesData(bosses);
+            const bossesValuesString = formattedBosses.map((boss) => {
                 const bossValues = getBossValuesField(boss);
                 
                 return bossValues;

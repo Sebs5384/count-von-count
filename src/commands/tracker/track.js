@@ -32,6 +32,9 @@ command.slashRun = async function slashRun(client, interaction) {
     const mvpStimate = interaction.options.getInteger('stimate');
     const mvpHelpMessage = 'For more information use /mvphelp';
 
+    const trackedBossExternally = externalTrack(client, guild, send, mvpName, serverTime, embedColor, mvpHelpMessage, operator);
+    if(trackedBossExternally) return;
+
     const boss = await Boss.findOne({
         where: { 
             guild_id: guild.id, 
@@ -52,23 +55,22 @@ command.slashRun = async function slashRun(client, interaction) {
         
         serverTime.time = updatedTime;
         serverTime.dateTime = updatedDateWhenKilled.toISOString();
-    }
+    };
 
     await runCommand(send, guild, embedColor, boss, mvpName, serverTime, mvpHelpMessage);
 };
 
 async function runCommand(send, guild, embedColor, boss, mvpName, serverTime, footer){
-        
     const trackerChannel = await TrackerChannel.findOne({
         where: { guild_id: guild.id },
-    })
+    });
 
     if(trackerChannel) {
 
         if(boss) {
             const updatedBoss = await boss.update({
                 boss_killed_at: serverTime.dateTime
-            })
+            });
     
             const trackerTitle = 'MvP Tracker';
             const trackerMessage = `${updatedBoss.boss_name} died at ${serverTime.time}`;
@@ -79,8 +81,41 @@ async function runCommand(send, guild, embedColor, boss, mvpName, serverTime, fo
             const trackerMessage = `This mvp is not found in the tracker list, reading: ${mvpName}`;
             
             send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '❌', footer)] });
-        }
-    }
-}
+        };
+    };
+};
+
+async function externalTrack(client, guild, send, mvpName, serverTime, embedColor, footer, operator) {
+    const gonryunGuildId = client.config.gonryunGuildId;
+    const externalGuildId = client.config.externalGuildChannels;
+
+    for(const channelId of externalGuildId) {
+        const externalBoss = await Boss.findOne({
+            where: {
+                guild_id: gonryunGuildId,
+                boss_name: {
+                    [operator.like]: mvpName
+                },
+            },
+            collate: 'NOCASE'
+        });
+
+        if(channelId === guild.id) {
+            const updatedBoss = await externalBoss.update({
+                boss_killed_at: serverTime.dateTime
+            });
+
+            const trackerTitle = 'MvP Tracker';
+            const trackerMessage = `${updatedBoss.boss_name} died at ${serverTime.time}`;
+
+            send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '✅', footer)] });
+        } else {
+            const trackerTitle = 'No MvP found';
+            const trackerMessage = `This mvp is not found in the tracker list, reading: ${mvpName}`;
+
+            send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '❌', footer)] });
+        };
+    };
+};
 
 export default command;

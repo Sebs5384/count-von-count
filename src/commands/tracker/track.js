@@ -86,7 +86,7 @@ async function runCommand(send, guild, embedColor, boss, mvpName, serverTime, fo
 };
 
 async function externalTrack(client, guild, send, mvpName, serverTime, embedColor, footer, operator) {
-    const gonryunGuildId = client.config.gonryunGuildId;
+    const gonryunGuildId = client.config.gonryunGuildInfo.id;
     const externalGuildId = client.config.externalGuildChannels;
 
     for(const channelId of externalGuildId) {

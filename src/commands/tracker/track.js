@@ -31,9 +31,12 @@ command.slashRun = async function slashRun(client, interaction) {
     const mvpName = interaction.options.getString('mvp-name');
     const mvpStimate = interaction.options.getInteger('stimate');
     const mvpHelpMessage = 'For more information use /mvphelp';
+    const trackedBossExternally = interaction.guild.id === client.config.externalGuildChannels[0];
 
-    const trackedBossExternally = externalTrack(client, guild, send, mvpName, serverTime, embedColor, mvpHelpMessage, operator);
-    if(trackedBossExternally) return;
+    if(trackedBossExternally) {
+        externalTrack(client, send, mvpName, serverTime, embedColor, mvpHelpMessage, operator);
+        return;
+    }
 
     const boss = await Boss.findOne({
         where: { 
@@ -85,7 +88,7 @@ async function runCommand(send, guild, embedColor, boss, mvpName, serverTime, fo
     };
 };
 
-async function externalTrack(client, guild, send, mvpName, serverTime, embedColor, footer, operator) {
+async function externalTrack(client, send, mvpName, serverTime, embedColor, footer, operator) {
     const gonryunGuildId = client.config.gonryunGuildInfo.id;
     const externalGuildId = client.config.externalGuildChannels;
 

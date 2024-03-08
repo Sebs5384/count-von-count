@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js"
+import { SlashCommandBuilder } from "discord.js";
 import { createMessageEmbed } from "../../embeds/index.js";
 import { isValidBossNameFormat, isValidMapNameFormat } from "../../utils/general.js";
 import { TrackerChannel, Boss } from "../../models/index.js";

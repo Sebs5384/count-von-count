@@ -57,15 +57,6 @@ command.slashRun = async function slashRun(client, interaction, permaTrackerMess
 
             if(permaTrackerMessage && permaTrackerChannelId) {
 
-                const externalGuildId = client.config.externalGuildChannels[0];
-                const externalChannelId = client.config.nicoGuildInfo.permaTrackerChannelId;
-                const externalMessageId = client.config.nicoGuildInfo.permaTrackerMessageId;
-
-                const externalGuild = await client.guilds.fetch(externalGuildId);
-                const externalChannel = await externalGuild.channels.fetch(externalChannelId);
-                const externalMessage = await externalChannel.messages.fetch(externalMessageId);
-
-                await externalMessage.edit({ embeds: [createTrackerEmbed(filteredBossTimers, trackerFooter, embedColor)] });
                 await permaTrackerMessage.edit({ embeds: [createTrackerEmbed(filteredBossTimers, trackerFooter, embedColor)] });
                 return;
             }

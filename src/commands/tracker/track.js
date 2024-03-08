@@ -31,12 +31,6 @@ command.slashRun = async function slashRun(client, interaction) {
     const mvpName = interaction.options.getString('mvp-name');
     const mvpStimate = interaction.options.getInteger('stimate');
     const mvpHelpMessage = 'For more information use /mvphelp';
-    const trackedBossExternally = interaction.guild.id === client.config.externalGuildChannels[0];
-
-    if(trackedBossExternally) {
-        externalTrack(client, send, mvpName, serverTime, embedColor, mvpHelpMessage, operator);
-        return;
-    }
 
     const boss = await Boss.findOne({
         where: { 
@@ -83,39 +77,6 @@ async function runCommand(send, guild, embedColor, boss, mvpName, serverTime, fo
             const trackerTitle = 'No MvP found';
             const trackerMessage = `This mvp is not found in the tracker list, reading: ${mvpName}`;
             
-            send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '❌', footer)] });
-        };
-    };
-};
-
-async function externalTrack(client, send, mvpName, serverTime, embedColor, footer, operator) {
-    const gonryunGuildId = client.config.gonryunGuildInfo.id;
-    const externalGuildId = client.config.externalGuildChannels;
-
-    for(const channelId of externalGuildId) {
-        const externalBoss = await Boss.findOne({
-            where: {
-                guild_id: gonryunGuildId,
-                boss_name: {
-                    [operator.like]: mvpName
-                },
-            },
-            collate: 'NOCASE'
-        });
-
-        if(channelId === guild.id) {
-            const updatedBoss = await externalBoss.update({
-                boss_killed_at: serverTime.dateTime
-            });
-
-            const trackerTitle = 'MvP Tracker';
-            const trackerMessage = `${updatedBoss.boss_name} died at ${serverTime.time}`;
-
-            send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '✅', footer)] });
-        } else {
-            const trackerTitle = 'No MvP found';
-            const trackerMessage = `This mvp is not found in the tracker list, reading: ${mvpName}`;
-
             send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '❌', footer)] });
         };
     };

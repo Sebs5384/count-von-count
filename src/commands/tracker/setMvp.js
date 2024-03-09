@@ -53,86 +53,82 @@ command.slashRun = async function slashRun(client, interaction) {
 }
 
 async function runCommand(embedColor, send, guild, bossName, bossDowntime, bossSpawnWindow, bossMap, bossEmoji) {
+    const isValidBossName = isValidBossNameFormat(bossName);
+    const isValidMapName = isValidMapNameFormat(bossMap);
+    const trackerChannel = await TrackerChannel.findOne({
+        where: { guild_id: guild.id }
+    });
 
-    const isValidBossName = isValidBossNameFormat(bossName)
-    const isValidMapName = isValidMapNameFormat(bossMap)
-
-    if(isValidBossName && isValidMapName) {
-        try{
-            const trackerChannel = await TrackerChannel.findOne({
-                where: { guild_id: guild.id }
-            })
-
-            if(!trackerChannel) {
-                const noTrackerTitle = 'No tracker channel found'
-                const noTrackerMessage = 'Please configure the tracker channel first'
-                const noTrackerFooter = 'Use /settrackerchannel to create your own tracker channel'
-
-                await send({ embeds: [createMessageEmbed(noTrackerTitle, noTrackerMessage, embedColor, '❌', noTrackerFooter)] })
-                return; 
-            }
-        
-            const existingBoss = await Boss.findOne({
-                where: { 
-                    guild_id: trackerChannel.guild_id, 
-                    boss_name: {
-                        [operator.like]: bossName
-                    }
-                },
-                collate: 'NOCASE'
-            });
-
-            if(existingBoss) {
-                
-                const existingBossTitle = `The MVP already exists`
-                const existingBossMessage = `${bossName} already exists in the tracker list as: ${existingBoss.boss_name}`
-                const existingBossFooterMessage = `If you wish to manage this MVP please check out /mvphelp`
-
-                send({ embeds: [createMessageEmbed(existingBossTitle, existingBossMessage, embedColor, '❌', existingBossFooterMessage)] })
-            } else {
-                const [createdBoss, created] = await Boss.findOrCreate({
-                    where: { guild_id: trackerChannel.guild_id, boss_name: bossName },
-                    defaults: {
-                        boss_name: bossName,
-                        boss_downtime: bossDowntime,
-                        boss_spawn_window: bossSpawnWindow,
-                        boss_map: bossMap,
-                        boss_emoji: bossEmoji
-                    }
-                })
+    if(trackerChannel) {
+        if(isValidBossName && isValidMapName) {
+            try{
+                const existingBoss = await Boss.findOne({
+                    where: { 
+                        guild_id: trackerChannel.guild_id, 
+                        boss_name: {
+                            [operator.like]: bossName
+                        }
+                    },
+                    collate: 'NOCASE'
+                });
     
-                const bossCreatedTitle = `The MVP has been created successfully`
-                const bossCreatedMessage = `${bossName} has been added to the tracker list`
-                const bossCreatedFooterMessage = `If you wish to manage this MVP please check out /mvphelp`
-                
-                if(created) {
-                    await send({ embeds: [createMessageEmbed(bossCreatedTitle, bossCreatedMessage, embedColor, '✅', bossCreatedFooterMessage)] })
-                }; 
-            };
-        } catch (error) {
-            console.error(`Error while creating the MVP: ${error}`);
-            const errorTitle = `Error while creating the MVP`
-            const errorMessage = `There was an error while creating this entry for ${bossName}`
-            const errorMessageFooterMessage = `Check /mvphelp for more information`
-
-            send({ embeds: [createMessageEmbed(errorTitle, errorMessage, embedColor, '❌', errorMessageFooterMessage)] })
+                if(existingBoss) {
+                    
+                    const existingBossTitle = `The MVP already exists`
+                    const existingBossMessage = `${bossName} already exists in the tracker list as: ${existingBoss.boss_name}`
+                    const existingBossFooterMessage = `If you wish to manage this MVP please check out /mvphelp`
+    
+                    send({ embeds: [createMessageEmbed(existingBossTitle, existingBossMessage, embedColor, '❌', existingBossFooterMessage)] })
+                } else {
+                    const [createdBoss, created] = await Boss.findOrCreate({
+                        where: { guild_id: trackerChannel.guild_id, boss_name: bossName },
+                        defaults: {
+                            boss_name: bossName,
+                            boss_downtime: bossDowntime,
+                            boss_spawn_window: bossSpawnWindow,
+                            boss_map: bossMap,
+                            boss_emoji: bossEmoji
+                        }
+                    })
+        
+                    const bossCreatedTitle = `The MVP has been created successfully`
+                    const bossCreatedMessage = `${bossName} has been added to the tracker list`
+                    const bossCreatedFooterMessage = `If you wish to manage this MVP please check out /mvphelp`
+                    
+                    if(created) {
+                        await send({ embeds: [createMessageEmbed(bossCreatedTitle, bossCreatedMessage, embedColor, '✅', bossCreatedFooterMessage)] })
+                    }; 
+                };
+            } catch (error) {
+                console.error(`Error while creating the MVP: ${error}`);
+                const errorTitle = `Error while creating the MVP`
+                const errorMessage = `There was an error while creating this entry for ${bossName}`
+                const errorMessageFooterMessage = `Check /mvphelp for more information`
+    
+                send({ embeds: [createMessageEmbed(errorTitle, errorMessage, embedColor, '❌', errorMessageFooterMessage)] })
+            }
+        } else {
+            const invalidValuesTitle = `Invalid values provided`
+            const invalidValuesMessage = `Invalid boss name and map name \n Reading: ${bossName} and ${bossMap}`;
+            const invalidBossNameMessage = `Invalid boss name \n Reading: ${bossName}`;
+            const invalidMapNameMessage = `Invalid map name \n Reading: ${bossMap}`;
+            const invalidMessageFooterMessage = `Mvp names should be alphanumeric and map names should be in the following format e.g prt_fild01 or prt01`
+    
+            !isValidBossName && !isValidMapName
+                ? send({ embeds: [createMessageEmbed(invalidValuesTitle, invalidValuesMessage, embedColor, '❌', invalidMessageFooterMessage)] })
+                : !isValidBossName
+                ? send({ embeds: [createMessageEmbed(invalidValuesTitle, invalidBossNameMessage, embedColor, '❌', invalidMessageFooterMessage)] })
+                : !isValidMapName
+                ? send({ embeds: [createMessageEmbed(invalidValuesTitle, invalidMapNameMessage, embedColor, '❌', invalidMessageFooterMessage)] })
+            : null;
         }
     } else {
-        const invalidValuesTitle = `Invalid values provided`
-        const invalidValuesMessage = `Invalid boss name and map name \n Reading: ${bossName} and ${bossMap}`;
-        const invalidBossNameMessage = `Invalid boss name \n Reading: ${bossName}`;
-        const invalidMapNameMessage = `Invalid map name \n Reading: ${bossMap}`;
-        const invalidMessageFooterMessage = `Mvp names should be alphanumeric and map names should be in the following format e.g prt_fild01 or prt01`
+        const noTrackerChannelTitle = 'No tracker channel found';
+        const noTrackerMessage = 'Please configure the tracker channel first';
+        const noTrackerFooter = 'Use /settrackerchannel to create your own tracker channel';
 
-        !isValidBossName && !isValidMapName
-            ? send({ embeds: [createMessageEmbed(invalidValuesTitle, invalidValuesMessage, embedColor, '❌', invalidMessageFooterMessage)] })
-            : !isValidBossName
-            ? send({ embeds: [createMessageEmbed(invalidValuesTitle, invalidBossNameMessage, embedColor, '❌', invalidMessageFooterMessage)] })
-            : !isValidMapName
-            ? send({ embeds: [createMessageEmbed(invalidValuesTitle, invalidMapNameMessage, embedColor, '❌', invalidMessageFooterMessage)] })
-        : null;
-    }
-
-}
+        await send({ embeds: [createMessageEmbed(noTrackerChannelTitle, noTrackerMessage, embedColor, '❌', noTrackerFooter)] });
+    };
+};
 
 export default command;

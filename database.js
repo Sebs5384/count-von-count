@@ -9,5 +9,6 @@ const sequelize = new Sequelize('database', 'user', 'password', {
 
 const queryInterface = sequelize.getQueryInterface();
 const operator = Sequelize.Op
+const literal = Sequelize.literal
 
-export { sequelize, queryInterface, operator }
+export { sequelize, queryInterface, operator, literal }

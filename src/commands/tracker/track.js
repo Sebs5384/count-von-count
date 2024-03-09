@@ -3,7 +3,7 @@ import { createMessageEmbed } from "../../embeds/index.js";
 import { TrackerChannel, Boss, BossAlias } from "../../models/index.js";
 import { getServerTime } from "../../service/serverTime.js";
 import { getTotalMinutesFromDate } from "../../utils/general.js";
-import { operator } from "../../../database.js";
+import { operator, literal } from "../../../database.js";
 
 const command = new SlashCommandBuilder()
     .setName('track')
@@ -39,18 +39,32 @@ async function runCommand(send, guild, embedColor, mvpName, mvpStimate, serverTi
         where: { guild_id: guild.id },
     });
 
-    if(trackerChannel){
+    if(trackerChannel) {
+
         try {
+        
             const boss = await Boss.findOne({
                 where: { 
                     guild_id: guild.id, 
-                    boss_name: {
-                        [operator.like]: mvpName
-                    }
+                    [operator.or]: [
+                        {
+                            boss_name: {
+                                [operator.like]: mvpName
+                            }
+                        },
+                        {
+                            id: {
+                                [operator.in]: literal(
+                                    `(SELECT boss_id FROM BossAliases WHERE boss_alias LIKE '${mvpName}')`
+                                )
+                            }
+                        }
+                    ]
                 },
                 collate: 'NOCASE'
-            });
-        
+            }); 
+    
+
             if(mvpStimate) {
         
                 const bossKilledAtTimestamp = new Date(boss.boss_killed_at);

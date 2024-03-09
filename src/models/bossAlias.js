@@ -1,12 +1,17 @@
 import { Sequelize, Model } from "sequelize";
-import { sequelize } from "../../database";
+import { sequelize } from "../../database.js";
 
 class BossAlias extends Model {};
 
 BossAlias.init({
-    boss_id: {
+    id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    boss_id: {
+        type: Sequelize.INTEGER,
         allowNull: false
     },
     boss_alias: {

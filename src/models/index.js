@@ -25,7 +25,7 @@ BirthdayChannel.belongsTo(Guild, { foreignKey: 'guild_id' });
 TrackerChannel.hasMany(Boss, { foreignKey: 'guild_id' });
 Boss.belongsTo(TrackerChannel, { foreignKey: 'guild_id' });
 
-BossAlias.belongsTo(Boss, { foreignKey: 'guild_id' });
-Boss.hasMany(BossAlias, { foreignKey: 'guild_id' });
+BossAlias.belongsTo(Boss, { foreignKey: 'boss_id', targetKey: 'id' });
+Boss.hasMany(BossAlias, { foreignKey: 'boss_id', sourceKey: 'id' });
 
 export { User, Guild, BirthdayChannel, UserGuild, Boss, TrackerChannel, BossAlias };

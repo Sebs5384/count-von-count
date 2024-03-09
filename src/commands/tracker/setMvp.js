@@ -107,36 +107,29 @@ async function runCommand(embedColor, send, guild, bossName, bossDowntime, bossS
                 
                 if(created) {
                     await send({ embeds: [createMessageEmbed(bossCreatedTitle, bossCreatedMessage, embedColor, '✅', bossCreatedFooterMessage)] })
-                } else {
-                    const errorBossTitle = `Error while creating the MVP`
-                    const errorBossMessage = `There was an error while creating this entry for ${bossName}`
-                    const errorBossFooterMessage = `If you wish to manage this MVP please check out /mvphelp`
-
-                    await send({ embeds: [createMessageEmbed(errorBossTitle, errorBossMessage, embedColor, '❌', errorBossFooterMessage)] })
-                };
+                }; 
             };
         } catch (error) {
-
             console.error(`Error while creating the MVP: ${error}`);
-            const errorMessageTitle = `Error while creating the MVP`
+            const errorTitle = `Error while creating the MVP`
             const errorMessage = `There was an error while creating this entry for ${bossName}`
-            const errorMessageFooterMessage = `If you wish to manage this MVP please check out /mvphelp`
+            const errorMessageFooterMessage = `Check /mvphelp for more information`
 
-            send({ embeds: [createMessageEmbed(errorMessageTitle, errorMessage, embedColor, '❌', errorMessageFooterMessage)] })
+            send({ embeds: [createMessageEmbed(errorTitle, errorMessage, embedColor, '❌', errorMessageFooterMessage)] })
         }
     } else {
-        const invalidMessageTitle = `Invalid values provided`
-        const invalidMessageAndMapNameMessage = `Invalid boss name and map name \n Reading: ${bossName} and ${bossMap}`;
+        const invalidValuesTitle = `Invalid values provided`
+        const invalidValuesMessage = `Invalid boss name and map name \n Reading: ${bossName} and ${bossMap}`;
         const invalidBossNameMessage = `Invalid boss name \n Reading: ${bossName}`;
         const invalidMapNameMessage = `Invalid map name \n Reading: ${bossMap}`;
         const invalidMessageFooterMessage = `Mvp names should be alphanumeric and map names should be in the following format e.g prt_fild01 or prt01`
 
         !isValidBossName && !isValidMapName
-            ? send({ embeds: [createMessageEmbed(invalidMessageTitle, invalidMessageAndMapNameMessage, embedColor, '❌', invalidMessageFooterMessage)] })
+            ? send({ embeds: [createMessageEmbed(invalidValuesTitle, invalidValuesMessage, embedColor, '❌', invalidMessageFooterMessage)] })
             : !isValidBossName
-            ? send({ embeds: [createMessageEmbed(invalidMessageTitle, invalidBossNameMessage, embedColor, '❌', invalidMessageFooterMessage)] })
+            ? send({ embeds: [createMessageEmbed(invalidValuesTitle, invalidBossNameMessage, embedColor, '❌', invalidMessageFooterMessage)] })
             : !isValidMapName
-            ? send({ embeds: [createMessageEmbed(invalidMessageTitle, invalidMapNameMessage, embedColor, '❌', invalidMessageFooterMessage)] })
+            ? send({ embeds: [createMessageEmbed(invalidValuesTitle, invalidMapNameMessage, embedColor, '❌', invalidMessageFooterMessage)] })
         : null;
     }
 

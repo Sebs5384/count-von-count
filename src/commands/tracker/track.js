@@ -23,6 +23,7 @@ command.aliases = ['t', 'track'];
 command.slashRun = async function slashRun(client, interaction) {
     const send = interaction.followUp.bind(interaction);
     const guild = await interaction.guild;
+    const user = interaction.user;
     const embedColor = client.config.embedColor;
 
     const serverTimeZone = 'America/Los_Angeles';
@@ -31,10 +32,10 @@ command.slashRun = async function slashRun(client, interaction) {
     const mvpName = interaction.options.getString('mvp-name');
     const mvpStimate = interaction.options.getInteger('stimate');
 
-    await runCommand(send, guild, embedColor, mvpName, mvpStimate, serverTime);
+    await runCommand(send, guild, user, embedColor, mvpName, mvpStimate, serverTime, interaction);
 };
 
-async function runCommand(send, guild, embedColor, mvpName, mvpStimate, serverTime){
+async function runCommand(send, guild, user, embedColor, mvpName, mvpStimate, serverTime){
     const trackerChannel = await TrackerChannel.findOne({
         where: { guild_id: guild.id },
     });
@@ -85,7 +86,7 @@ async function runCommand(send, guild, embedColor, mvpName, mvpStimate, serverTi
                 });
             
                 const trackerTitle = 'MvP Tracker';
-                const trackerMessage = `${updatedBoss.boss_name} died at ${serverTime.time}`;
+                const trackerMessage = `${updatedBoss.boss_name} died at ${serverTime.time}\nTracked by ${user}`;
                         
                 send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '✅', mvpHelpMessage)] });
             } else {

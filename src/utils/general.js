@@ -239,8 +239,9 @@ export function formatBossesData(bosses) {
       downtime: boss.boss_downtime,
       spawnWindow: boss.boss_spawn_window,
       emoji: boss.boss_emoji,
-      killed: boss.boss_killed_at
-    }
+      killed: boss.boss_killed_at,
+      bossAliases: boss.BossAliases,
+    };
 
     guildBosses.push(bossDetails);
   }
@@ -387,7 +388,7 @@ export function getBossValuesField(boss) {
     name: `Name: ${boss.name}  ${boss.emoji ? boss.emoji : ''}`,
     value: `Map of Spawn: ${boss.map}
     Downtime: ${downtimeHourString} ${downtimeMinutesString} / Spawn Window: ${spawnWindowHourString} ${spawnWindowMinutesString}
-    Aliases: '' 
+    Aliases: ${boss.bossAliases.length > 0 ? boss.bossAliases.map((bossAlias) => `\`${bossAlias.boss_alias}\``) : `\`None\``}
     `
   }
 }

@@ -96,7 +96,7 @@ async function runCommand(send, guild, embedColor, bossName, bossAlias) {
                     };
                 };
             } catch (error) {
-                console.error(error);
+                console.error(`Error while setting the alias ${error}`);
 
                 const errorTitle = 'Error while adding alias';
                 const errorMessage = `There was an error while adding alias for ${bossName}, please try again`;

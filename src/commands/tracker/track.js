@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import { createMessageEmbed } from "../../embeds/index.js";
-import { TrackerChannel, Boss } from "../../models/index.js";
+import { TrackerChannel, Boss, BossAlias } from "../../models/index.js";
 import { getServerTime } from "../../service/serverTime.js";
 import { getTotalMinutesFromDate } from "../../utils/general.js";
 import { operator } from "../../../database.js";
@@ -30,56 +30,75 @@ command.slashRun = async function slashRun(client, interaction) {
 
     const mvpName = interaction.options.getString('mvp-name');
     const mvpStimate = interaction.options.getInteger('stimate');
-    const mvpHelpMessage = 'For more information use /mvphelp';
 
-    const boss = await Boss.findOne({
-        where: { 
-            guild_id: guild.id, 
-            boss_name: {
-                [operator.like]: mvpName
-            }
-        },
-        collate: 'NOCASE'
-    });
-
-    if(mvpStimate) {
-
-        const bossKilledAtTimestamp = new Date(boss.boss_killed_at);
-        const totalMinutesWhenKilled = getTotalMinutesFromDate(bossKilledAtTimestamp);
-        const mvpKilledAtInMilliseconds = bossKilledAtTimestamp.getTime() + (mvpStimate * 60 * 1000);
-        const updatedDateWhenKilled = new Date(mvpKilledAtInMilliseconds);
-        const updatedTime = `${updatedDateWhenKilled.getHours()}:${updatedDateWhenKilled.getMinutes().toString().padStart(2, '0')}`;
-        
-        serverTime.time = updatedTime;
-        serverTime.dateTime = updatedDateWhenKilled.toISOString();
-    };
-
-    await runCommand(send, guild, embedColor, boss, mvpName, serverTime, mvpHelpMessage);
+    await runCommand(send, guild, embedColor, mvpName, mvpStimate, serverTime);
 };
 
-async function runCommand(send, guild, embedColor, boss, mvpName, serverTime, footer){
+async function runCommand(send, guild, embedColor, mvpName, mvpStimate, serverTime){
     const trackerChannel = await TrackerChannel.findOne({
         where: { guild_id: guild.id },
     });
 
-    if(trackerChannel) {
-
-        if(boss) {
-            const updatedBoss = await boss.update({
-                boss_killed_at: serverTime.dateTime
+    if(trackerChannel){
+        try {
+            const boss = await Boss.findOne({
+                where: { 
+                    guild_id: guild.id, 
+                    boss_name: {
+                        [operator.like]: mvpName
+                    }
+                },
+                collate: 'NOCASE'
             });
-    
-            const trackerTitle = 'MvP Tracker';
-            const trackerMessage = `${updatedBoss.boss_name} died at ${serverTime.time}`;
+        
+            if(mvpStimate) {
+        
+                const bossKilledAtTimestamp = new Date(boss.boss_killed_at);
+                const mvpKilledAtInMilliseconds = bossKilledAtTimestamp.getTime() + (mvpStimate * 60 * 1000);
+                const updatedDateWhenKilled = new Date(mvpKilledAtInMilliseconds);
+                const updatedDateTime = updatedDateWhenKilled.toISOString();
+                const updatedTime = `${updatedDateWhenKilled.getHours()}:${updatedDateWhenKilled.getMinutes().toString().padStart(2, '0')}`;
                 
-            send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '✅', footer)] });
-        } else {
-            const trackerTitle = 'No MvP found';
-            const trackerMessage = `This mvp is not found in the tracker list, reading: ${mvpName}`;
+                serverTime.time = updatedTime;
+                serverTime.dateTime = updatedDateTime;
+            };
+        
+            const mvpHelpMessage = 'For more information use /mvphelp';
+        
+            if(boss) {
+                const updatedBoss = await boss.update({
+                    boss_killed_at: serverTime.dateTime
+                });
             
-            send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '❌', footer)] });
-        };
+                const trackerTitle = 'MvP Tracker';
+                const trackerMessage = `${updatedBoss.boss_name} died at ${serverTime.time}`;
+                        
+                send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '✅', mvpHelpMessage)] });
+            } else {
+                const trackerTitle = 'No MvP found';
+                const trackerMessage = `This mvp is not found in the tracker list, reading: ${mvpName}`;
+                    
+                send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '❌', mvpHelpMessage)] });
+            };
+            
+        } catch (error) {
+            console.log(`Error while tracking the boss ${error}`);
+
+            const errorTitle = 'Error while tracking the boss';
+            const errorMessage = `There was an error while tracking ${mvpName}`;
+            const errorFooter = 'Check /mvphelp for more information';
+        
+            send({ embeds: [createMessageEmbed(errorTitle, errorMessage, embedColor, '❌', errorFooter)] });
+        }
+        
+    } else {
+        const noTrackerChannelTitle = 'No tracker channel found';
+        const noTrackerMessage = 'Please configure the tracker channel first';
+        const noTrackerFooter = 'Use /settrackerchannel to create your own tracker channel';
+
+        await send({ embeds: [createMessageEmbed(noTrackerChannelTitle, noTrackerMessage, embedColor, '❌', noTrackerFooter)] });
     };
+
 };
 
 export default command;

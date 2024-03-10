@@ -57,8 +57,8 @@ async function runCommand(send, guild, embedColor, bossName, bossAlias) {
 
                 if(existingAlias) {
                     const bossAliasTitle = `The alias already exists`;
-                    const bossAliasMessage = `Something`
-                    const bossAliasFooter = 'Check /mvphelp for more information';
+                    const bossAliasMessage = `${bossName} has already been aliased as ${bossAlias}`;
+                    const bossAliasFooter = 'Check /listmvp for more information about this MVP';
 
                     await send({ embeds: [createMessageEmbed(bossAliasTitle, bossAliasMessage, embedColor, '❌', bossAliasFooter)] });
                 } else {

@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import { createMessageEmbed, createBossListEmbed } from "../../embeds/index.js";
+import { createPaginationButtons } from "../../rows/index.js";
 import { Boss, BossAlias, TrackerChannel } from "../../models/index.js";
 import { getBossValuesField, formatBossesData } from "../../utils/general.js";
 
@@ -13,10 +14,10 @@ command.slashRun = async function slashRun(client, interaction) {
     const guild = await interaction.guild;
     const embedColor = client.config.embedColor;
 
-    await runCommand(send, guild, embedColor);
+    await runCommand(send, guild, embedColor, interaction);
 };
 
-async function runCommand(send, guild, embedColor) {
+async function runCommand(send, guild, embedColor, interaction) {
     const trackerChannel = await TrackerChannel.findOne({
         where: {guild_id: guild.id}
     });
@@ -41,8 +42,38 @@ async function runCommand(send, guild, embedColor) {
                     
                     return bossValues;
                 });
-             
-                await send({ embeds: [createBossListEmbed(bossesValuesString, guild, embedColor)] });
+                
+                let currentPage = 0;
+                const itemsPerPage = 5;
+                const THREE_MINUTES = 180000;
+                const bossListLength = bossesValuesString.length;
+                const totalPages = Math.floor(bossListLength / itemsPerPage);
+                let firstOnPage = currentPage * itemsPerPage;
+                let lastOnPage = firstOnPage + itemsPerPage;
+                let bossList = bossesValuesString.slice(firstOnPage, lastOnPage);
+
+                const bossListEmbed = createBossListEmbed(bossList, bossListLength, guild, embedColor);
+                const paginationButtons = createPaginationButtons(bossListLength, currentPage, firstOnPage, lastOnPage);
+                const message = await send({ embeds: [bossListEmbed], components: [paginationButtons] });
+
+                const filter = (i) => i.user.id === interaction.user.id;
+                const collector = message.createMessageComponentCollector({ filter, time: THREE_MINUTES });
+                collector.on('collect', async (button) => {
+                    if(button.customId === 'back') {
+                        currentPage --;
+                    } else if(button.customId === 'forward') {
+                        currentPage ++;
+                    };
+
+                    firstOnPage = currentPage * itemsPerPage;
+                    lastOnPage = firstOnPage + itemsPerPage;
+                    bossList = bossesValuesString.slice(firstOnPage, lastOnPage);
+                    const embed = createBossListEmbed(bossList, bossListLength, guild, embedColor);
+                    const paginationButtons = createPaginationButtons(bossListLength, currentPage, firstOnPage, lastOnPage);
+                    message.edit({ embeds: [embed], components: [paginationButtons] });
+                    await button.deferUpdate();
+                })
+
             } else {
                 const noBossesTitle = 'No MVPs found';
                 const noBossesMessage = 'There are no MVPs that are currently settled on your tracker';

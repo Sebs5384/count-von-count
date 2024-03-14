@@ -25,8 +25,9 @@ function updateServerTime(cachedTime, cachedServerTime, currentTime) {
     if(cachedTime) {
         const lastFetchedTime = new Date(cachedTime).getTime();
         const timeDifference = currentTime.getTime() - lastFetchedTime;
-    
-        if(timeDifference > 1000) {
+        const ONE_SECOND = 1000;
+
+        if(timeDifference > ONE_SECOND) {
             const serverTime = { ...cachedServerTime };
             const updatedServerTime = new Date(serverTime.dateTime);
             updatedServerTime.setSeconds(updatedServerTime.getSeconds() + Math.floor(timeDifference / 1000));

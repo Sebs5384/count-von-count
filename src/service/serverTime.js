@@ -32,6 +32,7 @@ function updateServerTime(cachedTime, cachedServerTime, currentTime) {
             updatedServerTime.setSeconds(updatedServerTime.getSeconds() + Math.floor(timeDifference / 1000));
 
             serverTime.dateTime = updatedServerTime.toISOString();
+            serverTime.date = `${updatedServerTime.getFullYear()}-${updatedServerTime.getMonth() + 1}-${updatedServerTime.getDate()}`
             serverTime.time = `${updatedServerTime.getHours() < 10 ? '0' : ''}${updatedServerTime.getHours()}:${updatedServerTime.getMinutes() < 10 ? '0' : ''}${updatedServerTime.getMinutes()}`
     
             return serverTime;

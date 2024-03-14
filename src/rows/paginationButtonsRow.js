@@ -1,22 +1,18 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 
-function createPaginationButtons(list, page, items) {
-    let itemsPerPage = items;
-    let firstOnPage = page * itemsPerPage;
-    let lastOnPage = firstOnPage + itemsPerPage;
-
+function createPaginationButtons(listLength, page, firstOnPage, lastOnPage) {
     const backButton = new ButtonBuilder({
-        style: ButtonStyle.Primary,
+        style: ButtonStyle.Secondary,
         emoji: '◀',
         customId: 'back',
         disabled: page === 0
     });
 
     const forwardButton = new ButtonBuilder({
-        style: ButtonStyle.Primary,
+        style: ButtonStyle.Secondary,
         emoji: '▶',
         customId: 'forward',
-        disabled: list.length <= lastOnPage
+        disabled: listLength <= lastOnPage
     });
 
     return new ActionRowBuilder({
@@ -26,3 +22,5 @@ function createPaginationButtons(list, page, items) {
         ]
     });
 };
+
+export default createPaginationButtons;

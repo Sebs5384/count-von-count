@@ -21,6 +21,7 @@ export const callback = async(client) => {
                 guild, followUp: (content) => { message.reply(content) }
             }
 
+            await message.edit('')
             await callbackTracker.slashRun(client, interactionMock, message, channel);
         } catch (error) {
             console.error(`Auto updating failed: ${error}`);

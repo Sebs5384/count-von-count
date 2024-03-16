@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import { createMessageEmbed, createBossListEmbed } from "../../embeds/index.js";
 import { createPaginationButtons } from "../../rows/index.js";
 import { Boss, BossAlias, TrackerChannel } from "../../models/index.js";
-import { getBossValuesField, formatBossesData } from "../../utils/general.js";
+import { getBossValuesField, formatBossesData, getPaginationValues } from "../../utils/general.js";
 
 const command = new SlashCommandBuilder()
     .setName('listmvp')
@@ -45,19 +45,16 @@ async function runCommand(send, guild, embedColor, interaction) {
                 
                 let currentPage = 0;
                 const itemsPerPage = 5;
-                const THREE_MINUTES = 180000;
-                const bossListLength = bossesValuesString.length;
-                const totalPages = Math.floor(bossListLength / itemsPerPage);
-                let firstOnPage = currentPage * itemsPerPage;
-                let lastOnPage = firstOnPage + itemsPerPage;
-                let bossList = bossesValuesString.slice(firstOnPage, lastOnPage);
 
-                const bossListEmbed = createBossListEmbed(bossList, bossListLength, guild, embedColor);
+                let { bossList, bossListLength, firstOnPage, lastOnPage, totalPages } = getPaginationValues(currentPage, itemsPerPage, bossesValuesString);
+                const bossListEmbed = createBossListEmbed(bossList, bossListLength, currentPage, totalPages, guild, embedColor);
                 const paginationButtons = createPaginationButtons(bossListLength, currentPage, firstOnPage, lastOnPage);
                 const message = await send({ embeds: [bossListEmbed], components: [paginationButtons] });
 
-                const filter = (i) => i.user.id === interaction.user.id;
-                const collector = message.createMessageComponentCollector({ filter, time: THREE_MINUTES });
+                const paginationInteractionFilter = (i) => i.user.id === interaction.user.id;
+                const THREE_MINUTES = 180000;
+                const collector = message.createMessageComponentCollector({ filter: paginationInteractionFilter, time: THREE_MINUTES });
+
                 collector.on('collect', async (button) => {
                     if(button.customId === 'back') {
                         currentPage --;
@@ -65,14 +62,22 @@ async function runCommand(send, guild, embedColor, interaction) {
                         currentPage ++;
                     };
 
-                    firstOnPage = currentPage * itemsPerPage;
-                    lastOnPage = firstOnPage + itemsPerPage;
-                    bossList = bossesValuesString.slice(firstOnPage, lastOnPage);
-                    const embed = createBossListEmbed(bossList, bossListLength, guild, embedColor);
+                    const { bossList, lastOnPage, firstOnPage, totalPages } = getPaginationValues(currentPage, itemsPerPage, bossesValuesString);
+                    const embed = createBossListEmbed(bossList, bossListLength, currentPage, totalPages, guild, embedColor);
                     const paginationButtons = createPaginationButtons(bossListLength, currentPage, firstOnPage, lastOnPage);
                     message.edit({ embeds: [embed], components: [paginationButtons] });
                     await button.deferUpdate();
-                })
+                });
+                
+                collector.on('end', () => {
+                    if(reason === 'time') {
+                        try {
+                            message.edit({ components: [] });
+                        } catch (error) {
+                            console.log(`There was an error while deleting the pagination buttons ${error}`);
+                        };
+                    }
+                });
 
             } else {
                 const noBossesTitle = 'No MVPs found';
@@ -100,4 +105,4 @@ async function runCommand(send, guild, embedColor, interaction) {
     };
 };
 
-export default command
+export default command;

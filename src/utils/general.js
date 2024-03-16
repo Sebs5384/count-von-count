@@ -450,3 +450,13 @@ export function getMvpHelpFieldValue(commandsFromTracker) {
 export function getCommandOptionValues(command) {
   return `\n${command.length > 0 ? command.map(option => `\`${option.name}: ${option.description}\``).join('\n\n') : `\`This command have no options\``}`
 };
+
+export function getPaginationValues(currentPage, itemsPerPage, bossArray) {
+  const bossListLength = bossArray.length;
+  const totalPages = Math.ceil(bossListLength / itemsPerPage);
+  let firstOnPage = currentPage * itemsPerPage;
+  let lastOnPage = firstOnPage + itemsPerPage;
+  let bossList = bossArray.slice(firstOnPage, lastOnPage);
+
+  return { bossList, bossListLength, firstOnPage, lastOnPage, totalPages };
+};

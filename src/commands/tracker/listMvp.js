@@ -53,8 +53,8 @@ async function runCommand(send, guild, embedColor, interaction) {
             
                 try{
                     const paginationInteractionFilter = (i) => i.user.id === interaction.user.id;
-                    const THREE_MINUTES = 1000;
-                    const collector = message.createMessageComponentCollector({ filter: paginationInteractionFilter, time: 1000 });
+                    const THREE_MINUTES = 180000;
+                    const collector = message.createMessageComponentCollector({ filter: paginationInteractionFilter, time: THREE_MINUTES });
 
                     collector.on('collect', async (button) => {
                         if(button.customId === 'back') {

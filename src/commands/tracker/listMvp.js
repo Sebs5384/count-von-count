@@ -50,34 +50,38 @@ async function runCommand(send, guild, embedColor, interaction) {
                 const bossListEmbed = createBossListEmbed(bossList, bossListLength, currentPage, totalPages, guild, embedColor);
                 const paginationButtons = createPaginationButtons(bossListLength, currentPage, firstOnPage, lastOnPage);
                 const message = await send({ embeds: [bossListEmbed], components: [paginationButtons] });
+            
+                try{
+                    const paginationInteractionFilter = (i) => i.user.id === interaction.user.id;
+                    const THREE_MINUTES = 1000;
+                    const collector = message.createMessageComponentCollector({ filter: paginationInteractionFilter, time: 1000 });
 
-                const paginationInteractionFilter = (i) => i.user.id === interaction.user.id;
-                const THREE_MINUTES = 180000;
-                const collector = message.createMessageComponentCollector({ filter: paginationInteractionFilter, time: THREE_MINUTES });
-
-                collector.on('collect', async (button) => {
-                    if(button.customId === 'back') {
-                        currentPage --;
-                    } else if(button.customId === 'forward') {
-                        currentPage ++;
-                    };
-
-                    const { bossList, lastOnPage, firstOnPage, totalPages } = getPaginationValues(currentPage, itemsPerPage, bossesValuesString);
-                    const embed = createBossListEmbed(bossList, bossListLength, currentPage, totalPages, guild, embedColor);
-                    const paginationButtons = createPaginationButtons(bossListLength, currentPage, firstOnPage, lastOnPage);
-                    message.edit({ embeds: [embed], components: [paginationButtons] });
-                    await button.deferUpdate();
-                });
-                
-                collector.on('end', () => {
-                    if(reason === 'time') {
-                        try {
-                            message.edit({ components: [] });
-                        } catch (error) {
-                            console.log(`There was an error while deleting the pagination buttons ${error}`);
+                    collector.on('collect', async (button) => {
+                        if(button.customId === 'back') {
+                            currentPage --;
+                        } else if(button.customId === 'forward') {
+                            currentPage ++;
                         };
-                    }
-                });
+
+                        const { bossList, lastOnPage, firstOnPage, totalPages } = getPaginationValues(currentPage, itemsPerPage, bossesValuesString);
+                        const embed = createBossListEmbed(bossList, bossListLength, currentPage, totalPages, guild, embedColor);
+                        const paginationButtons = createPaginationButtons(bossListLength, currentPage, firstOnPage, lastOnPage);
+                        message.edit({ embeds: [embed], components: [paginationButtons] });
+                        await button.deferUpdate();
+                    });
+                    
+                    collector.on('end', (collected, reason) => {
+                        if(reason === 'time') {
+                            try {
+                                message.edit({ components: [] });
+                            } catch (error) {
+                                console.log(`There was an error while deleting the pagination buttons ${error}`);
+                            };
+                        }
+                    });
+                } catch (error) {
+                    console.log(`There was an error while creating the pagination buttons ${error}`);
+                };
 
             } else {
                 const noBossesTitle = 'No MVPs found';

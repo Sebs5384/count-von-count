@@ -77,7 +77,7 @@ command.slashRun = async function slashRun(client, interaction, permaTrackerMess
         }
     } else {
         const noBossesOnTrackerListTitle = 'No bosses on the tracker list';
-        const noBossesOnTrackerListMessage = 'There are currently no bosses on the tracker \nList try using /setmvp to add them into it';
+        const noBossesOnTrackerListMessage = 'There are currently no bosses on the tracker list\nTry using /setmvp to add them into it';
         const errorTrackerFooter = 'Please try again later or use /mvphelp to get more information';
         
         if(permaTrackerMessage && permaTrackerChannelId) {

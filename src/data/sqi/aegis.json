@@ -1,0 +1,40 @@
+{
+    "name": "Aegis Shield [1]",
+    "description": "A holy shield with the head of Medusa wrought into it. This shield is only bestowed to the greatest of Athena's champions.",
+    "stats": ["Add 10% resistance against Fire, Water, Wind, Earth Property.", "Indestructible.", "VIT +5, INT +3, STR +3, MDEF +10."],
+    "item-class": "Shield",
+    "defense-rate": "8",
+    "weight": "400",
+    "required-level": "None",
+    "application-jobs": ["Crusader", "Paladin"],
+    "ingredients": [
+        "1x Sacred Mission [1]", 
+        "1x Tournament Shield [1]", 
+        "1x Imperial Guard [1]", 
+        "1x Safety Ring [0]", 
+        "1x Orc Warrior Card", 
+        "1x Ambernite Card", 
+        "1x Medusa Card",
+        "100x Carnium",
+        "12x Emperium",
+        "10x Piece of Shield",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "50% Stone Curse resistance.",
+        "Reflect 15% of all melee damage.",
+        "15% Aftercast Reduction.",
+        "Full HP/SP when resurrected.",
+        "Casting can't be interrupted.",
+        "20% more damage with [Grand Cross] and [Holy Cross].",
+        "20% more damage with [Shield Boomerang] and [Shield Chain].",
+        "Ignore [Grand Cross] holy damage as if you were holy element and inflicts full damage regardless of AoE position.",
+        "Increase effectiveness of [Heal] by 20%. PvP/WoE: Reduce to 10%.",
+        "50% less cast time with [Shield Chain]; but disables Berzebub Card.",
+        "[Crusader Spirit] remains after death.",
+        "[Shield Chain] and [Shield Boomerang] ignores Neutral Resist.",
+        "[Endure] has no hit limit when used."
+    ],
+    "full-image": "https://talontales.com/panel/data/items/images/2150.png",
+    "icon-image": "https://talontales.com/panel/data/items/icons/2150.png"
+}

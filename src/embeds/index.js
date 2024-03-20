@@ -4,6 +4,7 @@ import  createInfoEmbed  from "./infoEmbed.js";
 import  createTrackerEmbed  from "./trackerEmbed.js";
 import  createMessageEmbed  from "./messageEmbed.js";
 import  createBossListEmbed  from "./bossListEmbed.js";
+import  createSqiEmbed  from "./sqiEmbed.js";
 
 export { 
     createInfoEmbed, 
@@ -11,5 +12,6 @@ export {
     createBirthdayMessageEmbed, 
     createTrackerEmbed, 
     createMessageEmbed, 
-    createBossListEmbed, 
+    createBossListEmbed,
+    createSqiEmbed, 
 };

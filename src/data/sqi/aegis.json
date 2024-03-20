@@ -2,11 +2,11 @@
     "name": "Aegis Shield [1]",
     "description": "A holy shield with the head of Medusa wrought into it. This shield is only bestowed to the greatest of Athena's champions.",
     "stats": ["Add 10% resistance against Fire, Water, Wind, Earth Property.", "Indestructible.", "VIT +5, INT +3, STR +3, MDEF +10."],
-    "item-class": "Shield",
-    "defense-rate": "8",
+    "itemClass": "Shield",
+    "defenseRate": "8",
     "weight": "400",
-    "required-level": "None",
-    "application-jobs": ["Crusader", "Paladin"],
+    "requiredLevel": "None",
+    "applicationJobs": ["Crusader", "Paladin"],
     "ingredients": [
         "1x Sacred Mission [1]", 
         "1x Tournament Shield [1]", 
@@ -35,6 +35,6 @@
         "[Shield Chain] and [Shield Boomerang] ignores Neutral Resist.",
         "[Endure] has no hit limit when used."
     ],
-    "full-image": "https://talontales.com/panel/data/items/images/2150.png",
-    "icon-image": "https://talontales.com/panel/data/items/icons/2150.png"
+    "image": "https://talontales.com/panel/data/items/images/2150.png",
+    "icon": "https://talontales.com/panel/data/items/icons/2150.png"
 }

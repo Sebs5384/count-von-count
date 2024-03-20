@@ -31,7 +31,9 @@ async function runCommand(send, guild, embedColor, sqiName) {
             const sqiFile = fs.readFileSync(filePath, 'utf8');
             const sqi = JSON.parse(sqiFile);
             const sqiData = getSuperQuestItemData(sqi);
-            const sqiFields = getSqiEmbedFields(sqiData);
+            const sqiFields = getSqiMainStatFields(sqiData);
+            const sqiIngredients = getSqiIngredientFields(sqiData);
+            const sqiBonuses = getSqiBonusFields(sqiData);
 
             send({ embeds: [createSqiEmbed(sqiData, sqiFields, embedColor)] });
         } else {
@@ -92,23 +94,37 @@ function getSuperQuestItemData(sqi) {
     };
 };
 
-function getSqiEmbedFields(sqi) {
-    const sqiFields = [
+function getSqiMainStatFields(sqi) {
+    const mainStatFields = [
         { name: 'Description', value: sqi.description },
-        { name: 'Stats', value: sqi.stats.map(stat => `${stat}`).join('\n') },
+        { name: 'Stats', value: sqi.stats.map(stat => `- ${stat}`).join('\n') },
         { name: 'Item Class', value: sqi.itemClass },
         { name: 'Weight', value: sqi.weight },
         { name: 'Required Level', value: sqi.requiredLevel },
-        { name: 'Application Jobs', value: sqi.applicationJobs.map(job => `${job}`).join('\n') },
-        { name: 'Crafting Ingredients', value: sqi.ingredients.map(ingredient => `- ${ingredient}`).join('\n') },
-        { name: 'SQI Bonuses', value: sqi.bonuses.map(bonus => `- ${bonus}`).join('\n') }
+        { name: 'Application Jobs', value: sqi.applicationJobs.map(job => `- ${job}`).join('\n') },
     ];
 
-    if(sqi.attackStrength) sqiFields.splice(3, 0, { name: 'Attack Strength', value: sqi.attackStrength });
-    if(sqi.defenseRate) sqiFields.splice(3, 0, { name: 'Defense Rate', value: sqi.defenseRate });
-    if(sqi.weaponLevel) sqiFields.splice(5, 0, { name: 'Weapon Level', value: sqi.weaponLevel });
+    if(sqi.attackStrength) mainStatFields.splice(3, 0, { name: 'Attack Strength', value: sqi.attackStrength });
+    if(sqi.defenseRate) mainStatFields.splice(3, 0, { name: 'Defense Rate', value: sqi.defenseRate });
+    if(sqi.weaponLevel) mainStatFields.splice(5, 0, { name: 'Weapon Level', value: sqi.weaponLevel });
 
-    return sqiFields;
+    return mainStatFields;
+};
+
+function getSqiIngredientFields(sqi) {
+    const ingredientFields = [
+        { name: 'Crafting Ingredients', value: sqi.ingredients.map(ingredient => `- ${ingredient}`).join('\n') }
+    ];
+
+    return ingredientFields;
+};
+
+function getSqiBonusFields(sqi) {
+    const bonusFields = [
+        { name: 'Bonuses', value: sqi.bonuses.map(bonus => `- ${bonus}`).join('\n') }
+    ];
+
+    return bonusFields;
 };
 
 export default command;

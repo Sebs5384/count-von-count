@@ -37,7 +37,7 @@ async function runCommand(send, guild, embedColor, sqiName, interaction) {
             const sqiIngredients = getSqiIngredientFields(sqiData);
             const sqiBonuses = getSqiBonusFields(sqiData);
             const sqiEmbed = createSqiEmbed(sqiData, sqiFields, embedColor);
-            const sqiEmbedButtons = createSuperQuestItemButtonsRow(sqi);
+            const sqiEmbedButtons = createSuperQuestItemButtonsRow(['sqiingredients', 'sqibonuses']);
 
             const message = await send({ embeds: [sqiEmbed], components: [sqiEmbedButtons] });
             
@@ -49,16 +49,32 @@ async function runCommand(send, guild, embedColor, sqiName, interaction) {
                 collector.on('collect', async (button) => {
                     if(button.customId === 'sqiingredients') {
                         const sqiEmbed = createSqiEmbed(sqiData, sqiIngredients, embedColor);
-                        const sqiEmbedButtons = createSuperQuestItemButtonsRow(sqi);
+                        const sqiEmbedButtons = createSuperQuestItemButtonsRow(['sqibonuses', 'sqidescription']);
 
                         message.edit({ embeds: [sqiEmbed], components: [sqiEmbedButtons] });
                         await button.deferUpdate();
                     } else if(button.customId === 'sqibonuses') {
                         const sqiEmbed = createSqiEmbed(sqiData, sqiBonuses, embedColor);
-                        const sqiEmbedButtons = createSuperQuestItemButtonsRow(sqi);
+                        const sqiEmbedButtons = createSuperQuestItemButtonsRow(['sqiingredients', 'sqidescription']);
 
                         message.edit({ embeds: [sqiEmbed], components: [sqiEmbedButtons] });
                         await button.deferUpdate();
+                    } else if(button.customId === 'sqidescription') {
+                        const sqiEmbed = createSqiEmbed(sqiData, sqiFields, embedColor);
+                        const sqiEmbedButtons = createSuperQuestItemButtonsRow(['sqiingredients', 'sqibonuses']);
+
+                        message.edit({ embeds: [sqiEmbed], components: [sqiEmbedButtons] });
+                        await button.deferUpdate();
+                    };
+                });
+
+                collector.on('end', async (collected, reason) => {
+                    if(reason === 'time') {
+                        try{
+                            await message.edit({ components: [] });
+                        } catch(error) {
+                            console.log(`There was an error while deleting the sqi buttons: ${error}`);
+                        };
                     };
                 });
 

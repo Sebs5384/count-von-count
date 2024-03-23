@@ -1,0 +1,29 @@
+{
+    "name": "Brisingamen [1]",
+    "description": "A legendary necklace worn by Freija, the goddess of beauty.",
+    "stats": [
+        "All Stats except DEX + 6, DEX + 3.",
+        "MDEF + 5."
+    ],
+    "itemClass": "Accessory",
+    "attackStrength": null,
+    "defenseRate": "5",
+    "weight": "20",
+    "weaponLevel": null,
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "Every Job"
+    ],
+    "ingredients": [
+        "4 x Ring[1]",
+        "4 x Earring[1]",
+        "4 x Brooch[1]",
+        "4 x Glove[1]",
+        "4 x Rosary[1]",
+        "4 x Necklace[1]",
+        "120m Zeny"
+    ],
+    "bonuses": null,
+    "image": "https://talontales.com/panel/data/items/images/2630.png",
+    "icon": "https://talontales.com/panel/data/items/icons/2630.png"
+}

@@ -1,0 +1,34 @@
+{
+    "name": "Megingjard",
+    "description": "A legendary belt rumored to be owned by Thor, the god of thunder. Increases its wearer's strength.",
+    "stats": [
+        "STR + 30.",
+        "MDEF + 7.",
+        "Reduce damage done with Asura Strike by 10% [Monk Class]."
+    ],
+    "itemClass": "Accessory",
+    "attackStrength": null,
+    "defenseRate": "2",
+    "weight": "300",
+    "weaponLevel": null,
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "All Jobs"
+    ],
+    "ingredients": [
+        "1 x Morrigane's Belt",
+        "1 x Angel Wing[0]",
+        "1 x Tarou Card",
+        "1 x Mantis Card",
+        "1 x Picky Card",
+        "1 x Deviruchi Card",
+        "1 x Hornet Card",
+        "1 x Kobold Card",
+        "10 x Ring[1]",
+        "10 x Ring[0]",
+        "150m Zeny"
+    ],
+    "bonuses": null,
+    "image": "https://talontales.com/panel/data/items/images/2629.png",
+    "icon": "https://talontales.com/panel/data/items/icons/2629.png"
+}

@@ -1,0 +1,26 @@
+{
+    "name": "Sleipnir [1]",
+    "description": "Named after Odin's trusty warhorse, these shoes also mimic Sleipnir's powers.",
+    "stats": [
+        "MHP/MSP + 20%.",
+        "SP Recovery + 15%.",
+        "MDEF + 10."
+    ],
+    "itemClass": "Shoes",
+    "attackStrength": null,
+    "defenseRate": "5",
+    "weight": "150",
+    "weaponLevel": null,
+    "requiredLevel": "80",
+    "applicationJobs": [
+        "All Jobs"
+    ],
+    "ingredients": [
+        "1x Sleipnir [0]",
+        "1x Greaves [1]",
+        "50m Zeny"
+    ],
+    "bonuses": null,
+    "image": "https://talontales.com/panel/data/items/images/8049.png",
+    "icon": "https://talontales.com/panel/data/items/icons/8049.png"
+}

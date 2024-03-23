@@ -1,0 +1,31 @@
+{
+    "name": "Valkyrie Helm [1]",
+    "description": "Helmet decorated with angelic feathers, worn by Odin's battle maidens. Inscribed with the image of the Goddess of Death, its true purpose is to protect and preserve life.",
+    "stats": [
+        "VIT + 20, LUK + 20, AGI + 20.",
+        "MDEF + 20.",
+        "Reduce 10% of damage taken from demi-human monsters."
+    ],
+    "itemClass": "Head Gear",
+    "attackStrength": null,
+    "defenseRate": "7",
+    "weight": "10",
+    "weaponLevel": null,
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "All Jobs"
+    ],
+    "ingredients": [
+        "1 x Angel Wing[0]",
+        "1 x Angel Wing Ears[1]",
+        "1 x Helm of Angel[0]",
+        "1 x Spiky Band[0]",
+        "1 x Queen's Hair Ornament",
+        "1 x Crown of Mistress[0]",
+        "1 x Bone Helm",
+        "130m Zeny"
+    ],
+    "bonuses": null,
+    "image": "https://talontales.com/panel/data/items/images/8048.png",
+    "icon": "https://talontales.com/panel/data/items/icons/8048.png"
+}

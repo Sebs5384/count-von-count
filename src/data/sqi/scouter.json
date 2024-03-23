@@ -1,0 +1,54 @@
+{
+    "name": "Scouter [1]",
+    "description": "An advanced piece of technology, it feels as if your reactions are quicker and more accurate whilst wearing it. Also contains a powerful personal shield generator, granting protection in combat. Allows the user to sense their target's power level and weaknesses.",
+    "stats": [
+        "DEX + 10.",
+        "ASPD + 25%.",
+        "MaxHP/MaxSP + 20%.",
+        "Enables use of level 1 Monster Property and level 1 Body Relocation.",
+        "20% Non-Boss and Boss Resistance.",
+        "Ignore [Madness Canceller] delay.",
+        "Enables use of level 1 Monster Property. DEX + 10, ASPD + 15% [Super Novice]"
+    ],
+    "itemClass": "Headgear",
+    "attackStrength": null,
+    "defenseRate": "7",
+    "weight": "10",
+    "weaponLevel": null,
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "Gunslinger"
+    ],
+    "ingredients": [
+        "1 x Wrench [0]",
+        "1 x Headset [0] (Quest)",
+        "1 x Vesper Core 01 [0]",
+        "1 x Vesper Core 02 [0]",
+        "1 x Vesper Core 03 [0]",
+        "1 x Vesper Core 04 [0]",
+        "1 x Drosera Card",
+        "2 x Alicel Card",
+        "100 x Carnium",
+        "25 x Gold",
+        "5 x Piece of CPU",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "20% Magic Resistance",
+        "Reduce SP Consumption of skills by 20%",
+        "CRIT +15 (30 with Rifles) and 20% more damage with Critical Hits",
+        "Ignore [Gatling Fever] FLEE and Movement Speed penalties. Dispell [Gatling Fever] on unequip",
+        "5% chance to auto cast Stone Curse status when attacking",
+        "Add a 25% chance to ignore ammo costs when using skills or attacking normally. Skills that consume more than 2 bullets only consume 2 bullets",
+        "Shotgun Equipped: ASPD +25%. 20% more damage with [Full Blaster]. 50% more damage with [Spread Attack]",
+        "Grenade Launcher Equipped: 50% more damage with [Triple Action]. [Ground Drift] Duration +30 secs, and, PvM, add 4 more Mines, trigger/splash AoE becomes 5x5",
+        "Gatling Gun Equipped: 20% more damage with Long Range Attacks and Critical Hits. Ignore [Gatling Fever] FLEE and Movement Speed penalties, dispelled on unequip",
+        "Enables use of level 1 [Hyper Spirit Sphere]",
+        "Rifle Equipped: 25% more damage with [Piercing Shot] and [Tracking]. 25% less cast time with [Tracking]",
+        "Triple the duration of [Madness Canceller] and [Adjustment]",
+        "15% Aftercast Reduction",
+        "Immunity to Blind Status. Base AGI >= 88: Immunity to Stun Status. Base VIT >= 88: Immunity to Sleep Status"
+    ],
+    "image": "https://talontales.com/panel/data/items/images/5600.png",
+    "icon": "https://talontales.com/panel/data/items/icons/5600.png"
+}

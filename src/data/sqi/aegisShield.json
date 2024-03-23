@@ -1,7 +1,11 @@
 {
     "name": "Aegis Shield [1]",
     "description": "A holy shield with the head of Medusa wrought into it. This shield is only bestowed to the greatest of Athena's champions.",
-    "stats": ["Add 10% resistance against Fire, Water, Wind, Earth Property.", "Indestructible.", "VIT +5, INT +3, STR +3, MDEF +10."],
+    "stats": [
+        "Add 10% resistance against Fire, Water, Wind, Earth Property.", 
+        "Indestructible.", 
+        "VIT +5, INT +3, STR +3, MDEF +10."
+    ],
     "itemClass": "Shield",
     "attackStrength": null,
     "defenseRate": "8",

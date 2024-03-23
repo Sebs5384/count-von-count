@@ -1,0 +1,48 @@
+{
+    "name": "Belmont Whip [3]",
+    "description": "Legendary weapon of the Belmont clan, said to have slayed over 1000 vampires, including Count Dracula himself.",
+    "stats": [
+        "Ignore Adapation to Circumstances delay.", 
+        "Enables use of level 5 Providence and level 5 Aspersio.", 
+        "DEX + 15, AGI + 10, ASPD + 13%.",
+        "Enable perfect damage on any size monster.",
+        "Enchanted with Fire."
+    ],
+    "itemClass": "Whip",
+    "attackStrength": "190",
+    "defenseRate": null,
+    "weight": "70",
+    "weaponLevel": "4",
+    "requiredLevel": "None",
+    "applicationJobs": ["Dancer", "Gypsy"],
+    "ingredients": [
+        "1x Rosevine [0]",
+        "1x Chemeti Whip [0]",
+        "1x Queen's Whip [2]",
+        "1x Stem of Nepentis [2]",
+        "1x Rope of Unbalance [3]",
+        "1x Eye of Dullahan [0]",
+        "2x Assaulter Card",
+        "1x Pest Card",
+        "20x Valhalla's Flower",
+        "5x Fire Dragon Scale",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "MaxHP + 20%",
+        "CRIT + 15 and 20% more damage with Critical Hits.",
+        "20% more damage with Long Range Attacks.",
+        "35% more damage with [Throw Arrow].",
+        "Immobilize the target for 2 seconds after using [Arrow Vulcan]; Fails against MvP monsters and in WoE.",
+        "15% chance to cause Stone Curse or Sleep status when attacking.",
+        "[Ugly Dance] reduces enemy INT by 20% for 7 seconds.",
+        "[Service for You] restores 2 SP per skill level (+20 at level 10) every 2 seconds for everyone in its area.",
+        "[Fortune's Kiss] CRIT +1 for each level of [Fortune's Kiss] and buffs yourself without [Bard and Dancer Spirits]; when its user leaves the AoE it lasts 40 seconds.",
+        "35% more damage with [Arrow Vulcan].",
+        "[Humming] HIT boost is doubled.",
+        "Double the duration of [Bard and Dancer Spirits] and remains after death.",
+        "30% Freeze and Stone Curse Resistance."
+    ],
+    "image": "https://talontales.com/panel/data/items/images/1990.png",
+    "icon": "https://talontales.com/panel/data/items/icons/1990.png"
+}

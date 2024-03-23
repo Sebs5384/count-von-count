@@ -1,0 +1,47 @@
+{
+    "name": "Artemis Bow [3]",
+    "description": "Legendary bow that was used by Artemis to shoot down the stars from the sky. The bow is powerful enough to cause traumatic wounds on its unfortunate target.",
+    "stats": [
+        "Enables use of level 4 [Safety Wall].", 
+        "INT +15.", 
+        "LUK +20."
+    ],
+    "itemClass": "Bow",
+    "attackStrength": "200",
+    "defenseRate": null,
+    "weight": "150",
+    "weaponLevel": "4",
+    "requiredLevel": "None",
+    "applicationJobs": ["Hunter", "Sniper"],
+    "ingredients": [
+        "1x Rudraw Bow [0]", 
+        "1x Ballista [0]", 
+        "1x Giant Crossbow [2]", 
+        "1x Bow Thimble [1]", 
+        "1x Arrow of Counter Evil", 
+        "2x Cecil Damon Card", 
+        "1x Breeze Card",
+        "500x Round Feather",
+        "15x Ora Ora",
+        "1x Leak Claw",
+        "5x Queen Scaraba Shell",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "MaxHP + 15%",
+        "MaxSP + 10%. Add a 25% chance to ignore arrow costs when using skills or attacking normally.",
+        "20% Magic Resistance.",
+        "10% more damage with Critical Hits.",
+        "100% more damage with [Claymore Trap], [Blast Mine], and [Land Mine]. [Blast Mine] and [Land Mine] durations are increased to 100 seconds when mastered.",
+        "Add a 20% chance to auto-cast level 2 [NPC_BLEEDING] when attacking normally.",
+        "[Wind Walk] adds an extra 15 FLEE.",
+        "Triple duration with [True Sight].",
+        "[Blitz Beat] and [Falcon Assault] ignore Neutral Resist.",
+        "25% more damage and 20% less aftercast delay with [Falcon Assault].",
+        "Auto [Blitz Beat] doesn't draw aggro against slave mobs. [Blitz Beat] no longer splits damage.",
+        "Increase Trap Skill Trigger AoE (except [Ankle Snare]) to 5x5. Increase [Claymore Trap], [Land Mine], and [Blast Mine] splash AoE to 7x7.",
+        "10% more damage with [Double Strafing]. Now reduces Thanatos Card effect by 15% for each equipped Thanatos Card."
+    ],
+    "image": "https://talontales.com/panel/data/items/images/1745.png",
+    "icon": "https://talontales.com/panel/data/items/icons/1745.png"
+}

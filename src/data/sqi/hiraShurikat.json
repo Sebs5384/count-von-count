@@ -1,0 +1,55 @@
+{
+    "name": "Hira Shurikat [4]",
+    "description": "A huge shuriken crafted of a lightweight, incredibly strong metal. Its origin is unknown. It can be used equally well in offense as defense.",
+    "stats": [
+        "20% Non-Boss and Boss Resistance.",
+        "MaxHP/MaxSP + 20%.",
+        "MATK +20%.",
+        "DEX + 15.",
+        "DEF + 8.",
+        "ASPD + 13%",
+        "Negates the need for Stones.",
+        "Enchanted With Earth."
+    ],
+    "itemClass": "2-Handed Huuma Shuriken",
+    "attackStrength": "250",
+    "defenseRate": null,
+    "weight": "100",
+    "weaponLevel": "4",
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "Ninja"
+    ],
+    "ingredients": [
+        "1 x Huuma Blaze Shuriken [0]",
+        "1 x Huuma Wing Shuriken [0]",
+        "1 x Huuma Giant Wheel Shuriken [4]",
+        "1 x Huuma Calm Mind [2]",
+        "2 x Thara Frog Card",
+        "1 x Pinguicula Card",
+        "250 x Small Bradium",
+        "100 x Bradium",
+        "10 x Rose Quartz",
+        "5 x Broken Katana",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "Magic Resistance: 20%",
+        "Demi-Human Resistance: 20%",
+        "Cast Time Reduction: 20%",
+        "CRIT + 25 and 20% more damage with Critical Hits",
+        "Enables use of level 1 [Hiding]",
+        "50% more damage and 20% chance to inflict Sleep status with [Mist Slash]",
+        "50% more damage with [Throw Humma Shuriken], [Throw Shuriken], and [Throw Kunai]. [Throw Huuma Shuriken] no longer splits damage. Convert [Throw Huuma Shuriken] delay into a cooldown",
+        "[Final Strike] ignores enemy DEF. 10% of current HP remains after use. (10% of current HP, not max)",
+        "2 Cell Knockback and 50% more damage with [Crimson Fire Formation]",
+        "20% damage with [Falling Ice Pillar] and [Dragon Fire Formation]. 8 Cell Knockback with [Falling Ice Pillar]. Converts their delays into cooldowns",
+        "Convert [Wind Blade] delay into a cooldown. 25% chance to auto-cast level 2 [Critical Wounds] after use",
+        "Reduce SP Consumption of skills by 20%",
+        "15% Aftercast reduction",
+        "10% more damage with [Lightning Spear of Ice], [Crimson Fire Blossom], and [North Wind]",
+        "Additional 10% damage if Base STR >= 90"
+    ],
+    "image": "https://talontales.com/panel/data/items/images/13320.png",
+    "icon": "https://talontales.com/panel/data/items/icons/13320.png"
+}

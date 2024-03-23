@@ -1,0 +1,50 @@
+{
+    "name": "Djinn [3]",
+    "description": "An axe imbued with the power of an earth dragon. Causes the earth itself to shake with each swing.",
+    "stats": [
+        "DEX +5, LUK +5",
+        "INT +5, DEX +15, LUK +20 [Super Novice]",
+        "Enchanted With Earth."
+    ],
+    "itemClass": "Axe",
+    "attackStrength": "350",
+    "defenseRate": null,
+    "weight": "400",
+    "weaponLevel": "4",
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "Alchemist",
+        "Biochemist"
+    ],
+    "ingredients": [
+        "1 x War Axe [1]",
+        "1 x Bloody Axe [0]",
+        "1 x Red Ether Bag [1]",
+        "1 x Erde Mace [2]",
+        "1 x Dark Pinguicula Card",
+        "2 x Sandman Card",
+        "75 x Three-Headed Dragon's Head",
+        "10 x Stone of Sage",
+        "1 x Mother's Nightmare",
+        "5 x Hard Skin",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "MaxHP + 15%",
+        "INT + 5",
+        "5% Chance to reflect 40% of damage for 8 seconds when attacked.",
+        "5% chance to auto cast Stone Curse status when attacked.",
+        "MATK + 20%. Enables use of Level 6 [Fire Bolt] and 10% chance to auto cast Level 6 [Fire Bolt] when attacking normally.",
+        "50% more damage and 75% reduced zeny cost with [Mammonite].",
+        "[Demonstration] damage interval reduced by 75% (every 0.25 secs instead of 1 sec). Remove [Demonstration] on unequip.",
+        "20% chance to ignore potion cost with [Potion Pitcher] and [Slim Potion Pitcher].",
+        "PvM: Ignore [Acid Terror] Acid Bottle cost and [Demonstration] Fire Bottle cost.",
+        "PvM: [Acid Terror] takes on the element of the user's weapon.",
+        "Chemical Protection Skills (except FCP) have double duration and a 25% chance to ignore Glistening Coat cost.",
+        "[Bio Cannibalize] plants receive 40% less damage, ASPD/ATK x2, and HIT/HP x3; destroy bio plants on equip/unequip.",
+        "PvM: [Demonstration] takes on the element of the user's weapon.",
+        "PvM: Endow Neutral Element."
+    ],
+    "image": "https://talontales.com/panel/data/items/images/1320.png",
+    "icon": "https://talontales.com/panel/data/items/icons/1320.png"
+}

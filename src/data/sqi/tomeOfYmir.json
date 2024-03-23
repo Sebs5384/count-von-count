@@ -1,0 +1,50 @@
+{
+    "name": "Tome of Ymir [3]",
+    "description": "Tome that contains the secrets of Rune Midgard. Bestows limitless knowledge.",
+    "stats": [
+        "DEX + 15, INT + 4.",
+        "MATK + 20%.",
+        "ASPD + 13%.",
+        "Ignore gemstone requirement."
+    ],
+    "itemClass": "Book",
+    "attackStrength": "350",
+    "defenseRate": null,
+    "weight": "80",
+    "weaponLevel": "4",
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "Sage",
+        "Professor"
+    ],
+    "ingredients": [
+        "1 x Sage's Diary [2]",
+        "1 x Book of the Dead [2]",
+        "1 x Book of the Apocalypse [0]",
+        "1 x Geffenia Tomb of Water [1]",
+        "1 x Memory Book [0]",
+        "2 x Sage Worm Card",
+        "1 x Yellow Novus Card",
+        "100 x Pencil Case",
+        "75 x Old Magicbook",
+        "10 x Fragment of Rossata Stone",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "MaxHP +20%",
+        "Enables use of level 10 [Soul Drain] and regain 2 SP for each normal attack",
+        "Enables use of level 3 [Strip Shield]",
+        "No cast time with [Memorize] and [Double Casting]",
+        "Pierce 10% of enemy MDEF when using [Fire Bolt], [Cold Bolt], [Lightning Bolt], or [Earth Spike]",
+        "15% Aftercast Reduction with [Fire Bolt], [Cold Bolt], [Lightning Bolt]",
+        "Earth Spike Mastered: Add a 50% chance to cause Stone Curse status after using [Earth Spike]",
+        "Autospell Mastered: Add ASPD +12% and FLEE +15 during [Autospell]",
+        "Endow Skills have 100% success rate, regardless of skill level. Instances/PvP/WoE: Consume no catalyst",
+        "Increase [Wall of Fog] limit to 3. Remove [Wall of Fog] on unequip",
+        "Increase the AoE of [Volcano], [Deluge], and [Violent Gale] to 11x11. Cancel these skills on unequip",
+        "PvM: 80% Aftercast Reduction with [Soul Exchange] and restore 50% more SP with [Health Conversion]",
+        "25% more damage with [Thunderstorm] and [Heaven's Drive]. 200% more damage with [Fire Ball]"
+    ],
+    "image": "https://talontales.com/panel/data/items/images/1590.png",
+    "icon": "https://talontales.com/panel/data/items/icons/1590.png"
+}

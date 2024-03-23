@@ -1,0 +1,52 @@
+{
+    "name": "Electric Guitar [3]",
+    "description": "A guitar with the soul of a demon songstress. The melodies produced by this guitar send shockwaves of electricity through the enemy.",
+    "stats": [
+        "MATK + 15%",
+        "DEX + 15, INT + 4, VIT + 4.",
+        "Ignore Adaptation to Circumstances delay.",
+        "Enables use of level 3 Jupitel Thunder",
+        "Enchanted With Lightning (Wind)."
+    ],
+    "itemClass": "Musical Instrument",
+    "attackStrength": "190",
+    "defenseRate": null,
+    "weight": "100",
+    "weaponLevel": "4",
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "Bard",
+        "Clown"
+    ],
+    "ingredients": [
+        "1 x Gumoongoh [2]",
+        "1 x Guitar [1]",
+        "1 x Oriental Lute [2]",
+        "1 x Green Whistle [1]",
+        "1 x Harp of Nepentis [2]",
+        "1 x Devil Whisper [0]",
+        "1 x Wind Ghost Card",
+        "2 x Green Ferus Card",
+        "100 x Singing Plant",
+        "20 x Biotite",
+        "5 x Exquisite Hair",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "MaxHP + 20%",
+        "20% more damage with Long Range Attacks.",
+        "35% more damage with [Musical Strike].",
+        "Immobilize the target for 2 seconds after using [Arrow Vulcan]; Fails against MvP monsters and in WoE.",
+        "[The Apple of Idun] MaxHP Rate + 1% per skill level (10% at level 10). Heals three times as often and twice as much.",
+        "[A Whistle] FLEE Rate + 20% and Perfect Dodge Rate + 5%.",
+        "[Poem of Bragi] Aftercast Rate + 2%.",
+        "[Assassin Cross of Sunset] adds 10% more Wind Magic Damage instead of ASPD.",
+        "35% more damage with [Arrow Vulcan].",
+        "Increase [Jupitel Thunder] level to 10.",
+        "Add a 10% chance of auto-casting level 10 [Jupitel Thunder] when attacked with short range physical attacks.",
+        "Double the duration of [Bard and Dancer Spirits] and remains after death.",
+        "30% Freeze and Stone Curse Resistance."
+    ],
+    "image": "https://talontales.com/panel/data/items/images/1913.png",
+    "icon": "https://talontales.com/panel/data/items/icons/1913.png"
+}

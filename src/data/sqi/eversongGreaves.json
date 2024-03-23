@@ -1,0 +1,53 @@
+{
+    "name": "Eversong Greaves [3]",
+    "description": "A pair of elegant boots, heavy to wear but increase the power of the wearer's kicks tremendously. Incredibly soft and graceful. Despite their weight, the wearer feels able to run at great speeds.",
+    "stats": [
+        "MaxHP + 20%, MaxSP + 10%",
+        "MDEF + 10,",
+        "ATK + 130",
+        "Fast Movement all the time.",
+        "HIT + 75, ASPD + 30% [Taekwon]",
+        "DEX + 10, LUK + 15 [Taekwon Master]"
+    ],
+    "itemClass": "Shoes",
+    "attackStrength": null,
+    "defenseRate": "5",
+    "weight": "150",
+    "weaponLevel": null,
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "Taekwon",
+        "Taekwon Master"
+    ],
+    "ingredients": [
+        "1 x Enhanced Variant Shoes [1]",
+        "1 x Valkyrja's Shoes [1]",
+        "1 x Greaves [1]",
+        "1 x Crest of the Rider [1]",
+        "1 x Tendrillion Skin [1]",
+        "1 x Bradium Golem Card",
+        "2 x Andre Card",
+        "100 x Red Feather",
+        "100 x Carnium",
+        "1 x Gold Plating",
+        "10 x Heroic Emblem",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "Taekwon: MaxHP/MaxSP + 10% | Star Gladiator: MaxHP/MaxSP + 20%.",
+        "Taekwon: Ignore 20% of enemy Defense. | Star Gladiator: PvM: [Union] HP recoil is reduced to 1%. 50% HP Leech Script penalty when Union is active.",
+        "Taekwon: Kick Skill Rate + 15% | Star Gladiator: Triple Miracle Mode rate. Star Gladiator: [Heat] Skill Not Learned: Miracle Mode Rate is 2%.",
+        "FLEE + 30",
+        "CRIT + 10 and 20% more damage with Critical Hits.",
+        "[Peaceful Rest] and [Enjoyable Rest] always enabled and ignores overweight tick penalties below 90%; But disables GEC Effect!",
+        "50% more damage with [Flying Side Kick].",
+        "25% more damage with [Axe Kick] and [Counter Kick].",
+        "Always cast level 5 [Hammer Fall] after using [Round Kick]. 25% more damage with [Round Kick].",
+        "[Whirlwind Kick] inflicts double splash damage (no damage increase on source target).",
+        "Perfect Dodge + 10.",
+        "VIT + 10.",
+        "[Break Fall] Rate + 10%"
+    ],
+    "image": "https://talontales.com/panel/data/items/images/2480.png",
+    "icon": "https://talontales.com/panel/data/items/icons/2480.png"
+}

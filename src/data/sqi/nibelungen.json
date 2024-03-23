@@ -1,0 +1,51 @@
+{
+    "name": "Nibelungen [3]",
+    "description": "A spear used by Odin's battle maidens to purify weird souls. The demons slain by this lance give it tremendous power.",
+    "stats": [
+        "STR + 5.",
+        "HIT + 50.",
+        "ASPD + 13%.",
+        "Enables use of level 4 Warm Wind. Dispel Warm Wind on unequip.",
+        "PvP/WoE: Reduce Warm Wind duration to 10 seconds. Warm Windcooldown + 10 seconds (irreducible) on use and unequip."
+    ],
+    "itemClass": "Spear",
+    "attackStrength": "200",
+    "defenseRate": null,
+    "weight": "550",
+    "weaponLevel": "4",
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "Knight",
+        "Lord Knight"
+    ],
+    "ingredients": [
+        "1 x Ivory Lance [1]",
+        "1 x Cannon Spear [1]",
+        "1 x Gungnir [0]",
+        "1 x Tirfing [0]",
+        "2 x Seyren Windsor Card",
+        "1 x Plasma Card",
+        "50 x Talon of Griffon",
+        "2 x Loki's Whispers",
+        "1 x Shining Spear Blade",
+        "5 x Corrupted Soul",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "CRIT +15 and 10% more damage with Critical Hits",
+        "15% Aftercast Reduction",
+        "Increase damage inflicted on Large size monster by 15% when using [Pierce] or [Brandish Spear]",
+        "5% chance to add ASPD +12% and [Pierce] HIT Rate +25% for 15 seconds after using [Pierce]",
+        "20% more damage with [Pierce]",
+        "100% more damage with [Joint Beat]. 50% more damage with [Head Crush]",
+        "50% more damage [Brandish Spear] and inflict full damage regardless of AoE position",
+        "50% less cast time with [Brandish Spear] and has an additional attack range +1",
+        "25% chance to auto-cast level 5 [Decrease Agility] on the enemy after using [Spear Boomerang]",
+        "25% chance to auto-cast level 1 [Critical Wounds] after using [Head Crush]",
+        "50% less cast time with [Spiral Pierce]; but disables Berzebub Card",
+        "10% chance to auto-cast [Pierce] or [Joint Beat] at the levels learned during [Frenzy]",
+        "[Endure] has no hit limit when used"
+    ],
+    "image": "https://talontales.com/panel/data/items/images/1430.png",
+    "icon": "https://talontales.com/panel/data/items/icons/1430.png"
+}

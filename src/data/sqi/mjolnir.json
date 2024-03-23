@@ -1,0 +1,53 @@
+{
+    "name": "Mjolnir [3]",
+    "description": "A great hammer rumored to have been used by, Thor, the God of thunder.",
+    "stats": [
+        "STR + 5, DEX + 20, LUK + 20.",
+        "HIT + 30.",
+        "Enables use of level 1 Throw Tomahawk.",
+        "Enchanted With Wind.",
+        "DEX + 5, LUK + 5 [Super Novice]."
+    ],
+    "itemClass": "Mace",
+    "attackStrength": "220",
+    "defenseRate": null,
+    "weight": "400",
+    "weaponLevel": "4",
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "Blacksmith",
+        "Whitesmith"
+    ],
+    "ingredients": [
+        "1 x Tomahawk [0]",
+        "1 x Bradium Stone Hammer [0]",
+        "1 x Golden Mace [1]",
+        "1 x Veteran Axe [2]",
+        "1 x Emperium Anvil",
+        "1 x Golem Card",
+        "1 x Metaller Card",
+        "1 x Dokebi Card",
+        "300 x Pure Bradium",
+        "150 x Rough Wind",
+        "5 x Windstorm Fragment",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "10% Ranged Resistance.",
+        "CRIT +15 and 20% more damage with Critical Hits",
+        "Reduce [Cart Termination] and [Mammonite] SP costs by 50%",
+        "Spend 75% less zeny with all Zeny Skills",
+        "Triple the duration of [Cart Boost] and [Melt Down]",
+        "[Over-Thrust] won't break party member weapons. Enable [Full Adrenaline Rush] without [Blacksmith Spirit]",
+        "MATK +20%. 30% chance to auto-cast level 2 [Lightning Jolt] with 100% more damage when attacking normally",
+        "40% chance to auto-cast level 1 [Wide Silence] when using [Hammerfall]",
+        "Enables use of level 1 [Charge Attack] and 30% less cast time with [Charge Attack]",
+        "200% more damage with [Throw Tomahawk]. [Throw Tomahawk] now works with the [Melt Down] status",
+        "For each mastered Forge Passive add ATK +10 and DEF Pierce +2%; but reduce HP Leech Script total amount by 50%",
+        "Assume max weight for [Cart Revolution] and [Cart Termination] regardless of cart weight",
+        "Enable [Weapon Perfection] and [Power Maximize] effects all the time with no SP costs when these skills are mastered",
+        "PvM: Endow Neutral Element"
+    ],
+    "image": "https://talontales.com/panel/data/items/images/1530.png",
+    "icon": "https://talontales.com/panel/data/items/icons/1530.png"
+}

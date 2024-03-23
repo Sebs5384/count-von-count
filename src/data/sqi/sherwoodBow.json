@@ -1,0 +1,50 @@
+{
+    "name": "Sherwood Bow [3]",
+    "description": "Strong sturdy bow that was rumoured to be owned by a great thief of the past.",
+    "stats": [
+        "DEX + 15, AGI + 20.",
+        "FLEE + 15.",
+        "Additional Range + 6.",
+        "Enables use of level 1 Arrow Crafting."
+    ],
+    "itemClass": "Bow",
+    "attackStrength": "225",
+    "defenseRate": null,
+    "weight": "150",
+    "weaponLevel": "4",
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "Rogue",
+        "Stalker"
+    ],
+    "ingredients": [
+        "1 x Creeper Bow [2]",
+        "1 x Catapult [2]",
+        "1 x Roguemaster's Bow [0]",
+        "1 x Black Cat [0]",
+        "2 x Whisper Card",
+        "1 x Byorgue Card",
+        "100 x Blue Feather",
+        "75 x Peridot",
+        "1 x Young Twig",
+        "5 x Boitata Tree Branch",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "MaxSP +10%. Add a 25% chance to ignore ammo costs when attacking normally or using skills",
+        "Reduce SP Consumption of skills by 15%",
+        "Ignore 10% of enemy MDEF",
+        "20% Melee and Magic resistance",
+        "CRIT +15 and 10% more damage with Critical Hits",
+        "Enable [Double Attack] usage. [Double Attack] and [Triple Attack] Rate +10%",
+        "PvP/WoE: Add a 10% chance to remove player armor when attacking with long range. PvM: 5% chance for [Strip Shield] instead at the level learned",
+        "Add a 5% chance to auto-cast level 3 [Critical Wounds] when attacking with long range",
+        "Demon Race, Insect Race, and Detector Mobs can no longer see you when hidden; Fails against boss monsters",
+        "[Strip Armor] increases MvP VIT by 20%. Strip Skills (except [Full Strip]) have a 50% longer duration",
+        "MaxHP +15%",
+        "[Preserve] remains after death",
+        "Add a 10% chance to auto-cast [Double Strafing] when attacking normally at the level learned"
+    ],
+    "image": "https://talontales.com/panel/data/items/images/1746.png",
+    "icon": "https://talontales.com/panel/data/items/icons/1746.png"
+}

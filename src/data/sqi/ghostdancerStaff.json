@@ -1,0 +1,51 @@
+{
+    "name": "Ghostdancer Staff [3]",
+    "description": "An elegant staff of flawless Ivory, carved with ancient personal runes of late Einherjar warriors. When wielding this staff, Soul Linkers hear them whisper words of power to them, and are blessed with their powers.",
+    "stats": [
+        "MaxHP and Max SP + 20%.",
+        "MATK + 20%.",
+        "INT + 15, DEX + 15.",
+        "Esma skill may be cast after any Es-Skill",
+        "Enables use of level 1 Magic Crasher.",
+        "MATK + 15%, DEX + 5, INT+ 5. [Super Novice]"
+    ],
+    "itemClass": "1 Handed Staff",
+    "attackStrength": "250",
+    "defenseRate": null,
+    "weight": "150",
+    "weaponLevel": "4",
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "Soul Linker"
+    ],
+    "ingredients": [
+        "1 x Evil Bone Wand [0]",
+        "1 x Survivor's Rod INT [1]",
+        "1 x Gentleman's Cane [1]",
+        "1 x Withered Branch Staff [0]",
+        "1 x Giant Whisper Card",
+        "2 x Banshee Card",
+        "50 x Elder Branch",
+        "10 x Will of Warrior",
+        "20 x Biotite",
+        "10 x Ba Gua",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "Reduce SP Consumption of skills by 20%. Reduce [Kaahi] SP consumption for yourself by 30%.",
+        "20% chance to cause Curse with normal attacks or [Estin].",
+        "Soul Links casted on others last 50% longer.",
+        "10% more damage with [Esma].",
+        "Casting can't be interrupted. 50% less cast time with [Kaupe], [Kaite], [Esma], and [Eswoo].",
+        "[Peaceful Rest] and [Enjoyable Rest] always enabled and ignores overweight tick penalties below 90%; But disables GEC Effect!",
+        "Auto-Cast [Acid Terror] when attacking at [Alchemist Spirit] level. Auto-Cast [Holy Cross] when attacking at [Crusader Spirit] level.",
+        "5% chance to auto-Cast [Frost Joker] when attacking at [Bard Dancer Spirit] level.",
+        "Enables level 5 duration and SP cost on all Soul Link Skills regardless of current skill level.",
+        "Replace [Eska] effect with 20% MDEF Reduction on the target for 10 seconds.",
+        "[Priest Link] adds heal 20% more with [Heal] and 15% with [Sanctuary].",
+        "[Wizard Link] adds ignore 50% of Holy/Shadow element Fire/Water/Wind/Earth Resistance.",
+        "[Kaite] Ignores boss/level restriction, but no damage is reflected in that case, instead, damage is ignored. Only works on yourself, fails against Earthquake."
+    ],
+    "image": "https://talontales.com/panel/data/items/images/1651.png",
+    "icon": "https://talontales.com/panel/data/items/icons/1651.png"
+}

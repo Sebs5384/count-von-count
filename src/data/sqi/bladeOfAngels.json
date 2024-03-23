@@ -1,0 +1,50 @@
+{
+    "name": "Blade of Angels [3]",
+    "description": "A large,incredibly strong dagger which belies its light weight. A favored support weapon of the Einherjar, blessed with shadow elements and the power to expand its user's mind.",
+    "stats": [
+        "20% Resistance against all damage types.", 
+        "MaxHP +50%.", 
+        "MaxSP +1250.", 
+        "MATK +25%.", 
+        "STR +10.", 
+        "HIT +50"
+    ],
+    "itemClass": "Dagger",
+    "attackStrength": "250",
+    "defenseRate": null,
+    "weight": "150",
+    "weaponLevel": "4",
+    "requiredLevel": "None",
+    "applicationJobs": ["Super Novice"],
+    "ingredients": [
+        "1 x Holy Dagger [0]",
+        "1 x Ivory Knife [2]",
+        "1 x Cinquedea [2]",
+        "1 x Star Dust Blade [1]",
+        "1 x Magical Booster [0]",
+        "1 x Argos Card",
+        "1 x Megalodon Card",
+        "1 x Solace Card",
+        "200 x Small Bradium",
+        "20 x Muscovite",
+        "5 x Will of Red Darkness",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "CRIT + 25 and 20% more damage with Critical Hits.",
+        "15% Aftercast Reduction.",
+        "Ignore 10% of enemy MDEF.",
+        "50% more damage with [Mammonite]. 75% reduced zeny cost with [Mammonite] and enable use of level 1 [Fatal Blow].",
+        "Enables use of level 5 [Aura Blade].",
+        "Enables use of level 10 [Auto Spell].",
+        "Enables use of level 5 [Aspersio].",
+        "Enables use of level 10 [Grand Cross].",
+        "Double the duration of [Super Novice Spirit] and remains after death. Death record isn't increased during [Super Novice Spirit].",
+        "Enables use of level 1 [Cart Revolution]. 100% more damage with [Cart Revolution]. 200% more damage with [Magnum Break].",
+        "Enables use of level 5 [Heaven's Drive]. 25% more damage with [Heaven's Drive] and [Thunderstorm]. 200% more damage with [Fire Ball].",
+        "[Double Attack] Rate + 10%.",
+        "Convert [Fire Bolt], [Cold Bolt], [Lightning Bolt], and [Magnum Break] delays into cooldowns."
+    ],
+    "image": "https://talontales.com/panel/data/items/images/1190.png",
+    "icon": "https://talontales.com/panel/data/items/icons/1190.png"
+}

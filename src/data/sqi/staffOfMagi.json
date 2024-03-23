@@ -1,0 +1,50 @@
+{
+    "name": "Staff of Magi [3]",
+    "description": "A staff with power sealed away by secret magics. Even the strongest of high wizards can only utilize a fraction of its great power.",
+    "stats": [
+        "INT + 5, DEX + 15.",
+        "MATK + 20%.",
+        "MATK + 20%, INT + 5, DEX + 5 [Super Novice]",
+        "Enchanted With Fire."
+    ],
+    "itemClass": "Staff",
+    "attackStrength": "250",
+    "defenseRate": null,
+    "weight": "50",
+    "weaponLevel": "4",
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "Wizard",
+        "High Wizard"
+    ],
+    "ingredients": [
+        "1 x Chronos [0]",
+        "1 x Wizardry Staff [0]",
+        "1 x Lacrima Stick [2]",
+        "4 x Lesser Elemental Ring",
+        "2 x Agav Card",
+        "1 x Siroma Card",
+        "500 x Angel Magic Powder",
+        "10 x Necklace of Wisdom",
+        "30 x Phlogopite",
+        "5 x Kiel's Pocket Watch (Misc item)",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "MaxHP +20%",
+        "DEX +5",
+        "20% ranged damage reduction",
+        "20% chance to cause Curse status when attacking. [Gravitation Field] has a 20% chance to cause Stone Curse status. [Gravitation Field] no longer damages targets under the Stone Curse status",
+        "Enable movement during [Gravitation Field]. Remove [Gravitation Field] on unequip",
+        "[Amplify Magic Power] casts 75% faster",
+        "Ignore Demi-Human defense. 100% more damage with [Magic Crasher]. 10% chance to auto cast [Ganbantein] at no cost of gemstones",
+        "100% more damage with [Earth Spike]. 50% more damage with [Heaven's Drive]",
+        "[Napalm Vulcan] no longer splits damage at all. 25% more damage with [Napalm Vulcan]",
+        "50% more damage with [Lord of Vermillion]. 25% more damage with [Thunderstorm]. Convert their delays into cooldowns",
+        "Enable level 10 [Water Ball] when it and [Cold Bolt] are mastered",
+        "Ignore [Fire Pillar] and [Safety Wall] Blue Gemstone cost",
+        "Increase [Quagmire] limit to 5. Remove [Quagmire] on unequip"
+    ],
+    "image": "https://talontales.com/panel/data/items/images/1650.png",
+    "icon": "https://talontales.com/panel/data/items/icons/1650.png"
+}

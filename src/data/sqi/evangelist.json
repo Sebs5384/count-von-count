@@ -1,0 +1,51 @@
+{
+    "name": "Evangelist [3]",
+    "description": "A weapon wielded only by Valhalla's chosen. This mace is strengthened by the priest's own faith and devotion.",
+    "stats": [
+        "INT +5, DEX + 5",
+        "Enables use of level 1 Magic Crasher",
+        "Enchanted With Water",
+        "MATK + 15%, DEX + 15, INT + 15, HIT + 35. Enable to use Level 1 Magic Crasher [Super Novice]"
+    ],
+    "itemClass": "Mace",
+    "attackStrength": "350",
+    "defenseRate": null,
+    "weight": "150",
+    "weaponLevel": "4",
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "Priest",
+        "High Priest"
+    ],
+    "ingredients": [
+        "1 x Grand Cross [1]",
+        "1 x Croce Staff [1]",
+        "1 x Holy Robe [0]",
+        "1 x Coif [1]",
+        "2 x Plankton Card",
+        "1 x Aqua Elemental Card",
+        "150 x Ice Crystal",
+        "75 x Hand of God",
+        "30 x Citrin",
+        "10 x Fang of Garm",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "MaxSP + 20%. Reduce SP consumption of skills by 10%.",
+        "30% Freeze and Stone Curse Resistance.",
+        "20% chance to cause Sleep status when attacking.",
+        "Heal 20% more with [Sanctuary].",
+        "Enables use of level 10 [Frost Nova].",
+        "Enables use of level 10 [Free Cast] and casting can't be interrupted.",
+        "Reduce cast times of [Magnificat], [Kyrie Elesion], [Assumptio], and [Safety Wall] by 50%.",
+        "Add a 20% chance to auto-cast level 6 [Cold Bolt] when attacking normally. If [Demon Bane] is mastered, chance to auto-cast level 10 [Holy Cross] instead.",
+        "Add a 15% chance to double cast [Heal] at the level learned.",
+        "[Resurrection] works on Undead armor players.",
+        "Convert [Magnus Exorcismus] delay into a cooldown.",
+        "Triple the duration of [Gloria].",
+        "[Priest Spirit] remains after death.",
+        "PvM: Endow Neutral Element."
+    ],
+    "image": "https://talontales.com/panel/data/items/images/1549.png",
+    "icon": "https://talontales.com/panel/data/items/icons/1549.png"
+}

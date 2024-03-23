@@ -1,0 +1,53 @@
+{
+    "name": "Twin Fang [4]",
+    "description": "Blades fashioned with deadly fangs of a demon lord. Favoured weapons of the Dark Brotherhood assassins, these legendary blades have never failed to kill their target",
+    "stats": [
+        "AGI + 20.",
+        "CRIT + 20.",
+        "HIT + 50.",
+        "FLEE + 15.",
+        "15% Non-Boss and Boss Resistance.",
+        "Convert [Enchant Deadly Poison] delay into a cooldown."
+    ],
+    "itemClass": "Katar",
+    "attackStrength": "180",
+    "defenseRate": null,
+    "weight": "150",
+    "weaponLevel": "4",
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "Assassin",
+        "Assassin Cross"
+    ],
+    "ingredients": [
+        "1 x Advanced Assassin Mask[0]",
+        "1 x Guillotine Katar [1]",
+        "1 x Infiltrator [1]",
+        "1 x Krishna [2]",
+        "1 x Cold Heart [0]",
+        "1 x Hydra Card",
+        "2 x Eremes Guile Card",
+        "30 x Blade of Darkness",
+        "200 x Piece of Darkness",
+        "2 x Bloody Edge",
+        "5 x Cape of Dark Lord",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "20% Magic Resistance",
+        "30% Freeze and Stone Curse Resistance",
+        "20% more damage with Critical Hits",
+        "25% more damage with [Grimtooth]",
+        "50% more damage with [Meteor Assault]. 50% less cast time with [Meteor Assault]",
+        "25% more damage with [Soul Breaker]. 50% less cast time with [Soul Breaker]",
+        "[Enchant Poison] endows Shadow instead of Poison. 10% more damage against Holy Element during [Enchant Poison]",
+        "Add a 15% chance to inflict Deadly Poison status on target when attacking. Deadly Poison interval reduced by 75%",
+        "Demon Race, Insect Race, and Detector Mobs can no longer see you when hidden; Fails against boss monsters",
+        "[Soul Breaker] inflicts more damage depending on the target's Defense",
+        "While under [Cloaking]: 25% faster base movement speed",
+        "While under [Cloaking]: Immunity to [Quagmire] and [Slow Grace]; Dispel Cloak on unequip",
+        "PvM: [Assassin Spirit] remains after death"
+    ],
+    "image": "https://talontales.com/panel/data/items/images/1290.png",
+    "icon": "https://talontales.com/panel/data/items/icons/1290.png"
+}

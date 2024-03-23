@@ -1,0 +1,52 @@
+{
+    "name": "Suiken [3]",
+    "description": "A symbol of the ultimate fighting art, its true power can only be unleashed while the user is intoxicated. Masters of the Suiken style leave the enemy off-guard before delivering a powerful finishing blow.",
+    "stats": [
+        "STR + 10, DEX + 10.",
+        "HIT + 40.",
+        "ASPD + 13%.",
+        "Enchanted With Water."
+    ],
+    "itemClass": "Claw",
+    "attackStrength": "150",
+    "defenseRate": null,
+    "weight": "60",
+    "weaponLevel": "4",
+    "requiredLevel": "None",
+    "applicationJobs": [
+        "Monk",
+        "Champion"
+    ],
+    "ingredients": [
+        "1 x Berserk [1]",
+        "1 x Kaiser Knuckle [0]",
+        "1 x Waghnak[4]",
+        "1 x Monk Hat [1]",
+        "1 x Executioner's Mitten",
+        "1 x Gold Acidus Card",
+        "2 x Caramel Card",
+        "500 x Broken Liquor Jar",
+        "30 x Citrin",
+        "1 x Broken Wine Glass",
+        "20 x Gemstone",
+        "100m Zeny"
+    ],
+    "bonuses": [
+        "30% Freeze and Stone Curse Resistance",
+        "5% chance to cause Freeze status when attacking",
+        "Gain effect of [Monk Spirit] status all the time",
+        "[Spirits Recovery] always enabled, ignores weight tick penalties under 90%, and restores three times as much; disabled in [Steel Body] and disables GEC Effect!",
+        "[Raging Palm Strike] pushes back an additional 2 cells",
+        "100% more damage with [Triple Attack], [Chain Combo] and [Combo Finish]. 50% more damage with [Tiger Knuckle Fist] and [Chain Crush Combo]",
+        "Add a 100% chance to auto cast [Hyper Spirit Sphere] after using [Fury]",
+        "PvM: Convert [Finger Offensive] delay into a cooldown. PvP/WoE: Add a 15% chance to auto cast [Hyper Spirit Sphere] after using [Finger Offensive]",
+        "Add a 25% chance to auto cast [Call Spirits] after using [Investigate]",
+        "20% more damage with [Investigate]. PvP/WoE: Reduce to 10%",
+        "Ignore Spirit Sphere requirement for All Combo Skills. [Triple Attack] Ignores Delay",
+        "PvM: 33% of your current SP (not max) remains after using [Asura Strike]",
+        "Combo Skills ignore 30% of enemy Defense",
+        "PvM: Endow Neutral Element"
+    ],
+    "image": "https://talontales.com/panel/data/items/images/1840.png",
+    "icon": "https://talontales.com/panel/data/items/icons/1840.png"
+}

@@ -1,6 +1,6 @@
 import { ButtonBuilder, ActionRowBuilder, ButtonStyle } from 'discord.js';
 
-function createSuperQuestItemButtonsRow(sqi) {
+function createSuperQuestItemButtonsRow(currentButtons) {
     const ingredientsButton = new ButtonBuilder()
         .setCustomId('sqiingredients')
         .setLabel('Ingredients')
@@ -11,11 +11,24 @@ function createSuperQuestItemButtonsRow(sqi) {
         .setLabel('Bonuses')
         .setStyle(ButtonStyle.Secondary);
 
+    const descriptionButton = new ButtonBuilder()
+        .setCustomId('sqidescription')
+        .setLabel('Item Description')
+        .setStyle(ButtonStyle.Secondary);
+
+    let buttons = currentButtons.map((buttonId) => {
+        switch(buttonId) {
+            case 'sqiingredients':
+                return ingredientsButton;
+            case 'sqibonuses':
+                return bonusesButton;
+            case 'sqidescription':
+                return descriptionButton;
+        }
+    })
+    
     return new ActionRowBuilder({
-        components: [
-            ingredientsButton,
-            bonusesButton
-        ]
+        components: buttons
     });
 };
 

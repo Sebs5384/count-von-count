@@ -37,7 +37,8 @@ async function runCommand(send, guild, embedColor, sqiName, interaction) {
             const sqiIngredients = getSqiIngredientFields(sqiData);
             const sqiBonuses = getSqiBonusFields(sqiData);
             const sqiEmbed = createSqiEmbed(sqiData, sqiFields, embedColor);
-            const sqiEmbedButtons = createSuperQuestItemButtonsRow(['sqiingredients', 'sqibonuses']);
+            const embedButtons = ['sqiingredients', 'sqibonuses'];
+            const sqiEmbedButtons = createSuperQuestItemButtonsRow(embedButtons);
 
             const message = await send({ embeds: [sqiEmbed], components: [sqiEmbedButtons] });
             
@@ -49,19 +50,22 @@ async function runCommand(send, guild, embedColor, sqiName, interaction) {
                 collector.on('collect', async (button) => {
                     if(button.customId === 'sqiingredients') {
                         const sqiEmbed = createSqiEmbed(sqiData, sqiIngredients, embedColor);
-                        const sqiEmbedButtons = createSuperQuestItemButtonsRow(['sqibonuses', 'sqidescription']);
+                        const embedButtons = ['sqibonuses', 'sqidescription'];
+                        const sqiEmbedButtons = createSuperQuestItemButtonsRow(embedButtons);
 
                         message.edit({ embeds: [sqiEmbed], components: [sqiEmbedButtons] });
                         await button.deferUpdate();
                     } else if(button.customId === 'sqibonuses') {
                         const sqiEmbed = createSqiEmbed(sqiData, sqiBonuses, embedColor);
-                        const sqiEmbedButtons = createSuperQuestItemButtonsRow(['sqiingredients', 'sqidescription']);
+                        const embedButtons = ['sqiingredients', 'sqidescription'];
+                        const sqiEmbedButtons = createSuperQuestItemButtonsRow(embedButtons);
 
                         message.edit({ embeds: [sqiEmbed], components: [sqiEmbedButtons] });
                         await button.deferUpdate();
                     } else if(button.customId === 'sqidescription') {
                         const sqiEmbed = createSqiEmbed(sqiData, sqiFields, embedColor);
-                        const sqiEmbedButtons = createSuperQuestItemButtonsRow(['sqiingredients', 'sqibonuses']);
+                        const embedButtons = ['sqiingredients', 'sqibonuses'];
+                        const sqiEmbedButtons = createSuperQuestItemButtonsRow(embedButtons);
 
                         message.edit({ embeds: [sqiEmbed], components: [sqiEmbedButtons] });
                         await button.deferUpdate();

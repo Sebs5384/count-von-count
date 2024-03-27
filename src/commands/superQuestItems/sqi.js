@@ -125,7 +125,7 @@ function findMatchingFile(files, input) {
     };
 
     return null;
-}
+};
 
 function getSuperQuestItemData(sqi) {
     return {
@@ -172,9 +172,29 @@ function getSqiIngredientFields(sqi) {
 };
 
 function getSqiBonusFields(sqi) {
-    const bonusFields = [
-        { name: 'Bonuses', value: sqi.bonuses.map(bonus => `- ${bonus}`).join('\n') }
-    ];
+    const bonusFields = [];
+    const maxFieldLength = 1024;
+    const bonuses = sqi.bonuses;
+    let currentField = { name: 'Bonuses', value: '' };
+    
+    for(const bonus of bonuses) {
+        const fieldLength = currentField.value.length + bonus.length;
+        
+        if(fieldLength > maxFieldLength) {
+            bonusFields.push(currentField);
+            currentField = { name: '\u00A0', value: ''};
+
+            currentField.value += `- ${bonus}\n`
+        } else {
+            currentField.value += `- ${bonus}\n`;
+        };
+        
+
+    };
+
+    if(currentField.value.trim() !== '') {
+        bonusFields.push(currentField);
+    };
 
     return bonusFields;
 };

@@ -109,7 +109,7 @@ function findMatchingFile(files, input) {
     const inputWords = input.toLowerCase().split(/\s+/);
 
     for(const file of files) {
-        const formattedFileName = file.toLowerCase().replace('.json', '');
+        const formattedFileName = file.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase().replace('.json', '');
         let matchFound = false;
 
         for(const word of inputWords) {

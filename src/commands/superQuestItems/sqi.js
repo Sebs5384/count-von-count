@@ -195,6 +195,8 @@ function getSqiBonusFields(sqi) {
     const bonuses = sqi.bonuses;
     let currentField = { name: 'Bonuses', value: '' };
     
+    if(!bonuses) return [];
+
     for(const bonus of bonuses) {
         const fieldLength = currentField.value.length + bonus.length;
         

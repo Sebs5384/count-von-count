@@ -40,7 +40,7 @@ async function runCommand(send, guild, embedColor, sqiName, interaction) {
             const sqiIngredients = getSqiIngredientFields(sqiData);
             const sqiBonuses = getSqiBonusFields(sqiData);
             const sqiEmbed = createSqiEmbed(sqiData, sqiFields, embedColor);
-            const embedButtons = ['sqiingredients', 'sqibonuses'];
+            const embedButtons = getCurrentButtons('sqidescription');
             const sqiEmbedButtons = createSuperQuestItemButtonsRow(embedButtons);
 
             const message = await send({ embeds: [sqiEmbed], components: [sqiEmbedButtons] });
@@ -53,14 +53,14 @@ async function runCommand(send, guild, embedColor, sqiName, interaction) {
                 collector.on('collect', async (button) => {
                     if(button.customId === 'sqiingredients') {
                         const sqiEmbed = createSqiEmbed(sqiData, sqiIngredients, embedColor);
-                        const embedButtons = ['sqibonuses', 'sqidescription'];
+                        const embedButtons = getCurrentButtons('sqiingredients');
                         const sqiEmbedButtons = createSuperQuestItemButtonsRow(embedButtons);
 
                         message.edit({ embeds: [sqiEmbed], components: [sqiEmbedButtons] });
                         await button.deferUpdate();
                     } else if(button.customId === 'sqibonuses') {
                         const sqiEmbed = createSqiEmbed(sqiData, sqiBonuses, embedColor);
-                        const embedButtons = ['sqiingredients', 'sqidescription'];
+                        const embedButtons = getCurrentButtons('sqibonuses');
                         const sqiEmbedButtons = createSuperQuestItemButtonsRow(embedButtons);
 
                         message.edit({ embeds: [sqiEmbed], components: [sqiEmbedButtons] });
@@ -195,7 +195,7 @@ function getSqiBonusFields(sqi) {
     const bonuses = sqi.bonuses;
     let currentField = { name: 'Bonuses', value: '' };
     
-    if(!bonuses) return [];
+    if(!bonuses) return { name: 'Bonuses', value: 'None' };
 
     for(const bonus of bonuses) {
         const fieldLength = currentField.value.length + bonus.length;
@@ -217,6 +217,17 @@ function getSqiBonusFields(sqi) {
     };
 
     return bonusFields;
+};
+
+function getCurrentButtons(currentButton) {
+    switch(currentButton) {
+        case 'sqidescription': 
+            return ['sqibonuses', 'sqiingredients'];
+        case 'sqibonuses':
+            return ['sqidescription', 'sqiingredients'];
+        case 'sqiingredients':
+            return ['sqidescription', 'sqibonuses'];
+    };
 };
 
 export default command;

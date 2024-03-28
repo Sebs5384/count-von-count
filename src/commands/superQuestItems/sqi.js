@@ -25,10 +25,13 @@ command.slashRun = async function slashRun(client, interaction) {
 async function runCommand(send, guild, embedColor, sqiName, interaction) {
     try {
         const sqiFiles = fs.readdirSync('src/data/sqi');
+        const matchingInitials = findMatchingFileByInitials(sqiFiles, sqiName);
         const matchingFileName = findMatchingFile(sqiFiles, sqiName);
     
-        if(matchingFileName) {
-            const filePath = `src/data/sqi/${matchingFileName}`;
+
+        if(matchingFileName || matchingInitials) {
+            const matchingFile = matchingFileName || matchingInitials;
+            const filePath = `src/data/sqi/${matchingFile}`;
             const sqiFile = fs.readFileSync(filePath, 'utf8');
             const sqi = JSON.parse(sqiFile);
 
@@ -124,7 +127,22 @@ function findMatchingFile(files, input) {
         };
     };
 
-    return null;
+    return false;
+};
+
+function findMatchingFileByInitials(files, input) {
+    for(const file of files) {
+        const firstInitial = file[0];
+        const uppercaseInitials = file.replace(/[^A-Z]/g, '');
+        const userInput = input.toLowerCase();
+        const intials = (firstInitial + uppercaseInitials).toLowerCase();
+        
+        if(intials === userInput) {
+            return file;
+        };
+    };
+
+    return false;
 };
 
 function getSuperQuestItemData(sqi) {

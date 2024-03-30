@@ -3,7 +3,7 @@ import  createBirthdayMessageEmbed  from "./birthdayMessageEmbed.js";
 import  createInfoEmbed  from "./infoEmbed.js";
 import  createTrackerEmbed  from "./trackerEmbed.js";
 import  createMessageEmbed  from "./messageEmbed.js";
-import  createBossListEmbed  from "./bossListEmbed.js";
+import  createListEmbed  from "./listEmbed.js";
 import  createSqiEmbed  from "./sqiEmbed.js";
 
 export { 
@@ -12,6 +12,6 @@ export {
     createBirthdayMessageEmbed, 
     createTrackerEmbed, 
     createMessageEmbed, 
-    createBossListEmbed,
+    createListEmbed,
     createSqiEmbed, 
 };

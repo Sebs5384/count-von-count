@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "discord.js";
-import { createMessageEmbed, createBossListEmbed } from "../../embeds/index.js";
+import { createMessageEmbed, createListEmbed } from "../../embeds/index.js";
 import { createPaginationButtons } from "../../rows/index.js";
 import { Boss, BossAlias, TrackerChannel } from "../../models/index.js";
 import { getBossValuesField, formatBossesData, getPaginationValues } from "../../utils/general.js";
@@ -47,7 +47,13 @@ async function runCommand(send, guild, embedColor, interaction) {
                 const itemsPerPage = 5;
 
                 let { bossList, bossListLength, firstOnPage, lastOnPage, totalPages } = getPaginationValues(currentPage, itemsPerPage, bossesValuesString);
-                const bossListEmbed = createBossListEmbed(bossList, bossListLength, currentPage, totalPages, guild, embedColor);
+
+                const mvpListTitle = `${guild.name} MvP List`;
+                const guildIcon = guild.iconURL({ dynamic: true, size: 2048 });
+                const mvpListDescription = `**Here's the list of all the MvPs that are currently settled**.\nCurrent amount: ${bossListLength}`;
+                const mvpListFooter = `If you wish to manage these bosses use /editmvp, /removemvp, /setalias or /setmvp.\nPage ${currentPage + 1} of ${totalPages}`;                
+
+                const bossListEmbed = createListEmbed(mvpListTitle, guildIcon, mvpListDescription, bossList, embedColor, mvpListFooter);
                 const paginationButtons = createPaginationButtons(bossListLength, currentPage, firstOnPage, lastOnPage);
                 const message = await send({ embeds: [bossListEmbed], components: [paginationButtons] });
             
@@ -64,7 +70,7 @@ async function runCommand(send, guild, embedColor, interaction) {
                         };
 
                         const { bossList, lastOnPage, firstOnPage, totalPages } = getPaginationValues(currentPage, itemsPerPage, bossesValuesString);
-                        const embed = createBossListEmbed(bossList, bossListLength, currentPage, totalPages, guild, embedColor);
+                        const embed = createListEmbed(mvpListTitle, guildIcon, mvpListDescription, bossList, embedColor, mvpListFooter);
                         const paginationButtons = createPaginationButtons(bossListLength, currentPage, firstOnPage, lastOnPage);
                         message.edit({ embeds: [embed], components: [paginationButtons] });
                         await button.deferUpdate();

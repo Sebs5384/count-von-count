@@ -19,16 +19,22 @@ async function runCommand(send, guild, embedColor, interaction) {
 
     try{
         const sqiFiles = fs.readdirSync('src/data/sqi');
-        const sqiNames = sqiFiles.map(sqiFile => {
-            const fileNameWithoutExtension = sqiFile.replace('.json', '');
-            const sqiName = fileNameWithoutExtension.split(/(?=[A-Z])/g).map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
-            return sqiName;
-        });
-        
-        
+        const sqiNames = getFilesName(sqiFiles, '.json');
+                
     } catch(error) {
         console.log(`There was an error while executing /listsqi, error: ${error}`);
     }
+};
+
+function getFilesName(files, extension) {
+    const fileNames = files.map(file => {
+        const fileNameWithoutExtension = file.replace(extension, '');
+        const fileName = fileNameWithoutExtension.split(/(?=[A-Z])/g).map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
+
+        return fileName;
+    });
+
+    return fileNames;
 };
 
 export default command;

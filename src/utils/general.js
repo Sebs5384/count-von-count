@@ -460,3 +460,136 @@ export function getPaginationValues(currentPage, itemsPerPage, bossArray) {
 
   return { bossList, bossListLength, firstOnPage, lastOnPage, totalPages };
 };
+
+export function getFilesName(files, extension) {
+  const fileNames = files.map(file => {
+      const fileNameWithoutExtension = file.replace(extension, '');
+      const fileName = fileNameWithoutExtension.split(/(?=[A-Z])/g).map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
+
+      return fileName;
+  });
+
+  return fileNames;
+};
+
+export function findMatchingFile(files, input) {
+  const inputWords = input.toLowerCase().split(/\s+/);
+
+  for(const file of files) {
+      const formattedFileName = file.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase().replace('.json', '');
+      let matchFound = false;
+
+      for(const word of inputWords) {
+          if(formattedFileName.includes(word)) {
+              matchFound = true;
+              break;
+          }
+      };
+
+      if(matchFound) {
+          return file;
+      };
+  };
+
+  return false;
+};
+
+export function findMatchingFileByInitials(files, input) {
+  for(const file of files) {
+      const firstInitial = file[0];
+      const uppercaseInitials = file.replace(/[^A-Z]/g, '');
+      const userInput = input.toLowerCase();
+      const intials = (firstInitial + uppercaseInitials).toLowerCase();
+      
+      if(intials === userInput) {
+          return file;
+      };
+  };
+
+  return false;
+};
+
+export function getSuperQuestItemData(sqi) {
+  return {
+      name: sqi.name,
+      description: sqi.description,
+      stats: sqi.stats,
+      itemClass: sqi.itemClass,
+      attackStrength: sqi.attackStrength,
+      weaponLevel: sqi.weaponLevel,
+      defenseRate: sqi.defenseRate,
+      weight: sqi.weight,
+      requiredLevel: sqi.requiredLevel,
+      applicationJobs: sqi.applicationJobs,
+      ingredients: sqi.ingredients,
+      bonuses: sqi.bonuses,
+      image: sqi.image,
+      icon: sqi.icon
+  };
+};
+
+export function getSqiMainStatFields(sqi) {
+  const mainStatFields = [
+      { name: 'Description', value: sqi.description },
+      { name: 'Stats', value: sqi.stats.map(stat => `- ${stat}`).join('\n') },
+      { name: 'Item Class', value: sqi.itemClass },
+      { name: 'Weight', value: sqi.weight },
+      { name: 'Required Level', value: sqi.requiredLevel },
+      { name: 'Application Jobs', value: sqi.applicationJobs.map(job => `- ${job}`).join('\n') },
+  ];
+
+  if(sqi.attackStrength) mainStatFields.splice(3, 0, { name: 'Attack Strength', value: sqi.attackStrength });
+  if(sqi.defenseRate) mainStatFields.splice(3, 0, { name: 'Defense Rate', value: sqi.defenseRate });
+  if(sqi.weaponLevel) mainStatFields.splice(5, 0, { name: 'Weapon Level', value: sqi.weaponLevel });
+
+  return mainStatFields;
+};
+
+export function getSqiIngredientFields(sqi) {
+  const ingredientFields = [
+      { name: 'Crafting Ingredients', value: sqi.ingredients.map(ingredient => `- ${ingredient}`).join('\n') }
+  ];
+
+  return ingredientFields;
+};
+
+export function getSqiBonusFields(sqi) {
+  const bonusFields = [];
+  const maxFieldLength = 1024;
+  const bonuses = sqi.bonuses;
+  let currentField = { name: 'Bonuses', value: '' };
+  
+  if(!bonuses) return { name: 'Bonuses', value: 'None' };
+
+  for(const bonus of bonuses) {
+      const fieldLength = currentField.value.length + bonus.length;
+      
+      if(fieldLength > maxFieldLength) {
+          bonusFields.push(currentField);
+          currentField = { name: '\u00A0', value: ''};
+
+          currentField.value += `- ${bonus}\n`
+      } else {
+          currentField.value += `- ${bonus}\n`;
+      };
+      
+
+  };
+
+  if(currentField.value.trim() !== '') {
+      bonusFields.push(currentField);
+  };
+
+  return bonusFields;
+};
+
+export function getCurrentButtons(currentButton) {
+  switch(currentButton) {
+      case 'sqidescription': 
+          return ['sqibonuses', 'sqiingredients'];
+      case 'sqibonuses':
+          return ['sqidescription', 'sqiingredients'];
+      case 'sqiingredients':
+          return ['sqidescription', 'sqibonuses'];
+  };
+};

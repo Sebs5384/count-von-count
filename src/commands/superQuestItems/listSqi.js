@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import { createListEmbed } from "../../embeds/index.js";
+import { getFilesName } from "../../utils/general.js";
 import fs from 'fs';
 
 const command = new SlashCommandBuilder()
@@ -32,17 +33,6 @@ async function runCommand(send, guild, embedColor, interaction) {
     } catch(error) {
         console.log(`There was an error while executing /listsqi, error: ${error}`);
     }
-};
-
-function getFilesName(files, extension) {
-    const fileNames = files.map(file => {
-        const fileNameWithoutExtension = file.replace(extension, '');
-        const fileName = fileNameWithoutExtension.split(/(?=[A-Z])/g).map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
-
-        return fileName;
-    });
-
-    return fileNames;
 };
 
 export default command;

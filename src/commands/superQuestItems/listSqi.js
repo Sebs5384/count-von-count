@@ -21,18 +21,14 @@ async function runCommand(send, guild, embedColor, interaction) {
     try{
         const sqiFiles = fs.readdirSync('src/data/sqi');
         const sqiNames = getFilesName(sqiFiles, '.json');
-        const sqis = sqiNames.map(sqi => {
-            return {
-                name: 'SQI LIST',
-                value: `${sqi}`
-            }
-        })
+        const sqis = { name: '\u00A0', value: sqiNames.map(sqiName => `- ${sqiName}`).join('\n') };
         const sqiListTitle = 'Super Quest Items';
         const sqiListIcon = 'https://talontales.com/wiki/images/d/d2/Mob27279.gif'
-        const sqiListDescription = 'List of all SQI items in the game';
+        const sqiListDescription = 'Below is the list of all the SQI items';
         const sqiListFooter = 'You can check each SQI by using /sqi <sqi name>';
-        const embed = createListEmbed(sqiListTitle, sqiListIcon, sqiListDescription, sqis, embedColor, sqiListFooter);
-        send({ embeds: [embed] });        
+        const listEmbed = createListEmbed(sqiListTitle, sqiListIcon, sqiListDescription, sqis, embedColor, sqiListFooter);
+        
+        send({ embeds: [listEmbed] });        
     } catch(error) {
         console.log(`There was an error while executing /listsqi, error: ${error}`);
     }

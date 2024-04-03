@@ -18,6 +18,11 @@ const command = new SlashCommandBuilder()
         .setDescription('Input the stimate of the kill in minutes e.g 10 to add and -10 to subtract time, optional field')
         .setRequired(false)
     )
+    .addStringOption((option) => option
+        .setName('tomb')
+        .setDescription('Input the location of the tomb, optional field')
+        .setRequired(false)
+    )
 command.aliases = ['t', 'track'];
 
 command.slashRun = async function slashRun(client, interaction) {

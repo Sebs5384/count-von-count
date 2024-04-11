@@ -92,7 +92,7 @@ async function runCommand(send, guild, user, embedColor, mvpName, mvpStimate, mv
                 });
             
                 const trackerTitle = 'MvP Tracker';
-                const trackerMessage = `${updatedBoss.boss_name} died at ${serverTime.time}\nTracked by ${user}\n Tomb location: ${mvpTomb}`;
+                const trackerMessage = `${updatedBoss.boss_name} died at ${serverTime.time}${mvpTomb ? `\nLocation: ${mvpTomb}` : ''}\n Tracked by ${user}`;
                         
                 send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '✅', mvpHelpMessage)] });
             } else {

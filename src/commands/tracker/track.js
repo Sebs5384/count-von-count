@@ -36,11 +36,12 @@ command.slashRun = async function slashRun(client, interaction) {
 
     const mvpName = interaction.options.getString('mvp-name');
     const mvpStimate = interaction.options.getInteger('stimate');
+    const mvpTomb = interaction.options.getString('tomb');
 
-    await runCommand(send, guild, user, embedColor, mvpName, mvpStimate, serverTime, interaction);
+    await runCommand(send, guild, user, embedColor, mvpName, mvpStimate, mvpTomb, serverTime);
 };
 
-async function runCommand(send, guild, user, embedColor, mvpName, mvpStimate, serverTime){
+async function runCommand(send, guild, user, embedColor, mvpName, mvpStimate, mvpTomb, serverTime){
     const trackerChannel = await TrackerChannel.findOne({
         where: { guild_id: guild.id },
     });
@@ -91,7 +92,7 @@ async function runCommand(send, guild, user, embedColor, mvpName, mvpStimate, se
                 });
             
                 const trackerTitle = 'MvP Tracker';
-                const trackerMessage = `${updatedBoss.boss_name} died at ${serverTime.time}\nTracked by ${user}`;
+                const trackerMessage = `${updatedBoss.boss_name} died at ${serverTime.time}\nTracked by ${user}\n Tomb location: ${mvpTomb}`;
                         
                 send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '✅', mvpHelpMessage)] });
             } else {

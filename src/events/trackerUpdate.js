@@ -16,10 +16,10 @@ export const callback = async(client) => {
             const guild = await client.guilds.fetch(guildId);
             const channel = await guild.channels.fetch(channelId);
             const message = await channel.messages.fetch(messageId);
-            
+
             const interactionMock = {
                 guild, followUp: (content) => { message.reply(content) }
-            }
+            };
 
             await callbackTracker.slashRun(client, interactionMock, message, channel);
         } catch (error) {

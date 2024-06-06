@@ -9,7 +9,7 @@ const command = new SlashCommandBuilder()
     .setDescription('Displays the list of MVPs that are currently tracked')
 command.aliases = ['t, tracker', 'mvps', 'bosses'];
 
-command.slashRun = async function slashRun(client, interaction, permaTrackerMessage, permaTrackerChannelId) {
+command.slashRun = async function slashRun(client, interaction, permaTrackerMessage, permaTrackerChannelId, externalTrackerMessage, externalTrackerChannel) {
     const guild = await interaction.guild;
     const send = interaction.followUp.bind(interaction);
     const embedColor = client.config.embedColor;
@@ -54,21 +54,27 @@ command.slashRun = async function slashRun(client, interaction, permaTrackerMess
         const hasBossesTracked = bossTimers.length > 0;
 
         if(hasBossesTracked) {
-
             if(permaTrackerMessage && permaTrackerChannelId) {
+                const externalGuildId = client.config.trackerChannelGuildInfo.id;
+                const externalChannelId = client.config.trackerChannelGuildInfo.permaTrackerChannelId;
+                const externalMessageId = client.config.trackerChannelGuildInfo.permaTrackerMessageId;
 
+                const externalGuild = await client.guilds.fetch(externalGuildId);
+                const externalTrackerChannel = await externalGuild.channels.fetch(externalChannelId);
+                const externalTrackerMessage = await externalTrackerChannel.messages.fetch(externalMessageId);
+            
+                await externalTrackerMessage.edit({ embeds: [createTrackerEmbed(filteredBossTimers, trackerFooter, embedColor)] });
                 await permaTrackerMessage.edit({ embeds: [createTrackerEmbed(filteredBossTimers, trackerFooter, embedColor)] });
                 return;
-            }
+            };
 
             const bossList = await send({ embeds: [createTrackerEmbed(filteredBossTimers, trackerFooter, embedColor)] });
             return bossList;
         } else {
 
             const noBossesField = { name: 'No mvps currently tracked 🛑', value: 'Its quiet for now, go get some bosses !' }
-
             if(permaTrackerMessage && permaTrackerChannelId) {
-                await permaTrackerMessage.edit({ embeds: [createTrackerEmbed(noBossesField, trackerFooter, embedColor)] });
+                await permaTrackerMessage.edit({ embeds: [createTrackerEmbed(noBossesField, trackerFooter, embedColor)] });  
                 return;
             }
             

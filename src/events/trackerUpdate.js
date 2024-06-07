@@ -25,7 +25,7 @@ export const callback = async(client) => {
                     if(message) {
                         const interactionMock = {
                             guild,
-                            followUp: (content) => { message.reply(content) },
+                            followUp: (content) => { message.edit(content) },
                         };
 
                         await callbackTracker.slashRun(client, interactionMock, message, channel);

@@ -593,3 +593,24 @@ export function getCurrentButtons(currentButton) {
           return ['sqidescription', 'sqibonuses'];
   };
 };
+
+export function getRaceTime(hours, minutes, serverTime) {
+  const [currentHours, currentMinutes] = serverTime.time.split(':').map(Number);
+
+  const currentTotalMinutes = currentHours * 60 + currentMinutes;
+  const minutesTillNextRace = hours * 60 + minutes;
+  const newTotalMinutes = currentTotalMinutes + minutesTillNextRace;
+  
+  const newHours = Math.floor(newTotalMinutes / 60) % 24;
+  const newMinutes = newTotalMinutes % 60;
+  const timePeriod = newHours >= 12 ? 'PM' : 'AM';
+  const adjustedHours = newHours % 12 || 12;
+  const fomarttedHours = adjustedHours.toString().padStart(2, '0');
+  const formattedMinutes = newMinutes.toString().padStart(2, '0');
+  const raceTime = `${fomarttedHours}:${formattedMinutes}`;
+
+  return {
+    raceTime,
+    timePeriod
+  }
+};

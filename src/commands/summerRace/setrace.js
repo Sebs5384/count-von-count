@@ -54,15 +54,24 @@ async function runCommand(send, guild, user, embedColor, raceHours, raceMinutes,
                 const raceThumbnail = 'https://talontales.com/wiki/images/7/78/4_F_NYDHOG.gif';
                 const raceFooterImage = user.avatarURL();
 
-                await Race.upsert({
-                    next_race_time: raceTime,
-                    race_settler_id: user.id,
-                    guild_id: guild.id
-                }, {
+                const raceEntry = await Race.findOne({
                     where: {
-                        guild_id: raceChannel.guild_id
+                        guild_id: raceChannel.guild_id,
                     }
                 });
+
+                if(raceEntry) {
+                    await raceEntry.update({
+                        next_race_time: raceTime,
+                        race_settler_id: user.id,
+                    })
+                } else {
+                    await Race.create({
+                        guild_id: raceChannel.guild_id,
+                        next_race_time: raceTime,
+                        race_settler_id: user.id,
+                    });
+                };
 
                 send({ embeds: [createMessageEmbed(raceTittle, raceMessage, embedColor, '✅', raceFooterMessage, raceThumbnail, raceFooterImage)] });
             } catch(error) {

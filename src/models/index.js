@@ -5,6 +5,8 @@ import UserGuild from "./userGuild.js";
 import Boss from "./boss.js";
 import TrackerChannel from "./trackerChannel.js";
 import BossAlias from "./bossAlias.js";
+import Race from "./race.js";
+import RaceChannel from "./raceChannel.js";
 
 User.belongsToMany(Guild, { through: {
     model: UserGuild,
@@ -28,4 +30,7 @@ Boss.belongsTo(TrackerChannel, { foreignKey: 'guild_id' });
 BossAlias.belongsTo(Boss, { foreignKey: 'boss_id', targetKey: 'id' });
 Boss.hasMany(BossAlias, { foreignKey: 'boss_id', sourceKey: 'id' });
 
-export { User, Guild, BirthdayChannel, UserGuild, Boss, TrackerChannel, BossAlias };
+RaceChannel.hasMany(Race, { foreignKey: 'guild_id' });
+Race.belongsTo(RaceChannel, { foreignKey: 'guild_id' });
+
+export { User, Guild, BirthdayChannel, UserGuild, Boss, TrackerChannel, BossAlias, Race, RaceChannel };

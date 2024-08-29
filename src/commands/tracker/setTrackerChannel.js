@@ -90,7 +90,12 @@ async function runCommand(client, guild, send, interaction, embedColor, guildCat
 
                 const [createdTrackerChannel] = await TrackerChannel.findOrCreate({
                     where: { guild_id: guild.id },
-                    defaults: { perma_tracker_channel_id: permaTrackerChannel.id, tracker_channel_id: trackerChannel.id, category_name: category.name, guild_category_id: category.id },
+                    defaults: { 
+                        perma_tracker_channel_id: permaTrackerChannel.id, 
+                        tracker_channel_id: trackerChannel.id, 
+                        category_name: category.name, 
+                        guild_category_id: category.id 
+                    },
                 });
 
                 if(createdTrackerChannel){

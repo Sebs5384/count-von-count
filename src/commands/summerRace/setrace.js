@@ -2,6 +2,8 @@ import { SlashCommandBuilder } from "discord.js";
 import { createMessageEmbed } from "../../embeds/index.js";
 import { getServerTime } from "../../service/serverTime.js";
 import { getRaceTime } from "../../utils/general.js";
+import { Race, RaceChannel } from "../../models/index.js";
+import { operator, literal } from "../../../database.js";
 
 const command = new SlashCommandBuilder()
     .setName('setrace')
@@ -35,13 +37,31 @@ command.slashRun = async function slashRun(client, interaction) {
 
 async function runCommand(send, guild, user, embedColor, raceHours, raceMinutes, serverTime) {
     try {
-        const raceMessageTitle = 'Summer Race';
-        const raceMessage = `Race will begin in ${raceHours} hours and ${raceMinutes} minutes.`;
-        const footerMessage = `Race timer set by ${user.username}`;
-        const raceThumbnail = 'https://talontales.com/wiki/images/7/78/4_F_NYDHOG.gif';
-        console.log(serverTime)
+        const raceChannel = await RaceChannel.findOne({
+            where: {
+                guild_id: guild.id
+            },
+        });
 
-        send({ embeds: [createMessageEmbed(raceMessageTitle, raceMessage, embedColor, '🌞', footerMessage, raceThumbnail)] });
+        if(raceChannel) {
+            
+            try {
+               
+                const { raceTime, timePeriod } = getRaceTime(raceHours, raceMinutes, serverTime);
+                const raceTittle = 'The Amazing Summer Race';
+                const raceMessage = `Race time has been updated, next race will be at ${raceTime}${timePeriod} Server Time.`;
+
+                send({ embeds: [createMessageEmbed(raceTittle, raceMessage, embedColor, '')] });
+            } catch(error) {
+                console.log(`Error while setting the race timer: ${error}`);
+
+                const errorTitle = 'Error while setting the race timer';
+                const errorMessage = `There was an error while setting the next race, inputting: ${raceHours} hours and ${raceMinutes} minutes`;
+                const errorFooter = 'Please try again by using /setrace';
+
+                send({ embeds: [createMessageEmbed(errorTitle, errorMessage, embedColor, '❌', errorFooter)] });
+            };
+        };
     } catch (error) {
         console.error(error);
     };

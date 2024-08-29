@@ -43,7 +43,9 @@ command.slashRun = async function slashRun(client, interaction) {
 
 async function runCommand(send, guild, user, embedColor, mvpName, mvpStimate, mvpTomb, serverTime){
     const trackerChannel = await TrackerChannel.findOne({
-        where: { guild_id: guild.id },
+        where: { 
+            guild_id: guild.id 
+        },
     });
 
     if(trackerChannel) {

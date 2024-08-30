@@ -49,9 +49,22 @@ async function runCommand(send, guild, user, embedColor, raceHours, raceMinutes,
                
                 const { raceTime, timePeriod } = getRaceTime(raceHours, raceMinutes, serverTime);
                 const raceTittle = 'The Amazing Summer Race';
-                const raceMessage = `Race time has been updated, next race will be at ${raceTime}${timePeriod} Server Time.`;
+                const raceMessage = `Race time has been updated successfully\n \`Next will be at ${raceTime} ${timePeriod} Server Time\` \n\nPlease check the perma-race channel for a live update.`;
+                const raceFooterMessage = `Last updated by ${user.tag}`;
+                const raceThumbnail = 'https://talontales.com/wiki/images/7/78/4_F_NYDHOG.gif';
+                const raceFooterImage = user.avatarURL();
 
-                send({ embeds: [createMessageEmbed(raceTittle, raceMessage, embedColor, '')] });
+                await Race.upsert({
+                    next_race_time: raceTime,
+                    race_settler_id: user.id,
+                    guild_id: guild.id
+                }, {
+                    where: {
+                        guild_id: raceChannel.guild_id
+                    }
+                });
+
+                send({ embeds: [createMessageEmbed(raceTittle, raceMessage, embedColor, '✅', raceFooterMessage, raceThumbnail, raceFooterImage)] });
             } catch(error) {
                 console.log(`Error while setting the race timer: ${error}`);
 

@@ -9,7 +9,7 @@ const command = new SlashCommandBuilder()
     .setDescription('Displays the list of MVPs that are currently tracked')
 command.aliases = ['t, tracker', 'mvps', 'bosses'];
 
-command.slashRun = async function slashRun(client, interaction, permaTrackerMessage, permaTrackerChannelId, externalTrackerMessage, externalTrackerChannel) {
+command.slashRun = async function slashRun(client, interaction, permaTrackerMessage, permaTrackerChannelId) {
     const guild = await interaction.guild;
     const send = interaction.followUp.bind(interaction);
     const embedColor = client.config.embedColor;

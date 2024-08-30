@@ -3,7 +3,7 @@ import { getCategoryValues } from "../../utils/general.js";
 import { createSelectCategoryRow } from "../../rows/index.js";
 import { createMessageEmbed } from "../../embeds/index.js";
 import { getServerTime } from "../../service/serverTime.js";
-import { RaceChannel } from "../../models/index.js";
+import { Race, RaceChannel } from "../../models/index.js";
 
 const command = new SlashCommandBuilder()
     .setName('setracechannel')
@@ -44,7 +44,9 @@ async function runCommand(client, guild, send, interaction, embedColor, guildCat
             let raceChannel, permaRaceChannel;
 
             const existingRaceChannel = await RaceChannel.findOne({
-                where: { guild_id: guild.id },
+                where: { 
+                    guild_id: guild.id 
+                },
             });
 
             if(existingRaceChannel) {

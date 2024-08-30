@@ -7,6 +7,7 @@ Race.init({
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
         allowNull: false,
     },
     next_race_time: {

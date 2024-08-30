@@ -27,7 +27,7 @@ Race.init({
         allowNull: false,
     },
     last_settled_race_time: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
     },
     guild_id: {

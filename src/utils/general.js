@@ -247,7 +247,26 @@ export function formatBossesData(bosses) {
   }
 
   return guildBosses;
-}
+};
+
+
+export function formatRaceData(timers) {
+  
+  const guildTimer = [];
+  for(const timer of timers) {
+    const timerDetails = {
+      nextRaceTime: timer.next_race_time,
+      raceSettler: timer.race_settler_id,
+      raceHours: timer.hours_till_race,
+      raceMinutes: timer.minutes_till_race,
+      lastSettledRace: timer.last_settled_race_time,
+    };
+
+    guildTimer.push(timerDetails);
+  };
+
+  return guildTimer;
+};
 
 export function filterBossTimers(bossTimers) {
   bossTimers.filter(field => field)
@@ -272,7 +291,7 @@ export function getBossTimers(bosses, serverTime) {
     const minutesTillBossRange = getMinutesTillBossRange(bossDowntime, totalMinutesWhenKilled);
     const minutesTillBossFullRange = getMinutesTillBossFullRange(bossSpawnWindow, minutesTillBossRange);
     const nextRange = formatToClockHour(minutesTillBossRange);
-    const timeElapsedSinceKilled = getTimeElapsedSinceKilled(currentServerTimeInMinutes, totalMinutesWhenKilled);
+    const timeElapsedSinceKilled = getTimeElapsed(currentServerTimeInMinutes, totalMinutesWhenKilled);
 
     const bossRemainingDowntime = (bossDowntime - timeElapsedSinceKilled);
     const bossRemainingTimeTillSpawn = (bossFullRange - timeElapsedSinceKilled);
@@ -297,6 +316,42 @@ export function getBossTimers(bosses, serverTime) {
   });
 
   return bossTimers;
+};
+
+export function getRaceTimers(races, serverTime) {
+  
+  const raceTimers = races.map((race) => {
+    const nextRaceTime = race.nextRaceTime;
+    const lastRaceSettler = race.raceSettler;
+    const raceHours = race.hoursTillRace;
+    const raceMinutes = race.minutesTillRace;
+    const lastSettledRaceTime = race.lastSettledRace;
+    const lastSettledRaceTimestamp = new Date(lastSettledRaceTime);
+    const currentServerTimestamp = new Date(serverTime.dateTime);
+    
+    if(!lastSettledRaceTime) return;
+
+    const currentServerTimeInMinutes = getTotalMinutesFromDate(currentServerTimestamp); 
+    const totalMinutesWhenSettled = getTotalMinutesFromDate(lastSettledRaceTimestamp);
+
+    const minutesTillRace = getMinutesTillRace(nextRaceTime, totalMinutesWhenSettled);
+    const timeElapsedSinceLastRace = getTimeElapsed(currentServerTimeInMinutes, totalMinutesWhenSettled);
+
+    const raceRemainingTimeTillNextRace = (minutesTillRace - timeElapsedSinceLastRace);
+    const isPastHours = raceRemainingTimeTillNextRace < 0;
+
+    const remainingTimeInHours = isPastHours ? Math.ceil(raceRemainingTimeTillNextRace / 60) : Math.floor(raceRemainingTimeTillNextRace / 60);
+    const remainingTimeInMinutes = raceRemainingTimeTillNextRace % 60;
+    const raceRangeString = getRaceRangeString(remainingTimeInHours, remainingTimeInMinutes);
+    
+    return {
+      name: nextRaceTime,
+      value: raceRangeString,
+      inline: true
+    }
+  });
+
+  return raceTimers;
 };
 
 function formatBossTimeMinutes(bossRemainingDowntime, bossRemainingTimeTillSpawn) {
@@ -359,6 +414,23 @@ function getBossRangeString(bossRange) {
   return bossRangeString;
 };   
 
+function getRaceRangeString(remainingHours, remainingMinutes) {
+  let remainingTimeTillRaceString = "";
+
+  if(remainingHours !== 0) remainingTimeTillRaceString += `${Math.abs(remainingHours)} ${remainingHours === 1 ? "hour" : "hours"} `;
+  if(remainingMinutes !== 0) remainingTimeTillRaceString += `${Math.abs(remainingMinutes)} ${remainingMinutes === 1 ? "minute" : "minutes"}`;
+
+  if(remainingHours < 0 || remainingMinutes < 0) {
+    remainingTimeTillRaceString = `The race was ${remainingTimeTillRaceString} ago`; 
+  } else if(remainingHours === 0 && remainingMinutes === 0) {
+    remainingTimeTillRaceString = `The race is now`;
+  } else {
+    remainingTimeTillRaceString = `The race is ${remainingTimeTillRaceString} from now`;
+  };
+
+  return remainingTimeTillRaceString;
+};
+
 function getBossStatus(bossRemainingDowntime, bossRemainingTimeTillSpawn) {
 
   if(bossRemainingTimeTillSpawn < 0) {
@@ -413,16 +485,16 @@ function getMinutesTillBossFullRange(bossSpawnwindow, minutesTillBossRange) {
   return minutesTillBossFullRange;
 };
 
-function getTimeElapsedSinceKilled(currentServerTimeInMinutes, totalMinutesWhenKilled) {
-  if(currentServerTimeInMinutes < totalMinutesWhenKilled) {
+function getTimeElapsed(startTimeInMinutes, endTimeInMinutes) {
+  if(startTimeInMinutes < endTimeInMinutes) {
     const ONE_DAY = 1440;
-    const timeElapsedSinceKilled = (ONE_DAY + currentServerTimeInMinutes) - totalMinutesWhenKilled;
+    const timeElapsed = (ONE_DAY + startTimeInMinutes) - endTimeInMinutes;
 
-    return timeElapsedSinceKilled;
+    return timeElapsed
   } else {
-    const timeElapsedSinceKilled = currentServerTimeInMinutes - totalMinutesWhenKilled;
+    const timeElapsed = startTimeInMinutes - endTimeInMinutes;
 
-    return timeElapsedSinceKilled;
+    return timeElapsed;
   };
 };
 
@@ -613,4 +685,13 @@ export function getRaceTime(hours, minutes, serverTime) {
     raceTime,
     timePeriod
   }
+};
+
+export function getMinutesTillRace(nextRaceTime, totalMinutesWhenSettled) {
+  const [hours, minutes] = nextRaceTime.split(':').map(Number);
+  const totalMinutes = hours * 60 + minutes;
+  console.log(totalMinutes, totalMinutesWhenSettled);
+  const minutesTillRace = totalMinutes - totalMinutesWhenSettled;
+
+  return minutesTillRace;
 };

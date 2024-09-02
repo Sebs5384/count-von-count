@@ -338,11 +338,11 @@ export function getRaceTimers(races, serverTime) {
     const timeElapsedSinceLastRace = getTimeElapsed(currentServerTimeInMinutes, totalMinutesWhenSettled);
 
     const raceRemainingTimeTillNextRace = (minutesTillRace - timeElapsedSinceLastRace);
-    const isPastHours = raceRemainingTimeTillNextRace < 0;
-
-    const remainingTimeInHours = isPastHours ? Math.ceil(raceRemainingTimeTillNextRace / 60) : Math.floor(raceRemainingTimeTillNextRace / 60);
-    const remainingTimeInMinutes = raceRemainingTimeTillNextRace % 60;
-    const raceRangeString = getRaceRangeString(remainingTimeInHours, remainingTimeInMinutes);
+    const isRaceTime = raceRemainingTimeTillNextRace < 0;
+  
+    const remainingTimeInHours = isRaceTime ? Math.ceil(raceRemainingTimeTillNextRace / 60)  : Math.floor(raceRemainingTimeTillNextRace / 60);
+    const remainingTimeInMinutes = isRaceTime ? (raceRemainingTimeTillNextRace + 60) % 60 : raceRemainingTimeTillNextRace % 60;
+    const raceRangeString = getRaceRangeString(remainingTimeInHours, remainingTimeInMinutes, isRaceTime);
     
     return {
       name: nextRaceTime,
@@ -414,18 +414,20 @@ function getBossRangeString(bossRange) {
   return bossRangeString;
 };   
 
-function getRaceRangeString(remainingHours, remainingMinutes) {
+function getRaceRangeString(remainingHours, remainingMinutes, isRaceTime) {
   let remainingTimeTillRaceString = "";
 
   if(remainingHours !== 0) remainingTimeTillRaceString += `${Math.abs(remainingHours)} ${remainingHours === 1 ? "hour" : "hours"} `;
   if(remainingMinutes !== 0) remainingTimeTillRaceString += `${Math.abs(remainingMinutes)} ${remainingMinutes === 1 ? "minute" : "minutes"}`;
 
-  if(remainingHours < 0 || remainingMinutes < 0) {
+  if(isRaceTime) {
+    remainingTimeTillRaceString = `The race is on ${remainingTimeTillRaceString} till it ends`
+  } else if(remainingHours < 0 || remainingMinutes < 0) {
     remainingTimeTillRaceString = `The race was ${remainingTimeTillRaceString} ago`; 
   } else if(remainingHours === 0 && remainingMinutes === 0) {
     remainingTimeTillRaceString = `The race is now`;
   } else {
-    remainingTimeTillRaceString = `The race is ${remainingTimeTillRaceString} from now`;
+    remainingTimeTillRaceString = `The summer race will start in ${remainingTimeTillRaceString} from now`;
   };
 
   return remainingTimeTillRaceString;
@@ -553,29 +555,51 @@ export function findMatchingFile(files, input) {
 
       for(const word of inputWords) {
           if(formattedFileName.includes(word)) {
-              matchFound = true;
-              break;
+            matchFound = true;
+            break;
           }
       };
 
       if(matchFound) {
-          return file;
+        return file;
       };
   };
 
   return false;
 };
 
-export function findMatchingFileByInitials(files, input) {
-  for(const file of files) {
-      const firstInitial = file[0];
-      const uppercaseInitials = file.replace(/[^A-Z]/g, '');
+export function findMatchingInitials(words, input) {
+  for(const word of words) {
+      const firstInitial = word[0];
+      const uppercaseInitials = word.replace(/[^A-Z]/g, '');
       const userInput = input.toLowerCase();
       const intials = (firstInitial + uppercaseInitials).toLowerCase();
       
       if(intials === userInput) {
-          return file;
+        return word;
       };
+  };
+
+  return false;
+};
+
+export function findMatchingName(names, input) {
+  const inputWords = input.toLowerCase().split(/\s+/);
+
+  for(const name of names) {
+    const formattedName = name.name.toLowerCase();
+    let matchFound = false;
+
+    for(const word of inputWords) {
+      if(formattedName.includes(word)) {
+        matchFound = true;
+        break;
+      };
+    };
+
+    if(matchFound) {
+      return name;
+    };
   };
 
   return false;
@@ -690,7 +714,6 @@ export function getRaceTime(hours, minutes, serverTime) {
 export function getMinutesTillRace(nextRaceTime, totalMinutesWhenSettled) {
   const [hours, minutes] = nextRaceTime.split(':').map(Number);
   const totalMinutes = hours * 60 + minutes;
-  console.log(totalMinutes, totalMinutesWhenSettled);
   const minutesTillRace = totalMinutes - totalMinutesWhenSettled;
 
   return minutesTillRace;

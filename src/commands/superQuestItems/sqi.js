@@ -3,7 +3,7 @@ import { createMessageEmbed, createSqiEmbed } from "../../embeds/index.js";
 import { createSuperQuestItemButtonsRow } from "../../rows/index.js";
 import { 
     findMatchingFile, 
-    findMatchingFileByInitials,
+    findMatchingInitials,
     getSuperQuestItemData, 
     getSqiMainStatFields, 
     getSqiIngredientFields, 
@@ -34,7 +34,7 @@ command.slashRun = async function slashRun(client, interaction) {
 async function runCommand(send, guild, embedColor, sqiName, interaction) {
     try {
         const sqiFiles = fs.readdirSync('src/data/sqi');
-        const matchingInitials = findMatchingFileByInitials(sqiFiles, sqiName);
+        const matchingInitials = findMatchingInitials(sqiFiles, sqiName);
         const matchingFileName = findMatchingFile(sqiFiles, sqiName);
     
 

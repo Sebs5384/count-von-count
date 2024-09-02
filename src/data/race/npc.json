@@ -1,0 +1,58 @@
+[
+    {
+        "name": "Admiral P. Nees",
+        "map": "cmd_fild07",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=cmd_fild07",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/cmd_fild07.gif",
+        "npcImage": "https://talontales.com/wiki/images/2/25/4_DR_GAMBERI.gif",
+        "path": "Cities > Beacon Island"
+    },
+    {
+        "name": "Amelia",
+        "map": "moc_fild17",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=moc_fild17",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/moc_fild17.gif",
+        "npcImage": "https://talontales.com/wiki/images/a/a6/4_F_LGTGIRL.gif",
+        "path": "Cities > Morroc > South Portal > East Portal > South Portal"
+    },
+    {
+        "name": "Anthony",
+        "map": "um_fild02",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=um_fild02",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/um_fild02.gif",
+        "npcImage": "https://talontales.com/wiki/images/6/62/4_M_LGTMAN.gif",
+        "path": "Cities > Umbala > South Portal > South Portal"
+    },
+    {
+        "name": "Ashley",
+        "map": "pay_fild09",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=pay_fild09",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/pay_fild09.gif",
+        "npcImage": "https://talontales.com/wiki/images/d/dd/4_F_GENETIC.gif",
+        "path": "Cities > Payon > East Portal > East Portal"
+    },
+    {
+        "name": "Averey",
+        "map": "um_fild03",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=um_fild03",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/um_fild03.gif",
+        "npcImage": "https://talontales.com/wiki/images/e/e3/4_f_nydhog.gif",
+        "path": "Dungeons > Kokomo Beach > North Portal > North Portal"
+    },
+    {
+        "name": "Bajingo Jayjay",
+        "map": "gef_fild00",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=gef_fild00",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/gef_fild00.gif",
+        "npcImage": "https://talontales.com/wiki/images/b/bf/4_EXJOB_MR_SEO.gif",
+        "path": "Cities > Geffen > East Portal"
+    },
+    {
+        "name": "Barto",
+        "map": "yuno_fild12",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=yuno_fild12",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/yuno_fild12.gif",
+        "npcImage": "https://talontales.com/wiki/images/8/82/2_M_DYEINGER.gif",
+        "path": "Dungeons > Kiel Hyre (Outside) > South Portal"
+    }
+]

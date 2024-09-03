@@ -54,5 +54,166 @@
         "mapImage": "https://file5s.ratemyserver.net/maps_xl/yuno_fild12.gif",
         "npcImage": "https://talontales.com/wiki/images/8/82/2_M_DYEINGER.gif",
         "path": "Dungeons > Kiel Hyre (Outside) > South Portal"
+    },
+    {
+        "name": "Ben",
+        "map": "yuno_fild03",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=yuno_fild03",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/yuno_fild03.gif",
+        "npcImage": "https://talontales.com/wiki/images/2/20/4_M_MELODY.gif",
+        "path": "Dungeons > Magma Dungeon (Outside)"
+    },
+    {
+        "name": "Billy",
+        "map": "ra_fild08",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=ra_fild08",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/ra_fild08.gif",
+        "npcImage": "https://talontales.com/wiki/images/5/5a/4_M_RAGI.gif",
+        "path": "Cities > Rachel > East Portal > North Portal \nOr\n Dungeons > Ice Dungeon > South Portal > South Portal"
+    },
+    {
+        "name": "Binh",
+        "map": "mjolnir_07",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=mjolnir_07",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/mjolnir_07.gif",
+        "npcImage": "https://talontales.com/wiki/images/0/01/4_M_JOB_ASSASSIN.gif",
+        "path": "Dungeons > Coal Mine (Outside) > East Portal > South Portal"
+    },
+    {
+        "name": "Branda (Brenda)",
+        "map": "ra_fild05",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=ra_fild05",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/ra_fild05.gif",
+        "npcImage": "https://talontales.com/wiki/images/a/ab/4_f_einwoman.gif",
+        "path": "Dungeons > Ice Dungeon (Outside) > South Portal > East Portal"
+    },
+    {
+        "name": "Byram",
+        "map": "ve_fild04",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=ve_fild04",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/ve_fild04.gif",
+        "npcImage": "https://talontales.com/wiki/images/3/3e/4_m_tuffold.gif",
+        "path": "Dungeons > Thor Dungeon > East Portal"
+    },
+    {
+        "name": "Captain Puh Ssay",
+        "map": "cmd_fild02",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=cmd_fild02",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/cmd_fild02.gif",
+        "npcImage": "https://talontales.com/wiki/images/8/84/4_CAT_ADMIRAL_na.gif",
+        "path": "Dungeons > Kokomo Beach"
+    },
+    {
+        "name": "Capri",
+        "map": "moc_fild02",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=moc_fild02",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/moc_fild02.gif",
+        "npcImage": "https://talontales.com/wiki/images/e/e7/4_F_ANNIVERSARY.gif",
+        "path": "War of Emperium > Greenwood Lake > West Portal"
+    },
+    {
+        "name": "Chloe",
+        "map": "ve_fild06",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=ve_fild06",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/ve_fild06.gif",
+        "npcImage": "https://talontales.com/wiki/images/2/26/4_MISTY.gif",
+        "path": "Cities > Veins > North Portal"
+    },
+    {
+        "name": "David",
+        "map": "ra_fild01",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=ra_fild01",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/ra_fild01.gif",
+        "npcImage": "https://talontales.com/wiki/images/5/54/4_M_TWBOY.gif",
+        "path": "Dungeons > Ice Dungeon (Outside)"
+    },
+    {
+        "name": "Dawn",
+        "map": "pay_fild04",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=pay_fild04",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/pay_fild04.gif",
+        "npcImage": "https://talontales.com/wiki/images/c/c5/4_F_LUCILE.gif",
+        "path": "Cities > Prontera > South Portal > South Portal > East Portal"
+    },
+    {
+        "name": "Dyanna",
+        "map": "pay_fild11",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=pay_fild11",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/pay_fild11.gif",
+        "npcImage": "https://talontales.com/wiki/images/c/cf/4_F_JOB_HUNTER.gif",
+        "path": "Cities > Payon > South Portal > South Portal > West Portal"
+    },
+    {
+        "name": "Elise",
+        "map": "ra_fild06",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=ra_fild06",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/ra_fild06.gif",
+        "npcImage": "https://talontales.com/wiki/images/b/b1/4_F_SWORDMAN.gif",
+        "path": "Cities > Lighthalzen > North Portal > North Portal"
+    },
+    {
+        "name": "Emily",
+        "map": "gef_fild12",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=gef_fild12",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/gef_fild12.gif",
+        "npcImage": "https://talontales.com/wiki/images/3/33/4_F_NFLOSTGIRL.gif",
+        "path": "War of Emperium > Britoniah > West Portal"
+    },
+    {
+        "name": "Emmanuel",
+        "map": "pay_fild10",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=pay_fild10",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/pay_fild10.gif",
+        "npcImage": "https://talontales.com/wiki/images/5/5b/4_M_KID1.gif",
+        "path": "Cities > Payon > East Portal > East Portal > South Portal"
+    },
+    {
+        "name": "Erica",
+        "map": "ra_fild13",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=ra_fild13",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/ra_fild13.gif",
+        "npcImage": "https://talontales.com/wiki/images/c/cf/4_F_JOB_HUNTER.gif",
+        "path": "Cities > Rachel > South Portal > East Portal"
+    },
+    {
+        "name": "Ging",
+        "map": "prt_fild07",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=prt_fild07",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/prt_fild07.gif",
+        "npcImage": "https://talontales.com/wiki/images/6/6c/4_EP18_TAMARIN.gif",
+        "path": "Dungeons > Prontera Culvert (Outside) > South Portal"
+    },
+    {
+        "name": "Grant",
+        "map": "gef_fild05",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=gef_fild05",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/gef_fild05.gif",
+        "npcImage": "https://talontales.com/wiki/images/a/a6/4_M_ROYALGUARD.gif",
+        "path": "Cities > Geffen > West Portal > North Portal"
+    },
+    {
+        "name": "Gustav",
+        "map": "pay_fild02",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=pay_fild02",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/pay_fild02.gif",
+        "npcImage": "https://talontales.com/wiki/images/a/aa/JP_SABIKU.gif",
+        "path": "Cities > Payon > South Portal > South Portal"
+    },
+    {
+        "name": "Hah Tee",
+        "map": "",
+        "mapLink": "",
+        "mapImage": "",
+        "npcImage": "",
+        "path": ""
     }
 ]
+
+{
+    "name": "",
+    "map": "",
+    "mapLink": "",
+    "mapImage": "",
+    "npcImage": "",
+    "path": ""
+}

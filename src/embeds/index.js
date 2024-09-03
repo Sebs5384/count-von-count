@@ -5,7 +5,8 @@ import createTrackerEmbed  from "./trackerEmbed.js";
 import createMessageEmbed  from "./messageEmbed.js";
 import createListEmbed  from "./listEmbed.js";
 import createSqiEmbed  from "./sqiEmbed.js";
-import createRaceEmbed from "./raceEmbed.js";  
+import createRaceEmbed from "./raceEmbed.js";
+import createNpcEmbed from "./npcEmbed.js";  
 
 export { 
     createInfoEmbed, 
@@ -16,4 +17,5 @@ export {
     createListEmbed,
     createSqiEmbed,
     createRaceEmbed,
+    createNpcEmbed
 };

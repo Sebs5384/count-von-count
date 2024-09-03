@@ -331,6 +331,7 @@ export function getRaceTimers(races, serverTime) {
     
     if(!lastSettledRaceTime) return;
 
+    const { timePeriod } = getRaceTime(raceHours, raceMinutes, serverTime);
     const currentServerTimeInMinutes = getTotalMinutesFromDate(currentServerTimestamp); 
     const totalMinutesWhenSettled = getTotalMinutesFromDate(lastSettledRaceTimestamp);
 
@@ -338,14 +339,17 @@ export function getRaceTimers(races, serverTime) {
     const timeElapsedSinceLastRace = getTimeElapsed(currentServerTimeInMinutes, totalMinutesWhenSettled);
 
     const raceRemainingTimeTillNextRace = (minutesTillRace - timeElapsedSinceLastRace);
-    const isRaceTime = raceRemainingTimeTillNextRace < 0;
-  
-    const remainingTimeInHours = isRaceTime ? Math.ceil(raceRemainingTimeTillNextRace / 60)  : Math.floor(raceRemainingTimeTillNextRace / 60);
-    const remainingTimeInMinutes = isRaceTime ? (raceRemainingTimeTillNextRace + 60) % 60 : raceRemainingTimeTillNextRace % 60;
+    console.log(raceRemainingTimeTillNextRace);
+    const isRaceTime = (raceRemainingTimeTillNextRace < 0) && (raceRemainingTimeTillNextRace > -59);
+    console.log(isRaceTime);
+
+    const remainingTimeInHours = isRaceTime ? Math.ceil(raceRemainingTimeTillNextRace / 60)  : Math.floor((raceRemainingTimeTillNextRace + 120) / 60);
+    const remainingTimeInMinutes = isRaceTime ? (raceRemainingTimeTillNextRace + 60) % 60 : (raceRemainingTimeTillNextRace % 60);
+    const nextRaceString = isRaceTime ? `Race Ends: ${nextRaceTime} ${timePeriod} Server Time` : `Next Race: ${nextRaceTime} ${timePeriod} Server Time`;
     const raceRangeString = getRaceRangeString(remainingTimeInHours, remainingTimeInMinutes, isRaceTime);
     
     return {
-      name: nextRaceTime,
+      name: nextRaceString,
       value: raceRangeString,
       inline: true
     }
@@ -421,13 +425,13 @@ function getRaceRangeString(remainingHours, remainingMinutes, isRaceTime) {
   if(remainingMinutes !== 0) remainingTimeTillRaceString += `${Math.abs(remainingMinutes)} ${remainingMinutes === 1 ? "minute" : "minutes"}`;
 
   if(isRaceTime) {
-    remainingTimeTillRaceString = `The race is on ${remainingTimeTillRaceString} till it ends`
+    remainingTimeTillRaceString = `\`The race have started, ${remainingTimeTillRaceString} till it ends\``;
   } else if(remainingHours < 0 || remainingMinutes < 0) {
-    remainingTimeTillRaceString = `The race was ${remainingTimeTillRaceString} ago`; 
+    remainingTimeTillRaceString = `\`The race was ${remainingTimeTillRaceString} ago\``; 
   } else if(remainingHours === 0 && remainingMinutes === 0) {
-    remainingTimeTillRaceString = `The race is now`;
+    remainingTimeTillRaceString = `\`The race is have just started now !\``;
   } else {
-    remainingTimeTillRaceString = `The summer race will start in ${remainingTimeTillRaceString} from now`;
+    remainingTimeTillRaceString = `\`The summer race will start in ${remainingTimeTillRaceString} from now\``;
   };
 
   return remainingTimeTillRaceString;

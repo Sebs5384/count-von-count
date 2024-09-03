@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { createMessageEmbed, createRaceEmbed } from "../../embeds/index.js";
 import { Race, RaceChannel } from "../../models/index.js";
-import { formatRaceData, getRaceTimers } from "../../utils/general.js";
+import { formatRaceData, getRaceTimers, getRaceTime } from "../../utils/general.js";
 import { getServerTime } from "../../service/serverTime.js";
 
 const command = new SlashCommandBuilder()

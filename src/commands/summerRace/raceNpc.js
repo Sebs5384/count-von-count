@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "discord.js";
-import { createMessageEmbed } from "../../embeds/index.js";
+import { createMessageEmbed, createNpcEmbed } from "../../embeds/index.js";
 import { findMatchingName, findMatchingInitials } from "../../utils/general.js";
 import fs from "fs";
 import path from "path";
@@ -32,17 +32,21 @@ async function runCommand(send, guild, embedColor, npcName, interaction) {
         const matchingInitials = findMatchingInitials(npcNames, npcName);
         const matchingName = findMatchingName(npcNames, npcName);
         
-        for(const npc of npcs) {
+        if(matchingInitials || matchingName) {
+            const selectedNpc = npcs.find((npc) => npc.name === matchingName);
+            const npcName = selectedNpc.name;
+            const npcMap = selectedNpc.map;
+            const npcMapLink = selectedNpc.mapLink;
+            const npcMapImage = selectedNpc.mapImage;
+            const npcNpcImage = selectedNpc.npcImage;
+            const npcPath = selectedNpc.path;
 
-            if(matchingInitials || matchingName) {
-                const npcName = npc.name;
-                const npcMap = npc.map;
-
-                send({ embeds: [createMessageEmbed(npcName, npcMap, embedColor)]});
-            };
-        };
+            send({ embeds: [createNpcEmbed(npcName, npcMap, npcMapLink, npcMapImage, npcNpcImage, npcPath, embedColor)] });
+        } else {
+            send({ embeds: [createMessageEmbed('Error', `No NPC found with the name ${npcName}`, embedColor, '❌')] });
+        }
     } catch(error) {
-        console.log(`There was an error while executing /racenpc: ${error}`);
+        console.error(error);
     };
 };
 

@@ -587,7 +587,7 @@ export function findMatchingName(names, input) {
   const inputWords = input.toLowerCase().split(/\s+/);
 
   for(const name of names) {
-    const formattedName = name.name.toLowerCase();
+    const formattedName = name.toLowerCase();
     let matchFound = false;
 
     for(const word of inputWords) {

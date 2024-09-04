@@ -323,35 +323,35 @@ export function getRaceTimers(races, serverTime) {
   const raceTimers = races.map((race) => {
     const nextRaceTime = race.nextRaceTime;
     const lastRaceSettler = race.raceSettler;
-    const raceHours = race.hoursTillRace;
-    const raceMinutes = race.minutesTillRace;
+    const raceHours = race.raceHours;
+    const raceMinutes = race.raceMinutes;
     const lastSettledRaceTime = race.lastSettledRace;
     const lastSettledRaceTimestamp = new Date(lastSettledRaceTime);
     const currentServerTimestamp = new Date(serverTime.dateTime);
     
     if(!lastSettledRaceTime) return;
-
-    const { timePeriod } = getRaceTime(raceHours, raceMinutes, serverTime);
+    
     const currentServerTimeInMinutes = getTotalMinutesFromDate(currentServerTimestamp); 
     const totalMinutesWhenSettled = getTotalMinutesFromDate(lastSettledRaceTimestamp);
+    const minutesTillRace = getMinutesTillRace(raceHours, raceMinutes, totalMinutesWhenSettled);
+    const timeElapsedSinceSettled = getTimeElapsed(currentServerTimeInMinutes, totalMinutesWhenSettled);
 
-    const minutesTillRace = getMinutesTillRace(nextRaceTime, totalMinutesWhenSettled);
-    const timeElapsedSinceLastRace = getTimeElapsed(currentServerTimeInMinutes, totalMinutesWhenSettled);
+    const raceRemainingTimeInMinutes = (minutesTillRace - totalMinutesWhenSettled) - timeElapsedSinceSettled;
+    const isRaceTime = raceRemainingTimeInMinutes < 0 && raceRemainingTimeInMinutes > -59;
+    const raceEndTimeInMinutes = (minutesTillRace + 60);
+    const raceEnded = raceEndTimeInMinutes < currentServerTimeInMinutes;
 
-    const raceRemainingTimeTillNextRace = (minutesTillRace - timeElapsedSinceLastRace);
-    console.log(raceRemainingTimeTillNextRace);
-    const isRaceTime = (raceRemainingTimeTillNextRace < 0) && (raceRemainingTimeTillNextRace > -59);
-    console.log(isRaceTime);
+    const remainingHoursTillRaceStarts = isRaceTime ? Math.ceil(raceRemainingTimeInMinutes / 60) : raceEnded ? Math.floor((raceRemainingTimeInMinutes + 120) / 60) : Math.floor((raceRemainingTimeInMinutes) / 60);
+    const remainingMinutesTillRaceStarts = isRaceTime ? (raceRemainingTimeInMinutes + 60) % 60 : raceRemainingTimeInMinutes % 60;
 
-    const remainingTimeInHours = isRaceTime ? Math.ceil(raceRemainingTimeTillNextRace / 60)  : Math.floor((raceRemainingTimeTillNextRace + 120) / 60);
-    const remainingTimeInMinutes = isRaceTime ? (raceRemainingTimeTillNextRace + 60) % 60 : (raceRemainingTimeTillNextRace % 60);
-    const nextRaceString = isRaceTime ? `Race Ends: ${nextRaceTime} ${timePeriod} Server Time` : `Next Race: ${nextRaceTime} ${timePeriod} Server Time`;
-    const raceRangeString = getRaceRangeString(remainingTimeInHours, remainingTimeInMinutes, isRaceTime);
-    
+    const raceEndTime = formatToClockHour(raceEndTimeInMinutes);
+    const { raceStatusString, raceTimeString } = getRaceRangeString(remainingHoursTillRaceStarts, remainingMinutesTillRaceStarts, isRaceTime, raceEnded, nextRaceTime, raceEndTime);
+
     return {
-      name: nextRaceString,
-      value: raceRangeString,
-      inline: true
+      name: raceStatusString,
+      value: raceTimeString,
+      inline: true,
+      lastRaceSettler
     }
   });
 
@@ -418,23 +418,31 @@ function getBossRangeString(bossRange) {
   return bossRangeString;
 };   
 
-function getRaceRangeString(remainingHours, remainingMinutes, isRaceTime) {
-  let remainingTimeTillRaceString = "";
+function getRaceRangeString(remainingHours, remainingMinutes, isRaceTime, raceEnded, nextRaceTime, raceEndTime) {
+  let raceTimeString = "";
+  let raceStatusString = "";
 
-  if(remainingHours !== 0) remainingTimeTillRaceString += `${Math.abs(remainingHours)} ${remainingHours === 1 ? "hour" : "hours"} `;
-  if(remainingMinutes !== 0) remainingTimeTillRaceString += `${Math.abs(remainingMinutes)} ${remainingMinutes === 1 ? "minute" : "minutes"}`;
+  if(remainingHours !== 0) raceTimeString += `${Math.abs(remainingHours)} ${remainingHours === 1 ? "hour" : "hours"} `;
+  if(remainingMinutes !== 0) raceTimeString += `${Math.abs(remainingMinutes)} ${remainingMinutes === 1 ? "minute" : "minutes"}`;
 
-  if(isRaceTime) {
-    remainingTimeTillRaceString = `\`The race have started, ${remainingTimeTillRaceString} till it ends\``;
-  } else if(remainingHours < 0 || remainingMinutes < 0) {
-    remainingTimeTillRaceString = `\`The race was ${remainingTimeTillRaceString} ago\``; 
+  if(raceEnded) {
+    raceTimeString = `\`The race has ended, ${raceTimeString} ago\``;
+    raceStatusString = `Race has ended at: ${raceEndTime} Server Time`;
+  } else if(isRaceTime) {
+    raceTimeString = `\`The race have started, ${raceTimeString} till it ends\``;
+    raceStatusString = `Race has started at: ${nextRaceTime} Server Time`;
   } else if(remainingHours === 0 && remainingMinutes === 0) {
-    remainingTimeTillRaceString = `\`The race is have just started now !\``;
+    raceTimeString = `\`The race have just started now !\``;
+    raceStatusString = `Race has started at: ${nextRaceTime} Server Time`;
   } else {
-    remainingTimeTillRaceString = `\`The summer race will start in ${remainingTimeTillRaceString} from now\``;
+    raceTimeString = `\`The summer race will start in ${raceTimeString} from now\``;
+    raceStatusString = `Race will start at: ${nextRaceTime} Server Time`;
   };
 
-  return remainingTimeTillRaceString;
+  return {
+    raceStatusString,
+    raceTimeString
+  }
 };
 
 function getBossStatus(bossRemainingDowntime, bossRemainingTimeTillSpawn) {
@@ -703,9 +711,9 @@ export function getRaceTime(hours, minutes, serverTime) {
   
   const newHours = Math.floor(newTotalMinutes / 60) % 24;
   const newMinutes = newTotalMinutes % 60;
+
   const timePeriod = newHours >= 12 ? 'PM' : 'AM';
-  const adjustedHours = newHours % 12 || 12;
-  const fomarttedHours = adjustedHours.toString().padStart(2, '0');
+  const fomarttedHours = newHours.toString().padStart(2, '0');
   const formattedMinutes = newMinutes.toString().padStart(2, '0');
   const raceTime = `${fomarttedHours}:${formattedMinutes}`;
 
@@ -715,10 +723,9 @@ export function getRaceTime(hours, minutes, serverTime) {
   }
 };
 
-export function getMinutesTillRace(nextRaceTime, totalMinutesWhenSettled) {
-  const [hours, minutes] = nextRaceTime.split(':').map(Number);
-  const totalMinutes = hours * 60 + minutes;
-  const minutesTillRace = totalMinutes - totalMinutesWhenSettled;
+export function getMinutesTillRace(raceHours, raceMinutes, totalMinutesWhenSettled) {
+  const totalMinutes = raceHours * 60 + raceMinutes;
+  const minutesTillRace = totalMinutes + totalMinutesWhenSettled;
 
   return minutesTillRace;
 };

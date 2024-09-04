@@ -3,10 +3,10 @@ import { EmbedBuilder } from 'discord.js';
 function createRaceEmbed(raceTitle, raceList, embedColor, raceFooter) {
     const raceEmbed = new EmbedBuilder()
         .setTitle(raceTitle)
+        .setColor(embedColor)
         .setFooter({ text: raceFooter })
-        .setColor(embedColor);
     if(raceList) {
-        raceEmbed.addFields(raceList);
+        raceEmbed.addFields(raceList)
     };
 
     return raceEmbed;

@@ -27,14 +27,32 @@ command.slashRun = async function slashRun(client, interaction, permaRaceMessage
     const serverTimeZone = 'America/Los_Angeles';
     const serverTime = await getServerTime(serverTimeZone);
     const timerTitle = '⛱☀  Race Timer'
-    const timerFooter = `Race timer updates every minute, last updated at: ${serverTime.date} ${serverTime.time} Server Time \nCurrent Location: (${serverTimeZone.replace('_', ' ')})`;
+    const timerFooter = `Race timer updates every minute, last updated at: ${serverTime.date} ${serverTime.time} Server Time \nCurrent Location: (${serverTimeZone.replace('_', ' ')})\nIf you wish to set the timer use /setrace command`;
 
     if(hasTimers) {
         const formattedRaceTimers = formatRaceData(timers);
         const currentRaceTimers = getRaceTimers(formattedRaceTimers, serverTime);
 
         const updatedRaceTimers = await Promise.all(currentRaceTimers.map(async (race) => {
-            return race; 
+            if(!race) {
+                return race;
+            };
+
+            if(race.raceToRemove) {
+                await Race.update(
+                    { last_settled_race_time: null },
+                    {
+                        where: {
+                            guild_id: race.guild_id,
+                            id: race.raceToRemove
+                        }
+                    }
+                );
+
+                return;
+            } else {
+                return race;
+            };
         }));
         
         const filteredRaceTimers = updatedRaceTimers.filter((race) => race !== undefined);

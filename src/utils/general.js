@@ -321,8 +321,8 @@ export function getBossTimers(bosses, serverTime) {
 export function getRaceTimers(races, serverTime) {
   
   const raceTimers = races.map((race) => {
+    const raceId = race.id;
     const nextRaceTime = race.nextRaceTime;
-    const lastRaceSettler = race.raceSettler;
     const raceHours = race.raceHours;
     const raceMinutes = race.raceMinutes;
     const lastSettledRaceTime = race.lastSettledRace;
@@ -340,7 +340,14 @@ export function getRaceTimers(races, serverTime) {
     const isRaceTime = raceRemainingTimeInMinutes < 0 && raceRemainingTimeInMinutes > -59;
     const raceEndTimeInMinutes = (minutesTillRace + 60);
     const raceEnded = raceEndTimeInMinutes < currentServerTimeInMinutes;
+    const minutesTillLastSettledRaceVanish = (raceEndTimeInMinutes + 150);
 
+    if(currentServerTimeInMinutes > minutesTillLastSettledRaceVanish) {
+      return {
+        raceToRemove: raceId
+      };
+    };
+    
     const remainingHoursTillRaceStarts = isRaceTime ? Math.ceil(raceRemainingTimeInMinutes / 60) : raceEnded ? Math.floor((raceRemainingTimeInMinutes + 120) / 60) : Math.floor((raceRemainingTimeInMinutes) / 60);
     const remainingMinutesTillRaceStarts = isRaceTime ? (raceRemainingTimeInMinutes + 60) % 60 : raceRemainingTimeInMinutes % 60;
 
@@ -351,7 +358,6 @@ export function getRaceTimers(races, serverTime) {
       name: raceStatusString,
       value: raceTimeString,
       inline: true,
-      lastRaceSettler
     }
   });
 

@@ -9,7 +9,7 @@ const command = new SlashCommandBuilder()
     .setDescription('Displays the upcoming race')
 command.aliases = ['r'];    
 
-command.slashRun = async function slashRun(client, interaction, permaRaceMessage, permaRaceChannelId) {
+command.slashRun = async function slashRun(client, interaction, permaRaceMessage, permaRaceChannelId, raceChannelId) {
     const guild = await interaction.guild;
     const send = interaction.followUp.bind(interaction);
     const embedColor = client.config.embedColor;
@@ -36,6 +36,15 @@ command.slashRun = async function slashRun(client, interaction, permaRaceMessage
         const updatedRaceTimers = await Promise.all(currentRaceTimers.map(async (race) => {
             if(!race) {
                 return race;
+            };
+
+            if(race.raceStarted) {
+                const role = guild.roles.cache.find(role => role.name === 'Racer');
+                if(role) {
+                    const roleMention = `<@&${role.id}>`;
+                    const messageContent = `Attention, ${roleMention}! The race has started!`;
+                    await raceChannelId.send({ content: messageContent });
+                };
             };
 
             if(race.raceToRemove) {

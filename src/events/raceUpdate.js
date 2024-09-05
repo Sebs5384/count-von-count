@@ -13,11 +13,12 @@ export const callback = async(client) => {
             const raceChannels = await RaceChannel.findAll();
 
             for(const raceChannel of raceChannels) {
-                const { guild_id: guildId, perma_race_channel_id: channelId } = raceChannel;
+                const { guild_id: guildId, perma_race_channel_id: channelId, race_channel_id: raceChannelId } = raceChannel;
 
                 try {
                     const guild = await client.guilds.fetch(guildId);
                     const channel = await client.channels.fetch(channelId);
+                    const raceChannel = await client.channels.fetch(raceChannelId);
 
                     const messages = await channel.messages.fetch({ limit: 1 });
                     const message = messages.first();
@@ -28,7 +29,7 @@ export const callback = async(client) => {
                             followUp: (content) => { message.edit(content) },
                         };
 
-                        await callbackRace.slashRun(client, interactionMock, message, channel);
+                        await callbackRace.slashRun(client, interactionMock, message, channel, raceChannel);
                     } else {
                         console.error(`No message found in channel ${channelId}`);
                     };

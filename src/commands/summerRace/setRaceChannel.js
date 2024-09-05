@@ -106,11 +106,11 @@ async function runCommand(client, guild, send, interaction, embedColor, guildCat
                     const editedMessageTitle = 'Successfully created race channel';
                     const editedMessageContent = `Perma-race channel has been created in the <#${selectedValue}> category`;
 
-                    const serverTimeZone = 'America/Los_Angeles';
-                    const serverTime = getServerTime(serverTimeZone);
-                    const raceTimerFooter = `This timer auto updates every minute, last updated at: ${serverTime.time} Server Time`;
+                    const raceTitle = 'Race Timer';
+                    const raceMessage = `Use /setrace to start`;
+                    const raceTimerFooter = `The timer will auto update once the a race has been set`;
 
-                    await permaRaceChannel.send({ embeds: [createMessageEmbed('Race Timer', `Next race will happen in 2`, embedColor, '🏁', raceTimerFooter)] });
+                    await permaRaceChannel.send({ embeds: [createMessageEmbed(raceTitle, raceMessage, embedColor, '🏁', raceTimerFooter)] });
                     await raceChannel.send({ embeds: [createMessageEmbed(raceChannelMessageTitle, raceChannelMessage, embedColor, '✅')] });
                     await message.edit({ embeds: [createMessageEmbed(editedMessageTitle, editedMessageContent, embedColor, '✅')], components: [] });
                     collector.stop();

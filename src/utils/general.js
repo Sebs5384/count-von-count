@@ -338,6 +338,7 @@ export function getRaceTimers(races, serverTime) {
 
     const raceRemainingTimeInMinutes = (minutesTillRace - totalMinutesWhenSettled) - timeElapsedSinceSettled;
     const isRaceTime = raceRemainingTimeInMinutes < 0 && raceRemainingTimeInMinutes > -59;
+    const raceStarted = raceRemainingTimeInMinutes === 0;
     const raceEndTimeInMinutes = (minutesTillRace + 60);
     const raceEnded = raceEndTimeInMinutes < currentServerTimeInMinutes;
     const minutesTillLastSettledRaceVanish = (raceEndTimeInMinutes + 150);
@@ -358,6 +359,7 @@ export function getRaceTimers(races, serverTime) {
       name: raceStatusString,
       value: raceTimeString,
       inline: true,
+      raceStarted,
     }
   });
 

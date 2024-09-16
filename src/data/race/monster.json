@@ -506,16 +506,146 @@
         "path": ""
     },
     {
-        
+        "name": "Savage",
+        "map": "ve_fild02",
+        "quantity": 60,
+        "monsterSprite": "https://file5s.ratemyserver.net/mobs/1166.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/ve_fild02.gif",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=ve_fild02",
+        "missionAmount": 75,
+        "spawnWindow": "Instantly",
+        "path": "Cities > Rachel > South"
+    },
+    {
+        "name": "Seal (Fur Seal)",
+        "map": "cmd_fild02",
+        "quantity": 40,
+        "monsterSprite": "https://file5s.ratemyserver.net/mobs/1317.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/cmd_fild02.gif",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=cmd_fild02",
+        "missionAmount": 35,
+        "spawnWindow": "Instantly",
+        "path": "Dungeons > Kokomo Beach (Fixated spawn at the beach part of the map)"
+    },
+    {
+        "name": "Sea Otter",
+        "map": "cmd_fild04",
+        "quantity": 20,
+        "monsterSprite": "https://file5s.ratemyserver.net/mobs/1323.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/cmd_fild04.gif",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=cmd_fild04",
+        "missionAmount": 50,
+        "spawnWindow": "Instantly",
+        "path": "Dungeons > Kokomo Beach > East (Fixated spawn at the beach part of the map)"
+    },
+    {
+        "name": "Siorava",
+        "map": "mal_dun01",
+        "quantity": 45,
+        "monsterSprite": "https://file5s.ratemyserver.net/mobs/2199.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/mal_dun01.gif",
+        "mapLink": "https://ratemyserver.net/npc_shop_warp.php?map=mal_dun01&re_mob=0&small=1",
+        "missionAmount": 25,
+        "spawnWindow": "5 seconds",
+        "path": "Cities > Malangdo > Northwest"
+    },
+    {
+        "name": "Siroma",
+        "map": "ice_dun01",
+        "quantity": 75,
+        "monsterSprite": "https://file5s.ratemyserver.net/mobs/1776.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/ice_dun01.gif",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=ice_dun01",
+        "missionAmount": 45,
+        "spawnWindow": "Instantly",
+        "path": "Dungeons > Ice Dungeon > North"
+    },
+    {
+        "name": "Smokie",
+        "map": "pay_fild09",
+        "quantity": 80,
+        "monsterSprite": "https://file5s.ratemyserver.net/mobs/1056.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/pay_fild09.gif",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=pay_fild09",
+        "missionAmount": 90,
+        "spawnWindow": "Instantly",
+        "path": "Cities > Payon > East > East"
+    },
+    {
+        "name": "Swordfish",
+        "map": "iz_dun03",
+        "quantity": 40,
+        "monsterSprite": "https://file5s.ratemyserver.net/mobs/1069.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/iz_dun03.gif",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=iz_dun03",
+        "missionAmount": 75,
+        "spawnWindow": "Instantly",
+        "path": "Dungeons > Byalan Dungeon > North > Center > North > North\n(Bonus Bundle) Dungeons > Byalan Dungeon 6th Floor > North > South West"
+    },
+    {
+        "name": "Toucan",
+        "map": "bra_fild01",
+        "quantity": 10,
+        "monsterSprite": "https://file5s.ratemyserver.net/mobs/2073.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/bra_fild01.gif",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=bra_fild01",
+        "missionAmount": 25,
+        "spawnWindow": "5 seconds",
+        "path": "Cities > Brasilis > North"
+    },
+    {
+        "name": "Wild Rose",
+        "map": "gef_fild05",
+        "quantity": 50,
+        "monsterSprite": "https://file5s.ratemyserver.net/mobs/1261.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/gef_fild05.gif",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=gef_fild05",
+        "missionAmount": 80,
+        "spawnWindow": "Instantly",
+        "path": "Cities > Geffen > West > North"
+    },
+    {
+        "name": "Wootan Shooter",
+        "map": "um_dun01",
+        "quantity": 10,
+        "monsterSprite": "https://file5s.ratemyserver.net/mobs/1498.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/um_dun01.gif",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=um_dun01",
+        "missionAmount": 25,
+        "spawnWindow": "Instantly",
+        "path": "Dungeons > Umbala Dungeon (Can be also found in um_fild02 10x)"
+    },
+    {
+        "name": "Evil Nymph (Wicked Nymph)",
+        "map": "gon_dun03",
+        "quantity": 50,
+        "monsterSprite": "",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/gon_dun03.gif",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=gon_dun03",
+        "missionAmount": 20,
+        "spawnWindow": "3 ~ 5 minutes",
+        "path": "Cities > Gonryun > North > North > North East"
+    },
+    {
+        "name": "Yoyo",
+        "map": "prt_fild03",
+        "quantity": 80,
+        "monsterSprite": "https://file5s.ratemyserver.net/mobs/1057.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/prt_fild03.gif",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=prt_fild03",
+        "missionAmount": 75,
+        "spawnWindow": "Instantly",
+        "path": "Dungeons > Hidden Temple > East > East"
+    },
+    {
+        "name": "Zipper Bear",
+        "map": "gon_dun01",
+        "quantity": 35,
+        "monsterSprite": "https://file5s.ratemyserver.net/mobs/1417.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/gon_dun01.gif",
+        "mapLink": "https://ratemyserver.net/npc_shop_warp.php?map=gon_dun01&s_block=mob_block&small=1",
+        "missionAmount": 60,
+        "spawnWindow": "Instantly",
+        "path": "Cities > Gonryun > North"
     }
 ]
-
-"name": "",
-        "map": "",
-        "quantity": 0,
-        "monsterSprite": "",
-        "mapImage": "",
-        "mapLink": "",
-        "missionAmount": 0,
-        "spawnWindow": "",
-        "path": ""

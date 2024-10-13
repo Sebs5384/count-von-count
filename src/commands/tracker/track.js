@@ -30,6 +30,7 @@ command.slashRun = async function slashRun(client, interaction) {
     const guild = await interaction.guild;
     const user = interaction.user;
     const embedColor = client.config.embedColor;
+    const interactionChannelId = interaction.channelId;
 
     const serverTimeZone = 'America/Los_Angeles';
     let serverTime = await getServerTime(serverTimeZone);
@@ -38,15 +39,20 @@ command.slashRun = async function slashRun(client, interaction) {
     const mvpStimate = interaction.options.getInteger('stimate');
     const mvpTomb = interaction.options.getString('tomb');
 
-    await runCommand(send, guild, user, embedColor, mvpName, mvpStimate, mvpTomb, serverTime);
+    await runCommand(send, guild, user, embedColor, mvpName, mvpStimate, mvpTomb, serverTime, interactionChannelId);
 };
 
-async function runCommand(send, guild, user, embedColor, mvpName, mvpStimate, mvpTomb, serverTime){
+async function runCommand(send, guild, user, embedColor, mvpName, mvpStimate, mvpTomb, serverTime, interactionChannelId) {
     const trackerChannel = await TrackerChannel.findOne({
         where: { 
             guild_id: guild.id 
         },
     });
+
+    if(interactionChannelId !== trackerChannel.dataValues.tracker_channel_id) {
+        await send({ embeds: [createMessageEmbed('Wrong usage of command', 'This command is only available in the tracker channel', embedColor, '❌')] });
+        return;
+    };
 
     if(trackerChannel) {
 

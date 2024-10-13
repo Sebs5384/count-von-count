@@ -13,6 +13,7 @@ command.slashRun = async function slashRun(client, interaction, permaTrackerMess
     const guild = await interaction.guild;
     const send = interaction.followUp.bind(interaction);
     const embedColor = client.config.embedColor;
+    const interactionAttempt = interaction.channelId ? interaction.channelId : interaction.guild.id;
 
     const trackerChannelWithBosses = await TrackerChannel.findAll({
         where: { guild_id: guild.id },
@@ -20,6 +21,18 @@ command.slashRun = async function slashRun(client, interaction, permaTrackerMess
             model: Boss,
         }]
     });
+
+    const guildTrackerChannel = await TrackerChannel.findOne({
+        where: { guild_id: guild.id }
+    });
+
+    const guildTrackerChannelId = guildTrackerChannel.dataValues.tracker_channel_id;
+    const trackerGuildId = guildTrackerChannel.dataValues.guild_id;
+
+    if(interactionAttempt !== guildTrackerChannelId && interactionAttempt !== trackerGuildId) {
+        await send({ embeds: [createMessageEmbed('Wrong usage of command', 'This command is only available in the tracker channel', embedColor, '❌')] });
+        return;
+    };
 
     const bosses = trackerChannelWithBosses.flatMap((trackerChannel) => trackerChannel.Bosses.map((boss) => boss.dataValues));
     const hasBosses = bosses.length > 0

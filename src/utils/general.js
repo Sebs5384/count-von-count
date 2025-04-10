@@ -588,3 +588,31 @@ export function getMinutesTillRace(raceHours, raceMinutes, totalMinutesWhenSettl
 
   return minutesTillRace;
 };
+
+export function formatRosterDate(rosterDate, rosterTime) {
+  if(!rosterDate || !rosterTime) return;
+  
+  const dateRegex = /^(0?[1-9]|1[0-2])\/(0?[1-9]|[12][0-9]|3[01])$/;
+  const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+
+  if(!dateRegex.test(rosterDate) || !timeRegex.test(rosterTime)) return false;
+
+  try {
+      const now = new Date();
+      const [month, day] = rosterDate.split('/').map(Number);
+      const [hour, minute] = rosterTime.split(':').map(Number);
+
+      const year = now.getFullYear();
+      const parsedDate = new Date(Date.UTC(year, month - 1, day, hour, minute));
+
+      return parsedDate;
+  } catch (error) {
+      console.error(error);
+      return false;
+  };
+};
+
+export function isValidUrl(url) {
+  const urlRegex = /^(https?:\/\/)([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/i;
+  return urlRegex.test(url);
+};

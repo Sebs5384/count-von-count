@@ -1,12 +1,13 @@
 import User from "./user.js";
 import Guild from "./guild.js";
-import BirthdayChannel from "./birthdayChannel.js";
 import UserGuild from "./userGuild.js";
 import Boss from "./boss.js";
 import TrackerChannel from "./trackerChannel.js";
 import BossAlias from "./bossAlias.js";
 import Race from "./race.js";
 import RaceChannel from "./raceChannel.js";
+import Roster from "./roster.js";
+import RosterRole from "./rosterRole.js";
 
 User.belongsToMany(Guild, { through: {
     model: UserGuild,
@@ -21,9 +22,6 @@ Guild.belongsToMany(User, { through: {
     foreignKey: 'guild_id'
 });
 
-Guild.hasMany(BirthdayChannel, { foreignKey: 'guild_id' });
-BirthdayChannel.belongsTo(Guild, { foreignKey: 'guild_id' });
-
 TrackerChannel.hasMany(Boss, { foreignKey: 'guild_id' });
 Boss.belongsTo(TrackerChannel, { foreignKey: 'guild_id' });
 
@@ -33,4 +31,18 @@ Boss.hasMany(BossAlias, { foreignKey: 'boss_id', sourceKey: 'id' });
 RaceChannel.hasMany(Race, { foreignKey: 'guild_id' });
 Race.belongsTo(RaceChannel, { foreignKey: 'guild_id' });
 
-export { User, Guild, BirthdayChannel, UserGuild, Boss, TrackerChannel, BossAlias, Race, RaceChannel };
+Roster.hasMany(RosterRole, { foreignKey: 'roster_id', as: 'roles' });
+RosterRole.belongsTo(Roster, { foreignKey: 'roster_id', as: 'roster' });
+
+export { 
+    User, 
+    Guild, 
+    UserGuild, 
+    Boss, 
+    TrackerChannel, 
+    BossAlias, 
+    Race, 
+    RaceChannel,
+    Roster,
+    RosterRole
+};

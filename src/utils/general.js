@@ -589,7 +589,7 @@ export function getMinutesTillRace(raceHours, raceMinutes, totalMinutesWhenSettl
   return minutesTillRace;
 };
 
-export function formatRosterDate(rosterDate, rosterTime) {
+export function formatRosterDate(rosterDate, rosterTime, dateTime) {
   if(!rosterDate || !rosterTime) return;
   
   const dateRegex = /^(0?[1-9]|1[0-2])\/(0?[1-9]|[12][0-9]|3[01])$/;
@@ -598,14 +598,16 @@ export function formatRosterDate(rosterDate, rosterTime) {
   if(!dateRegex.test(rosterDate) || !timeRegex.test(rosterTime)) return false;
 
   try {
-      const now = new Date();
+      const year = new Date().getFullYear();
       const [month, day] = rosterDate.split('/').map(Number);
       const [hour, minute] = rosterTime.split(':').map(Number);
 
-      const year = now.getFullYear();
-      const parsedDate = new Date(Date.UTC(year, month - 1, day, hour, minute));
+      const serverTime = dateTime.fromObject(
+        { year, month, day, hour, minute },
+        { zone: 'America/Los_Angeles' }
+      );
 
-      return parsedDate;
+      return new Date(serverTime.toUTC().toISO());
   } catch (error) {
       console.error(error);
       return false;

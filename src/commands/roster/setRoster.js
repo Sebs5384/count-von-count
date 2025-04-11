@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import { Roster, RosterRole } from "../../models/index.js";
 import { createMessageEmbed } from "../../embeds/index.js";
 import { formatRosterDate, isValidUrl } from "../../utils/general.js";
+import { DateTime } from "luxon";
 
 const command = new SlashCommandBuilder()
     .setName('setroster')
@@ -51,7 +52,7 @@ command.slashRun = async function slashRun(client, interaction) {
     const rosterTime = interaction.options.getString('time');
     const thumbnail = interaction.options.getString('thumbnail');
     const note = interaction.options.getString('note');
-    const formattedRosterDate = formatRosterDate(rosterDate, rosterTime);
+    const formattedRosterDate = formatRosterDate(rosterDate, rosterTime, DateTime);
 
     await runCommand(send, guild, embedColor, rosterName, membersAmount, rosterDate, rosterTime, formattedRosterDate, thumbnail, note, interaction);
 };
@@ -59,17 +60,17 @@ command.slashRun = async function slashRun(client, interaction) {
 async function runCommand(send, guild, embedColor, rosterName, membersAmount, rosterDate, rosterTime, formattedRosterDate, thumbnail, note, interaction) {
     try {
         const defaultRoles = [
-            'Tank', 'Pally', 'HP', 'HP', 'HW', 'Bio', 'DPS', 'DPS', 'DPS', 'DPS', 'Flex', 'Flex'
+            'Tank', 'Pally', 'HP', 'HP', 'HW', 'Bio', 'DPS', 'DPS', 'DPS', 'DPS', 'Clown', 'Gypsy'
         ];
         const reserveRoles = [
-            'Reserve', 'Reserve', 'Reserve', 'Reserve', 'Reserve', 'Reserve'
+            'Reserve', 'Reserve', 'Reserve', 'Reserve'
         ];
 
         if((rosterDate || rosterTime) && !formattedRosterDate) {
             await send({ embeds: 
                 [createMessageEmbed(
                     'Invalid date or time input', 
-                    'Please make sure to input both date and time to schedule a run', 
+                    'Please make sure to input both date and time correctly to schedule a run', 
                     embedColor, '❌'
                 )] 
             });
@@ -138,8 +139,8 @@ async function runCommand(send, guild, embedColor, rosterName, membersAmount, ro
 
             await RosterRole.bulkCreate([...rolesToCreate, ...reserveRolesToCreate]);
 
-            const isoDate = createdRoster.roster_date.toISOString();
-            const DD_MM_YYYY_HH_MM_FORMAT = `${isoDate.slice(5, 7)}/${isoDate.slice(8, 10)}/${isoDate.slice(0, 4)} - ${isoDate.slice(11, 13)}:${isoDate.slice(14, 16)}HS Server Time`;
+            const isoDate = createdRoster.roster_date ? createdRoster.roster_date.toISOString() : null;
+            const DD_MM_YYYY_FORMAT = `${isoDate.slice(5, 7)}/${isoDate.slice(8, 10)}/${isoDate.slice(0, 4)}`;
             
             await send({ embeds: [
                 createMessageEmbed(
@@ -148,11 +149,12 @@ async function runCommand(send, guild, embedColor, rosterName, membersAmount, ro
                     Name: **${createdRoster.roster_name}**\n
                     Amount of members: **${createdRoster.member_amount} members**\n
                     Thumbnail: **${createdRoster.thumbnail ? `[Click here to see thumbnail](${createdRoster.thumbnail})` : 'None'}**\n
-                    Date: **${createdRoster.roster_date ? DD_MM_YYYY_HH_MM_FORMAT : 'None'}**\n
+                    Date: **${createdRoster.roster_date ? `${DD_MM_YYYY_FORMAT} - ${rosterTime}HS Server Time` : 'None'}**\n
                     Note: **${createdRoster.roster_note ? createdRoster.roster_note : 'None'}**\n
                     Organized by: <@${createdRoster.organized_by}>`, 
                     embedColor, 
-                    '✅'
+                    '✅',
+                    'Use /roster command to view the created roster\nYou can also edit this roster positions/size by using /editroster command\nHappy gaming !'
                 )] 
             });
         };

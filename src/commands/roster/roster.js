@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import { createRosterEmbed, createMessageEmbed } from "../../embeds/index.js";
+import { getRosterRoles } from "../../utils/general.js";
 import { Roster, RosterRole } from "../../models/index.js";
 import { DateTime } from "luxon"; 
 
@@ -41,14 +42,9 @@ async function runCommand(send, guild, embedColor, interaction) {
             });
         } else {
             const organizedByUser = await interaction.client.users.fetch(roster.dataValues.organized_by);
-            const mainRoles = await roster.roles
-                .filter(role => role.dataValues.role_type === 'main')
-                .map((role) => `\`${role.dataValues.role_position}\`: ${role.dataValues.role_name} -`)
-                .join('\n');
-            const reserveRoles = await roster.roles
-                .filter(role => role.dataValues.role_type === 'reserve')
-                .map(role => `\`${role.dataValues.role_position}\`: ${role.dataValues.role_name} -`)
-                .join('\n');
+            const rosterRoles = await roster.roles;
+            const mainRoles = await getRosterRoles(rosterRoles, 'main');
+            const reserveRoles = await getRosterRoles(rosterRoles, 'reserve');
             
             const rosterDateUTC = roster.dataValues.roster_date;
             const serverTime = DateTime.fromJSDate(rosterDateUTC, { zone: 'utc'}).setZone('America/Los_Angeles');
@@ -69,7 +65,7 @@ async function runCommand(send, guild, embedColor, interaction) {
                     Server Time: ${HH_MM_FORMAT ? HH_MM_FORMAT : '`Not defined yet`'}
                     Your time: ${timeStampInSeconds ? `<t:${timeStampInSeconds}:F>` : '`Not defined yet`'}
                     ${timeStampInSeconds ? `That's <t:${timeStampInSeconds}:R> for you` : ''}`,
-                    `Note: ${roster.dataValues.roster_note}\n\n- Roster commands -\n/addposition: add self or another user to the roster options[position, user, random]\n/removeposition: removes self if no parameters given or another position or user from the roster options[position, user]\n/editrole: edit the role of the position given as parameter options[new-role, position]\n/swapposition: swap 2 positions given as parameters options[positon-1, position-2]\n\nMore commands: /noteposition, /pingroster\nManagement commands: /setroster, /deleteroster, /clearroster, /nextweekroster, /editroster\n\nFor a full list of roster related commands and their usage use /rosterhelp`,
+                    `Note: ${roster.dataValues.roster_note}\n\n- Roster commands -\n/addposition: add self or another user to the roster options[position, user, random]\n/removeposition: removes self if no parameters given or another position or user from the roster options[position]\n/editrole: edit the role of the position given as parameter options[new-role, position]\n/swapposition: swap 2 positions given as parameters options[positon-1, position-2]\n\nMore commands: /noteposition, /pingroster\nManagement commands: /setroster, /deleteroster, /clearroster, /nextweekroster, /editroster\n\nFor a full list of roster related commands and their usage use /rosterhelp`,
                     embedColor, 
                 )]
             });

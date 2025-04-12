@@ -618,3 +618,11 @@ export function isValidUrl(url) {
   const urlRegex = /^(https?:\/\/)([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/i;
   return urlRegex.test(url);
 };
+
+export async function getRosterRoles(roles, type) {
+  const rosterRoles = await roles
+    .filter(role => role.dataValues.role_type === type)
+    .map((role) => `\`${role.dataValues.role_position}\`: ${role.dataValues.role_name} - ${role.dataValues.assigned_user ? `<@${role.dataValues.assigned_user}>` : 'Free'}`)
+    .join('\n');
+  return rosterRoles;
+};

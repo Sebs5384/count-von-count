@@ -2,7 +2,6 @@ import { SlashCommandBuilder } from "discord.js";
 import { createMessageEmbed } from "../../embeds/index.js";
 import { TrackerChannel, Boss, BossAlias } from "../../models/index.js";
 import { getServerTime } from "../../service/serverTime.js";
-import { getTotalMinutesFromDate } from "../../utils/general.js";
 import { operator, literal } from "../../../database.js";
 
 const command = new SlashCommandBuilder()
@@ -101,7 +100,7 @@ async function runCommand(send, guild, user, embedColor, mvpName, mvpStimate, mv
             
                 const trackerTitle = 'MvP Tracker';
                 const trackerMessage = `${updatedBoss.boss_name} died at ${serverTime.time}${mvpTomb ? `\nLocation: ${mvpTomb}` : ''}\n Tracked by ${user}`;
-                        
+                
                 send({ embeds: [createMessageEmbed(trackerTitle, trackerMessage, embedColor, '✅', mvpHelpMessage)] });
             } else {
                 const trackerTitle = 'No MvP found';

@@ -76,9 +76,25 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
             return;
         };
         
-        if(overwrite && rosterRole.assigned_user && userOption && position) {
+        if(overwrite && rosterRole.assigned_user && position) {
+            const newUser = userOption ? userOption.id : interaction.user.id;
             const previousUser = rosterRole.assigned_user;
-            await rosterRole.update({ assigned_user: userOption.id });
+
+            if(newUser === previousUser) {
+                await send({ embeds: [
+                    createMessageEmbed(
+                        'Wrong usage of command',
+                        `The user you want to overwrite on \`${position}-${roleName}\` is the current holder of this position`,
+                        embedColor,
+                        '❌',
+                        "Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands"
+                    )]
+                });
+
+                return;
+            };
+
+            await rosterRole.update({ assigned_user: newUser });
             const rosterRoles = await roster.roles;
             const mainRoles = await getRosterRoles(rosterRoles, 'main');
             const reserveRoles = await getRosterRoles(rosterRoles, 'reserve');
@@ -86,7 +102,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
             await send({ embeds: [
                 createMessageEmbed(
                     'Position updated',
-                    `The position \`${position}-${roleName}\` with the user <@${previousUser}> has been overwritten with <@${userOption.id}> as the new holder of this position\n
+                    `The position \`${position}-${roleName}\` with the user <@${previousUser}> has been overwritten with <@${newUser}> as the new holder of this position\n
                     ***Main***
                     ${mainRoles}\n
                     ***Reserve***
@@ -110,7 +126,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
                     - Available positions in this roster\n${roster.roles.filter(role => !role.assigned_user).map((role) => `\`${role.role_position}\`: ${role.role_name}`).join('\n')}`,
                     embedColor,
                     '❌',
-                    "Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands",
+                    "If you wish to overwrite this position set [overwrite] option to true when using /addposition\nUse /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands",
                     `${roster.thumbnail ? roster.thumbnail : ''}`
                 )]
             });

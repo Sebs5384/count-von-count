@@ -5,7 +5,7 @@ import { Roster, RosterRole } from "../../models/index.js";
 
 const command = new SlashCommandBuilder()
     .setName('addposition')
-    .setDescription('Add a new member to the desired position into the roster of this channel')
+    .setDescription('Add a new member to the desired position in the roster of this channel')
     .addStringOption((option) => option
         .setName('position')
         .setDescription('Input the position of the member you want to add e.g 1, required field')
@@ -53,22 +53,22 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
                     'There is no roster settled in this channel',
                     embedColor,
                     '❌',
-                    "Use /setroster command to setup a new roster in this channel\n You can also try using /rosterhelp for extra information"
+                    'Use /setroster command to setup a new roster in this channel\n You can also try using /rosterhelp for extra information',
                 )]
             });
         };
 
-        const rosterRole = await roster.roles.find(role => role.dataValues.role_position === position);
-        const roleName = rosterRole?.role_name;
-        if(!rosterRole) {
+        const rosterPosition = await roster.roles.find(role => role.dataValues.role_position === position);
+        const roleName = rosterPosition?.role_name;
+        if(!rosterPosition) {
             await send({ embeds: [
                 createMessageEmbed(
                     'Command failed',
-                    `There is no position with the number "${position}" in this roster
+                    `There is no position with the number \`${position}\` in this roster
                     - Available positions in this roster\n${roster.roles.filter(role => !role.assigned_user).map((role) => `\`${role.role_position}\`: ${role.role_name}`).join('\n')}`,
                     embedColor,
                     '❌',
-                    "Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands"
+                    'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
                     `${roster.thumbnail ? `\nThumbnail: ${roster.thumbnail}` : ''}`
                 )]
             });
@@ -76,9 +76,9 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
             return;
         };
         
-        if(overwrite && rosterRole.assigned_user && position) {
+        if(overwrite && rosterPosition.assigned_user && position) {
             const newUser = userOption ? userOption.id : interaction.user.id;
-            const previousUser = rosterRole.assigned_user;
+            const previousUser = rosterPosition.assigned_user;
 
             if(newUser === previousUser) {
                 await send({ embeds: [
@@ -87,14 +87,14 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
                         `The user you want to overwrite on \`${position}-${roleName}\` is the current holder of this position`,
                         embedColor,
                         '❌',
-                        "Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands"
+                        'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands'
                     )]
                 });
 
                 return;
             };
 
-            await rosterRole.update({ assigned_user: newUser });
+            await rosterPosition.update({ assigned_user: newUser });
             const rosterRoles = await roster.roles;
             const mainRoles = await getRosterRoles(rosterRoles, 'main');
             const reserveRoles = await getRosterRoles(rosterRoles, 'reserve');
@@ -110,7 +110,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
                     `,
                     embedColor,
                     '✅',
-                    "Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands",
+                    'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
                     `${roster.thumbnail ? roster.thumbnail : ''}`
                 )]
             });
@@ -118,15 +118,15 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
             return;
         };
 
-        if(rosterRole.assigned_user) {
+        if(rosterPosition.assigned_user) {
             await send({ embeds: [
                 createMessageEmbed(
                     'Command failed',
-                    `This position is already taken by <@${rosterRole.assigned_user}>
+                    `This position is already taken by <@${rosterPosition.assigned_user}>
                     - Available positions in this roster\n${roster.roles.filter(role => !role.assigned_user).map((role) => `\`${role.role_position}\`: ${role.role_name}`).join('\n')}`,
                     embedColor,
                     '❌',
-                    "If you wish to overwrite this position set [overwrite] option to true when using /addposition\nUse /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands",
+                    'If you wish to overwrite this position set [overwrite] option to true when using /addposition\nUse /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
                     `${roster.thumbnail ? roster.thumbnail : ''}`
                 )]
             });
@@ -134,8 +134,8 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
             return;
         };
 
-        if(rosterRole && userOption && position) {
-            await rosterRole.update({ assigned_user: userOption.id });
+        if(rosterPosition && userOption && position) {
+            await rosterPosition.update({ assigned_user: userOption.id });
             const rosterRoles = await roster.roles;
             const mainRoles = await getRosterRoles(rosterRoles, 'main');
             const reserveRoles = await getRosterRoles(rosterRoles, 'reserve');   
@@ -150,7 +150,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
                     ${reserveRoles}\n`,
                     embedColor,
                     '✅',
-                    "Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands",
+                    'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
                     `${roster.thumbnail ? roster.thumbnail : ''}`
                 )]
             });
@@ -159,8 +159,8 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
         };
 
 
-        if(rosterRole && position) {
-            await rosterRole.update({ assigned_user: interaction.user.id });
+        if(rosterPosition && position) {
+            await rosterPosition.update({ assigned_user: interaction.user.id });
             const rosterRoles = await roster.roles;
             const mainRoles = await getRosterRoles(rosterRoles, 'main');
             const reserveRoles = await getRosterRoles(rosterRoles, 'reserve');   
@@ -175,7 +175,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
                     ${reserveRoles}\n`,
                     embedColor,
                     '✅',
-                    "Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands",
+                    'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
                     `${roster.thumbnail ? roster.thumbnail : null}`
                 )]
             });

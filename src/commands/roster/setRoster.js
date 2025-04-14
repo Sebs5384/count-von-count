@@ -71,7 +71,8 @@ async function runCommand(send, guild, embedColor, rosterName, membersAmount, ro
                 [createMessageEmbed(
                     'Invalid date or time input', 
                     'Please make sure to input both date and time correctly to schedule a run', 
-                    embedColor, '❌'
+                    embedColor, 
+                    '❌'
                 )] 
             });
             return;

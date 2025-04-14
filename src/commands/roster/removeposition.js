@@ -5,7 +5,7 @@ import { Roster, RosterRole } from "../../models/index.js";
 
 const command = new SlashCommandBuilder()
     .setName('removeposition')
-    .setDescription('Remove a member from the desired position into the roster of this channel')
+    .setDescription('Remove a member from the desired position in the roster of this channel')
     .addStringOption((option) => option
         .setName('position')
         .setDescription('Input the position you want to remove e.g 1, required field')
@@ -41,7 +41,7 @@ async function runCommand(client, send, guild, embedColor, position, interaction
                     'There is no roster settled in this channel',
                     embedColor,
                     '❌',
-                    "Use /setroster command to setup a new roster in this channel\n You can also try using /rosterhelp for extra information"
+                    'Use /setroster command to setup a new roster in this channel\n You can also try using /rosterhelp for extra information',
                 )]
             });
         };
@@ -58,7 +58,7 @@ async function runCommand(client, send, guild, embedColor, position, interaction
                         'You are not assigned to a position in this roster',
                         embedColor,
                         '❌',
-                        "Use /addposition command to add yourself up or others to the roster"
+                        'Use /addposition command to add yourself up or others to the roster',
                     )]
                 });
             };
@@ -79,32 +79,32 @@ async function runCommand(client, send, guild, embedColor, position, interaction
                     ${reserveRoles}\n`,
                     embedColor,
                     '✅',
-                    "Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands",
+                    'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
                     `${roster.thumbnail ? roster.thumbnail : null}`,
                 )]
             });
         };
 
         if(position) {
-            const rosterRole = await roster.roles.find(role => role.dataValues.role_position === position);
-            const roleName = rosterRole?.role_name;
-            const assignedUser = rosterRole?.assigned_user;
+            const rosterPosition = await roster.roles.find(role => role.dataValues.role_position === position);
+            const roleName = rosterPosition?.role_name;
+            const assignedUser = rosterPosition?.assigned_user;
 
-            if(!rosterRole) {
+            if(!rosterPosition) {
                 await send({ embeds: [
                     createMessageEmbed(
                         'Command failed',
-                        `There is no position with the number "${position}" in this roster\n
+                        `There is no position with the number \`${position}\` in this roster\n
                         Use /roster command to see all the available positions`,
                         embedColor,
                         '❌',
-                        "Use /addposition command to add yourself up or others to the roster"
+                        'Use /addposition command to add yourself up or others to the roster',
                     )]
                 });
             };
 
-            rosterRole.assigned_user = null;
-            await rosterRole.save();
+            rosterPosition.assigned_user = null;
+            await rosterPosition.save();
             const rosterRoles = await roster.roles;
             const mainRoles = await getRosterRoles(rosterRoles, 'main');
             const reserveRoles = await getRosterRoles(rosterRoles, 'reserve');
@@ -119,7 +119,7 @@ async function runCommand(client, send, guild, embedColor, position, interaction
                     ${reserveRoles}\n`,
                     embedColor,
                     '✅',
-                    "Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands",
+                    'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
                     `${roster.thumbnail ? roster.thumbnail : null}`,
                 )
             ]})

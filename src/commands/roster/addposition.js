@@ -16,6 +16,11 @@ const command = new SlashCommandBuilder()
         .setDescription('Input the user you want to add e.g @roster-member')
         .setRequired(false)
     )
+    .addBooleanOption((option) => option
+        .setName('overwrite')
+        .setDescription('Overwrites a position with another user when set to true')
+        .setRequired(false)
+    )
 command.aliases = ['ap', 'addposition'];
 
 command.slashRun = async function slashRun(client, interaction) {
@@ -24,11 +29,12 @@ command.slashRun = async function slashRun(client, interaction) {
     const embedColor = client.config.embedColor;
     const position = interaction.options.getString('position');
     const userOption = interaction.options.getUser('user');
+    const overwrite = interaction.options.getBoolean('overwrite');
     
-    await runCommand(client, send, guild, embedColor, position, userOption, interaction);
+    await runCommand(client, send, guild, embedColor, position, userOption, overwrite, interaction);
 };
 
-async function runCommand(client, send, guild, embedColor, position, userOption, interaction) {
+async function runCommand(client, send, guild, embedColor, position, userOption, overwrite, interaction) {
     try {
         const roster = await Roster.findOne({
             where: {
@@ -53,6 +59,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
         };
 
         const rosterRole = await roster.roles.find(role => role.dataValues.role_position === position);
+        const roleName = rosterRole?.role_name;
         if(!rosterRole) {
             await send({ embeds: [
                 createMessageEmbed(
@@ -63,6 +70,32 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
                     '❌',
                     "Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands"
                     `${roster.thumbnail ? `\nThumbnail: ${roster.thumbnail}` : ''}`
+                )]
+            });
+
+            return;
+        };
+        
+        if(overwrite && rosterRole.assigned_user && userOption && position) {
+            const previousUser = rosterRole.assigned_user;
+            await rosterRole.update({ assigned_user: userOption.id });
+            const rosterRoles = await roster.roles;
+            const mainRoles = await getRosterRoles(rosterRoles, 'main');
+            const reserveRoles = await getRosterRoles(rosterRoles, 'reserve');
+
+            await send({ embeds: [
+                createMessageEmbed(
+                    'Position updated',
+                    `The position \`${position}-${roleName}\` with the user <@${previousUser}> has been overwritten with <@${userOption.id}> as the new holder of this position\n
+                    ***Main***
+                    ${mainRoles}\n
+                    ***Reserve***
+                    ${reserveRoles}\n
+                    `,
+                    embedColor,
+                    '✅',
+                    "Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands",
+                    `${roster.thumbnail ? roster.thumbnail : ''}`
                 )]
             });
 
@@ -94,7 +127,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
             await send({ embeds: [
                 createMessageEmbed(
                     'Added successfully',
-                    `You have successfully added <@${userOption.id}> to the position \`${position}-${roster.roles.find(role => role.dataValues.role_position === position)?.role_name}\`\n
+                    `You have successfully added <@${userOption.id}> to the position \`${position}-${roleName}\`\n
                     ***Main***
                     ${mainRoles}\n
                     ***Reserve***
@@ -105,6 +138,8 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
                     `${roster.thumbnail ? roster.thumbnail : ''}`
                 )]
             });
+
+            return;
         };
 
 
@@ -117,7 +152,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
             await send({ embeds: [
                 createMessageEmbed(
                     'Added successfully',
-                    `You have been successfully added to the position \`${position}-${roster.roles.find(role => role.dataValues.role_position === position)?.role_name}\`\n
+                    `You have been successfully added to the position \`${position}-${roleName}\`\n
                     ***Main***
                     ${mainRoles}\n
                     ***Reserve***
@@ -125,9 +160,11 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
                     embedColor,
                     '✅',
                     "Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands",
-                    `${roster.thumbnail ? roster.thumbnail : ''}`
+                    `${roster.thumbnail ? roster.thumbnail : null}`
                 )]
             });
+
+            return;
         };
 
     } catch (error) {

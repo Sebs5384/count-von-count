@@ -132,3 +132,4 @@ config.json
 # Ignores sqlite
 *.sqlite
 syncdb.js
+.qodo

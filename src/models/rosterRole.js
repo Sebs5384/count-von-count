@@ -16,6 +16,10 @@ RosterRole.init({
         type: Sequelize.STRING,
         allowNull: false
     },
+    role_note: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
     role_type: {
         type: Sequelize.ENUM('main', 'reserve'),
         allowNull: false,

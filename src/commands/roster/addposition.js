@@ -58,18 +58,20 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
             });
         };
 
-        const rosterPosition = await roster.roles.find(role => role.dataValues.role_position === position);
+        const rosterRoles = await roster.roles;
+        const rosterPosition = await rosterRoles.find(role => role.dataValues.role_position === position);
         const roleName = rosterPosition?.role_name;
+        
         if(!rosterPosition) {
             await send({ embeds: [
                 createMessageEmbed(
                     'Command failed',
                     `There is no position with the number \`${position}\` in this roster
-                    - Available positions in this roster\n${roster.roles.filter(role => !role.assigned_user).map((role) => `\`${role.role_position}\`: ${role.role_name}`).join('\n')}`,
+                    - Available positions in this roster\n${rosterRoles.filter(role => !role.assigned_user).map((role) => `\`${role.role_position}\`: ${role.role_name}`).join('\n')}`,
                     embedColor,
                     '❌',
                     'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
-                    `${roster.thumbnail ? `\nThumbnail: ${roster.thumbnail}` : ''}`
+                    roster.thumbnail ? roster.thumbnail : null
                 )]
             });
 
@@ -95,7 +97,6 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
             };
 
             await rosterPosition.update({ assigned_user: newUser });
-            const rosterRoles = await roster.roles;
             const mainRoles = await getRosterRoles(rosterRoles, 'main');
             const reserveRoles = await getRosterRoles(rosterRoles, 'reserve');
 

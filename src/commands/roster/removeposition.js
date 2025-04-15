@@ -80,7 +80,7 @@ async function runCommand(client, send, guild, embedColor, position, interaction
                     embedColor,
                     '✅',
                     'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
-                    `${roster.thumbnail ? roster.thumbnail : null}`,
+                    roster.thumbnail ? roster.thumbnail : null,
                 )]
             });
         };
@@ -120,7 +120,7 @@ async function runCommand(client, send, guild, embedColor, position, interaction
                     embedColor,
                     '✅',
                     'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
-                    `${roster.thumbnail ? roster.thumbnail : null}`,
+                    roster.thumbnail ? roster.thumbnail : null,
                 )
             ]})
         };

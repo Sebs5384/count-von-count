@@ -13,7 +13,6 @@ command.slashRun = async function slashRun(client, interaction) {
     const guild = await interaction.guild;
     const send = interaction.followUp.bind(interaction);
     const embedColor = client.config.embedColor;
-    
 
     await runCommand(send, guild, embedColor, interaction);
 };

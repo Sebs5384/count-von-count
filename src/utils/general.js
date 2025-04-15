@@ -614,15 +614,19 @@ export function formatRosterDate(rosterDate, rosterTime, dateTime) {
   };
 };
 
-export function isValidUrl(url) {
-  const urlRegex = /^(https?:\/\/)([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/i;
-  return urlRegex.test(url);
-};
+  export function isValidUrl(url) {
+    try {
+      new URL(url);
+      return true;
+    } catch (_) {
+      return false;
+    };
+  };
 
 export async function getRosterRoles(roles, type) {
   const rosterRoles = await roles
     .filter(role => role.dataValues.role_type === type)
-    .map((role) => `\`${role.dataValues.role_position}\`: ${role.dataValues.role_name} - ${role.dataValues.assigned_user ? `<@${role.dataValues.assigned_user}>` : 'Free'}`)
+    .map((role) => `\`${role.dataValues.role_position}\`: ${role.dataValues.role_name} - ${role.dataValues.assigned_user ? `<@${role.dataValues.assigned_user}> - ${role.dataValues.role_note ? `(${role.dataValues.role_note})` : ''}` : 'Free'}`)
     .join('\n');
   return rosterRoles;
 };

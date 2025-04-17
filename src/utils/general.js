@@ -626,7 +626,7 @@ export function formatRosterDate(rosterDate, rosterTime, dateTime) {
 export async function getRosterRoles(roles, type) {
   const rosterRoles = await roles
     .filter(role => role.dataValues.role_type === type)
-    .map((role) => `\`${role.dataValues.role_position}\`: ${role.dataValues.role_name} - ${role.dataValues.assigned_user ? `<@${role.dataValues.assigned_user}> - ${role.dataValues.role_note ? `(${role.dataValues.role_note})` : ''}` : 'Free'}`)
+    .map((role) => `\`${role.dataValues.role_position}\`: ${role.dataValues.role_name} - ${role.dataValues.assigned_user ? `<@${role.dataValues.assigned_user}> ${role.dataValues.role_note ? `- (${role.dataValues.role_note})` : ''}` : 'Free'}`)
     .join('\n');
   return rosterRoles;
 };

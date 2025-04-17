@@ -140,8 +140,9 @@ async function runCommand(send, guild, embedColor, rosterName, membersAmount, ro
 
             await RosterRole.bulkCreate([...rolesToCreate, ...reserveRolesToCreate]);
 
-            const isoDate = createdRoster.roster_date ? createdRoster.roster_date.toISOString() : null;
-            const DD_MM_YYYY_FORMAT = `${isoDate.slice(5, 7)}/${isoDate.slice(8, 10)}/${isoDate.slice(0, 4)}`;
+            const rosterDateUTC = createdRoster.roster_date;
+            const serverTime = DateTime.fromJSDate(rosterDateUTC, { zone: 'utc'}).setZone('America/Los_Angeles');
+            const MM_DD_YY_FORMAT = serverTime.isValid ? serverTime.toFormat('cccc, LLLL dd/yyyy') : null;
             
             await send({ embeds: [
                 createMessageEmbed(
@@ -150,7 +151,7 @@ async function runCommand(send, guild, embedColor, rosterName, membersAmount, ro
                     Name: **${createdRoster.roster_name}**\n
                     Amount of members: **${createdRoster.member_amount} members**\n
                     Thumbnail: **${createdRoster.thumbnail ? `[Click here to see thumbnail](${createdRoster.thumbnail})` : 'None'}**\n
-                    Date: **${createdRoster.roster_date ? `${DD_MM_YYYY_FORMAT} - ${rosterTime}HS Server Time` : 'None'}**\n
+                    Date: **${createdRoster.roster_date ? `${MM_DD_YY_FORMAT} - ${rosterTime}HS Server Time` : 'None'}**\n
                     Note: **${createdRoster.roster_note ? createdRoster.roster_note : 'None'}**\n
                     Organized by: <@${createdRoster.organized_by}>`, 
                     embedColor, 

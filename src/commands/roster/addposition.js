@@ -112,7 +112,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
                     embedColor,
                     '✅',
                     'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
-                    `${roster.thumbnail ? roster.thumbnail : ''}`
+                    roster.thumbnail ? roster.thumbnail : null
                 )]
             });
 
@@ -128,7 +128,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
                     embedColor,
                     '❌',
                     'If you wish to overwrite this position set [overwrite] option to true when using /addposition\nUse /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
-                    `${roster.thumbnail ? roster.thumbnail : ''}`
+                    roster.thumbnail ? roster.thumbnail : null
                 )]
             });
 
@@ -152,7 +152,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
                     embedColor,
                     '✅',
                     'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
-                    `${roster.thumbnail ? roster.thumbnail : ''}`
+                    roster.thumbnail ? roster.thumbnail : null
                 )]
             });
 
@@ -177,7 +177,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
                     embedColor,
                     '✅',
                     'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
-                    `${roster.thumbnail ? roster.thumbnail : null}`
+                    roster.thumbnail ? roster.thumbnail : null
                 )]
             });
 

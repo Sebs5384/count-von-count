@@ -48,7 +48,7 @@ async function runCommand(client, send, guild, embedColor, position, interaction
 
         if(!position) {
             const assignedRole = roster.roles.find((role) => role.dataValues.assigned_user === interaction.user.id);
-            const rolePosition = assignedRole.dataValues.role_position;
+            const rolePosition = assignedRole?.role_position;
             const roleName = roster.roles.find(role => role.dataValues.role_position === rolePosition)?.role_name;
 
             if(!assignedRole) {
@@ -61,8 +61,11 @@ async function runCommand(client, send, guild, embedColor, position, interaction
                         'Use /addposition command to add yourself up or others to the roster',
                     )]
                 });
+                
+                return;
             };
 
+            assignedRole.role_note = null;
             assignedRole.assigned_user = null;
             await assignedRole.save();
             const rosterRoles = await roster.roles;
@@ -90,6 +93,19 @@ async function runCommand(client, send, guild, embedColor, position, interaction
             const roleName = rosterPosition?.role_name;
             const assignedUser = rosterPosition?.assigned_user;
 
+            if(!assignedUser) {
+                await send({ embeds: [
+                    createMessageEmbed(
+                        'Command failed',
+                        `There's nobody to remove at the position \`${position}\``,
+                        embedColor,
+                        '❌',
+                    )
+                ]});
+
+                return;
+            };
+
             if(!rosterPosition) {
                 await send({ embeds: [
                     createMessageEmbed(
@@ -103,6 +119,7 @@ async function runCommand(client, send, guild, embedColor, position, interaction
                 });
             };
 
+            rosterPosition.role_note = null;
             rosterPosition.assigned_user = null;
             await rosterPosition.save();
             const rosterRoles = await roster.roles;

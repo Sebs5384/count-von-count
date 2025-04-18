@@ -74,11 +74,10 @@ async function runCommand(send, guild, embedColor, message, interaction) {
         await send({ embeds: [
             createMessageEmbed(
                 `${roster.roster_name}`,
-                `Server Date: ${MM_DD_YY_FORMAT}\nServer Time: ${HH_MM_FORMAT}\nThat's <t:${timeStampInSeconds}:R> for you\nRoster Note: \`${roster.roster_note}\`\n\nFrom <@${interaction.user.id}>: ${message ? message : `The run is starting soon !`}`,
+                `From <@${interaction.user.id}>: ***${message ? message : `The run is starting soon !`}***\n\n\nServer Date: ${MM_DD_YY_FORMAT}\nServer Time: ${HH_MM_FORMAT}\nThat's <t:${timeStampInSeconds}:R> for you\nRoster Note: \`${roster.roster_note}\``,
                 embedColor,
                 '📢',
                 null,
-                roster.thumbnail ? roster.thumbnail : null
             )
         ]});
 

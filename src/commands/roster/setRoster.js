@@ -70,7 +70,7 @@ async function runCommand(send, guild, embedColor, rosterName, membersAmount, ro
             await send({ embeds: 
                 [createMessageEmbed(
                     'Invalid date or time input', 
-                    'Please make sure to input both date and time correctly to schedule a run', 
+                    'Please make sure to input both date and time correctly in MM/DD HH:MM format to schedule a run', 
                     embedColor, 
                     '❌'
                 )] 

@@ -382,14 +382,12 @@ function formatToClockHour(minutes) {
   };
 };
 
-export function getMvpHelpFieldValue(commandsFromTracker) {
-
-  return `${commandsFromTracker.map((command) => {
-    return `\`${command.name}\`: \`${command.description}\`
-      \`Options:\` ${command.options.length > 0 ? command.options.map(option => `\`${option.name}\``).join(', ') : `\`None\``}
+export function getHelpFieldValue(commands) {
+  return `${commands.map((command) => {
+    return `***${command.name}***: \`${command.description}\`
+      ***options***: ${command.options.length > 0 ? command.options.map(option => `\`${option.name}\``).join(', ') : `\`None\``}
     `; 
   }).join('\n')}`;
-  
 };
 
 export function getCommandOptionValues(command) {

@@ -27,8 +27,6 @@ async function runCommand(client, send, guild, embedColor, interaction) {
         const user = await guild.members.fetch(interaction.user.id);
         const rosterOrganizer = await roster.organized_by === interaction.user.id;
 
-        console.log(user);
-
         if(!user.permissions.has('Administrator') && !rosterOrganizer) {
             await interaction.reply({ embeds: [
                 createMessageEmbed(

@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import { getCommandsByFolder, getHelpFieldValue, getCommandOptionValues } from "../../utils/general.js";
-import { createInfoEmbed, createMessageEmbed } from "../../embeds/index.js";
+import { getCommandsByFolder, getHelpFields, getCommandOptionValues, getPaginationValues } from "../../utils/general.js";
+import { createInfoEmbed, createListEmbed, createMessageEmbed } from "../../embeds/index.js";
+import { createPaginationButtons } from "../../rows/index.js";
 
 const command = new SlashCommandBuilder()
     .setName('rosterhelp')
@@ -52,23 +53,72 @@ async function runCommand(send, guild, embedColor, commandName, commandsFromRost
             return;
         };
 
+        let currentPage = 0;
+        const itemsPerPage = 5;
+        const { list, listLength, firstPage, lastPage, totalPages } = getPaginationValues(currentPage, itemsPerPage, commandsFromRoster);
         const rosterHelpTitle = 'List of commands related to the Roster';
         const rosterHelpDescription = '**Below is a description of each command and their options**';
-        const rosterHelpFieldName = '**Roster commands**';
-        const rosterHelpFieldValue = getHelpFieldValue(commandsFromRoster);
-        const rosterHelpFooter = 'If you wish to obtain more information of an specific command use /rosterhelp <command>';
+        let rosterHelpFooter = `If you wish to obtain more information of an specific command use /rosterhelp <command>\nPage ${currentPage + 1} of ${totalPages}`;
+        const rosterFieldList = getHelpFields(list);
 
-        await send({ embeds: [
-            createInfoEmbed(
+        const message = await send({ embeds: [
+            createListEmbed(
                 rosterHelpTitle,
+                null,
                 rosterHelpDescription,
-                rosterHelpFieldName,
-                rosterHelpFieldValue,
-                rosterHelpFooter,
+                rosterFieldList,
                 embedColor,
-                botIcon
-            )
-        ]});
+                rosterHelpFooter
+            )], components: [
+                createPaginationButtons(
+                    listLength,
+                    currentPage,
+                    firstPage,
+                    lastPage
+                )
+            ]});
+
+            const paginationInteractionFilter = (i) => i.user.id === interaction.user.id;
+            const THREE_MINUTES = 180000;
+            const collector = message.createMessageComponentCollector({ filter: paginationInteractionFilter, time: THREE_MINUTES });
+
+            collector.on('collect', async (button) => {
+                await button.deferUpdate();
+
+                if(button.customId === 'back') {
+                    currentPage --;
+                } else if(button.customId === 'next') {
+                    currentPage ++;
+                };
+
+                const { list, listLength, firstPage, lastPage, totalPages } = getPaginationValues(currentPage, itemsPerPage, commandsFromRoster);
+                let rosterHelpFooter = `If you wish to obtain more information of an specific command use /rosterhelp <command>\nPage ${currentPage + 1} of ${totalPages}`;
+                const rosterFieldList = getHelpFields(list);
+                
+                message.edit({ embeds: [
+                    createListEmbed(
+                        rosterHelpTitle,
+                        null,
+                        rosterHelpDescription,
+                        rosterFieldList,
+                        embedColor,
+                        rosterHelpFooter
+                    )
+                ], components: [
+                    createPaginationButtons(
+                        listLength,
+                        currentPage,
+                        firstPage,
+                        lastPage
+                    )
+                ]});
+            });
+
+            collector.on('end', async (collected, reason) => {
+                if(reason === 'time') {
+                    message.edit({ components: [] });
+                };
+            });
     } catch (error) {
         console.error(error);
         await send({ embeds: [

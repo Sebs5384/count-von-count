@@ -45,50 +45,47 @@ async function runCommand(send, guild, embedColor, interaction) {
                 
                 let currentPage = 0;
                 const itemsPerPage = 5;
-
-                let { bossList, bossListLength, firstOnPage, lastOnPage, totalPages } = getPaginationValues(currentPage, itemsPerPage, bossesValuesString);
-
+                let { list, listLength, firstPage, lastPage, totalPages } = getPaginationValues(currentPage, itemsPerPage, bossesValuesString);
                 const mvpListTitle = `${guild.name} MvP List`;
                 const guildIcon = guild.iconURL({ dynamic: true, size: 2048 });
-                const mvpListDescription = `**Here's the list of all the MvPs that are currently settled**.\nCurrent amount: ${bossListLength}`;
-                const mvpListFooter = `If you wish to manage these bosses use /editmvp, /removemvp, /setalias or /setmvp.\nPage ${currentPage + 1} of ${totalPages}`;                
+                const mvpListDescription = `**Here's the list of all the MvPs that are currently settled**.\nCurrent amount: ${listLength}`;
+                let mvpListFooter = `If you wish to manage these bosses use /editmvp, /removemvp, /setalias or /setmvp.\nPage ${currentPage + 1} of ${totalPages}`;                
 
-                const bossListEmbed = createListEmbed(mvpListTitle, guildIcon, mvpListDescription, bossList, embedColor, mvpListFooter);
-                const paginationButtons = createPaginationButtons(bossListLength, currentPage, firstOnPage, lastOnPage);
+                const bossListEmbed = createListEmbed(mvpListTitle, guildIcon, mvpListDescription, list, embedColor, mvpListFooter);
+                const paginationButtons = createPaginationButtons(listLength, currentPage, firstPage, lastPage);
                 const message = await send({ embeds: [bossListEmbed], components: [paginationButtons] });
             
-                try{
-                    const paginationInteractionFilter = (i) => i.user.id === interaction.user.id;
-                    const THREE_MINUTES = 180000;
-                    const collector = message.createMessageComponentCollector({ filter: paginationInteractionFilter, time: THREE_MINUTES });
 
-                    collector.on('collect', async (button) => {
-                        if(button.customId === 'back') {
-                            currentPage --;
-                        } else if(button.customId === 'forward') {
-                            currentPage ++;
+                const paginationInteractionFilter = (i) => i.user.id === interaction.user.id;
+                const THREE_MINUTES = 180000;
+                const collector = message.createMessageComponentCollector({ filter: paginationInteractionFilter, time: THREE_MINUTES });
+
+                collector.on('collect', async (button) => {
+                    await button.deferUpdate();
+
+                    if(button.customId === 'back') {
+                        currentPage --;
+                    } else if(button.customId === 'next') {
+                        currentPage ++;
+                    };
+
+                    const { list, lastPage, firstPage, totalPages } = getPaginationValues(currentPage, itemsPerPage, bossesValuesString);
+                    let mvpListFooter = `If you wish to manage these bosses use /editmvp, /removemvp, /setalias or /setmvp.\nPage ${currentPage + 1} of ${totalPages}`
+                    const embed = createListEmbed(mvpListTitle, guildIcon, mvpListDescription, list, embedColor, mvpListFooter);
+                    const paginationButtons = createPaginationButtons(listLength, currentPage, firstPage, lastPage);
+                    message.edit({ embeds: [embed], components: [paginationButtons] });
+                        
+                });
+                
+                collector.on('end', (collected, reason) => {
+                    if(reason === 'time') {
+                        try {
+                            message.edit({ components: [] });
+                        } catch (error) {
+                            console.log(`There was an error while deleting the pagination buttons ${error}`);
                         };
-
-                        const { bossList, lastOnPage, firstOnPage, totalPages } = getPaginationValues(currentPage, itemsPerPage, bossesValuesString);
-                        const embed = createListEmbed(mvpListTitle, guildIcon, mvpListDescription, bossList, embedColor, mvpListFooter);
-                        const paginationButtons = createPaginationButtons(bossListLength, currentPage, firstOnPage, lastOnPage);
-                        message.edit({ embeds: [embed], components: [paginationButtons] });
-                        await button.deferUpdate();
-                    });
-                    
-                    collector.on('end', (collected, reason) => {
-                        if(reason === 'time') {
-                            try {
-                                message.edit({ components: [] });
-                            } catch (error) {
-                                console.log(`There was an error while deleting the pagination buttons ${error}`);
-                            };
-                        }
-                    });
-                } catch (error) {
-                    console.log(`There was an error while creating the pagination buttons ${error}`);
-                };
-
+                    };
+                });
             } else {
                 const noBossesTitle = 'No MVPs found';
                 const noBossesMessage = 'There are no MVPs that are currently settled on your tracker';

@@ -11,7 +11,7 @@ function createPaginationButtons(listLength, page, firstOnPage, lastOnPage) {
     const forwardButton = new ButtonBuilder({
         style: ButtonStyle.Secondary,
         emoji: '▶',
-        customId: 'forward',
+        customId: 'next',
         disabled: listLength <= lastOnPage
     });
 

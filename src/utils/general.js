@@ -382,26 +382,29 @@ function formatToClockHour(minutes) {
   };
 };
 
-export function getHelpFieldValue(commands) {
-  return `${commands.map((command) => {
-    return `***${command.name}***: \`${command.description}\`
-      ***options***: ${command.options.length > 0 ? command.options.map(option => `\`${option.name}\``).join(', ') : `\`None\``}
-    `; 
-  }).join('\n')}`;
+export function getHelpFields(commands) {
+  return commands.map((command) => ({
+    name: `***- ${command.name} -***`,
+    value: `\`${command.description}\`\n***options***: ${
+      command.options.length > 0 ? command.options.map((option) => `\`${option.name}\``).join(', ')
+      : '`None`'
+    }`,
+    inline: false
+  }));
 };
 
 export function getCommandOptionValues(command) {
   return `\n${command.length > 0 ? command.map(option => `\`${option.name}: ${option.description}\``).join('\n\n') : `\`This command have no options\``}`
 };
 
-export function getPaginationValues(currentPage, itemsPerPage, bossArray) {
-  const bossListLength = bossArray.length;
-  const totalPages = Math.ceil(bossListLength / itemsPerPage);
-  let firstOnPage = currentPage * itemsPerPage;
-  let lastOnPage = firstOnPage + itemsPerPage;
-  let bossList = bossArray.slice(firstOnPage, lastOnPage);
+export function getPaginationValues(currentPage, itemsPerPage, array) {
+  const listLength = array.length;
+  const totalPages = Math.ceil(listLength / itemsPerPage);
+  let firstPage = currentPage * itemsPerPage;
+  let lastPage = firstPage + itemsPerPage;
+  let list = array.slice(firstPage, lastPage);
 
-  return { bossList, bossListLength, firstOnPage, lastOnPage, totalPages };
+  return { list, listLength, firstPage, lastPage, totalPages };
 };
 
 export function getFilesName(files, extension) {

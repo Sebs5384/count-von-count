@@ -62,12 +62,7 @@ async function runCommand(client, send, guild, embedColor, position, newPosition
             await send({ embeds: [
                 createMessageEmbed(
                     'Command failed',
-                    `There is no position with the number \`${position}\` in this roster
-                    - Available positions in this roster\n
-                    ***Main***
-                    ${mainRoles}\n
-                    ***Reserve***
-                    ${reserveRoles}\n
+                    `There is no position with the number \`${position}\` in this roster\n\nAvailable positions in this roster\n\n***Main***\n${mainRoles}\n\n***Reserve***\n${reserveRoles}\n
                     `,
                     embedColor,
                     '❌',
@@ -85,7 +80,7 @@ async function runCommand(client, send, guild, embedColor, position, newPosition
         await send({ embeds: [
             createMessageEmbed(
                 'Position edited',
-                `The position \`${position}-${rolePositionName}\` has been edited to \`${newPositionName}\``,
+                `The position \`${position}-${rolePositionName}\` has been edited to \`${position}-${newPositionName}\``,
                 embedColor,
                 '✅',
                 "Use /roster command for more information about this run\nYou may want to use /rosterhelp for a full details of roster commands",

@@ -66,12 +66,7 @@ async function runCommand(client, send, guild, embedColor, position1, position2,
             await send({ embeds: [
                 createMessageEmbed(
                     'Command failed',
-                    `Position \`${position1}\` and position \`${position2}\` do not exist in this roster
-                    - Available positions in this roster\n
-                    ***Main***
-                    ${mainAvailablePositions}\n
-                    ***Reserve***
-                    ${reserveAvailablePositions}\n`,
+                    `Position \`${position1}\` and position \`${position2}\` do not exist in this roster\n\nAvailable positions in this roster\n\n***Main***\n${mainAvailablePositions}\n\n***Reserve***\n${reserveAvailablePositions}\n`,
                     embedColor,
                     '❌',
                     'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
@@ -86,12 +81,7 @@ async function runCommand(client, send, guild, embedColor, position1, position2,
             await send({ embeds: [
                 createMessageEmbed(
                     'Command failed',
-                    `Position \`${unexistingPosition}\` does not exist in this roster
-                    - Available positions in this roster\n
-                    ***Main***
-                    ${mainAvailablePositions}\n
-                    ***Reserve***
-                    ${reserveAvailablePositions}\n`,
+                    `Position \`${unexistingPosition}\` does not exist in this roster\n\nAvailable positions in this roster\n\n***Main***\n${mainAvailablePositions}\n\n***Reserve***\n${reserveAvailablePositions}\n`,
                     embedColor,
                     '❌',
                     'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
@@ -106,8 +96,7 @@ async function runCommand(client, send, guild, embedColor, position1, position2,
             await send({ embeds: [
                 createMessageEmbed(
                     'Wrong usage of command',
-                    `You cannot swap users in the same position\n
-                    Reading: \`${position1}-${rosterPosition1.role_name}\`-<@${previousPosition1User}> and \`${position2}-${rosterPosition2.role_name}\`-<@${previousPosition2User}>`,
+                    `You cannot swap users in the same position\n\nReading: \`${position1}-${rosterPosition1.role_name}\`-<@${previousPosition1User}> and \`${position2}-${rosterPosition2.role_name}\`-<@${previousPosition2User}>`,
                     embedColor,
                     '❌',
                     'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
@@ -125,13 +114,7 @@ async function runCommand(client, send, guild, embedColor, position1, position2,
         await send({ embeds: [
             createMessageEmbed(
                 'Swapped successfully',
-                `Successfully swapped users in positions:\n
-                \`${position1}-${rosterPosition1.role_name}\`-<@${previousPosition1User}> and \`${position2}-${rosterPosition2.role_name}\`-<@${previousPosition2User}>
-                to\n \`${position1}-${rosterPosition1.role_name}\`-<@${previousPosition2User}> and \`${position2}-${rosterPosition2.role_name}\`-<@${previousPosition1User}>\n
-                ***Main***
-                ${mainRoles}\n
-                ***Reserve***
-                ${reserveRoles}\n`,
+                `Successfully swapped users in positions:\n\`${position1}-${rosterPosition1.role_name}\`-<@${previousPosition1User}> and \`${position2}-${rosterPosition2.role_name}\`-<@${previousPosition2User}>\nto\n \`${position1}-${rosterPosition1.role_name}\`-<@${previousPosition2User}> and \`${position2}-${rosterPosition2.role_name}\`-<@${previousPosition1User}>\n\n***Main***\n${mainRoles}\n\n***Reserve***\n${reserveRoles}\n`,
                 embedColor,
                 '✅',
                 'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',

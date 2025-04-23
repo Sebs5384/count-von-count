@@ -56,15 +56,8 @@ async function runCommand(send, guild, embedColor, interaction) {
                     `${roster.dataValues.roster_name}`, 
                     `${roster.dataValues.thumbnail ? roster.dataValues.thumbnail : ''}`,
                     { name: `Organized by ${organizedByUser.tag}`, iconURL: organizedByUser.displayAvatarURL({ dynamic: true, size: 1024 }) },
-                    `***Main***
-                    ${mainRoles}\n
-                    ***Reserve***
-                    ${reserveRoles}\n
-                    Server Date: ${MM_DD_YY_FORMAT ? MM_DD_YY_FORMAT : '`Not defined yet`'}
-                    Server Time: ${HH_MM_FORMAT ? HH_MM_FORMAT : '`Not defined yet`'}
-                    Your time: ${timeStampInSeconds ? `<t:${timeStampInSeconds}:F>` : '`Not defined yet`'}
-                    ${timeStampInSeconds ? `That's <t:${timeStampInSeconds}:R> for you` : ''}`,
-                    `Note: ${roster.dataValues.roster_note ? roster.dataValues.roster_note : 'None'}\n\n- Roster commands -\n/addposition: add self or another user to the roster options[position, user, random]\n/removeposition: removes self if no parameters given or another position or user from the roster options[position]\n/editrole: edit the role of the position given as parameter options[new-role, position]\n/swapposition: swap 2 positions given as parameters options[positon-1, position-2]\n\nMore commands: /noteposition, /pingroster\nManagement commands: /setroster, /deleteroster, /clearroster, /nextweekroster, /editroster\n\nFor a full list of roster related commands and their usage use /rosterhelp`,
+                    `***Main***\n${mainRoles}\n\n***Reserve***\n${reserveRoles}\n\nServer Date: ${MM_DD_YY_FORMAT ? MM_DD_YY_FORMAT : '`Not defined yet`'}\nServer Time: ${HH_MM_FORMAT ? HH_MM_FORMAT : '`Not defined yet`'}\nYour time: ${timeStampInSeconds ? `<t:${timeStampInSeconds}:F>` : '`Not defined yet`'}\n${timeStampInSeconds ? `That's <t:${timeStampInSeconds}:R> for you` : ''}`,
+                    `Note: ${roster.dataValues.roster_note ? roster.dataValues.roster_note : 'None'}\n\n- Roster commands -\n/addposition: add self or another user to the roster options[position, user]\n/removeposition: removes self if no parameters given or another position from the roster options[position]\n/editrole: edit the role of the position given as parameter options[new-role, position]\n/swapposition: swap 2 positions given as parameters options[positon-1, position-2]\n\nMore commands: /noteposition, /pingroster\nManagement commands: /setroster, /deleteroster, /clearroster, /nextweekroster, /editroster\n\nFor a full list of roster related commands and their usage use /rosterhelp`,
                     embedColor, 
                 )]
             });
@@ -73,7 +66,7 @@ async function runCommand(send, guild, embedColor, interaction) {
         console.log(error);
         send({ embeds:
             [createMessageEmbed(
-                "Error",
+                "Error",    
                 "There was an error while executing this command!",
                 embedColor,
                 "❌"

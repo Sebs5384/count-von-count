@@ -75,11 +75,7 @@ async function runCommand(client, send, guild, embedColor, position, interaction
             await send({ embeds: [
                 createMessageEmbed(
                     'Removed successfully',
-                    `You have been successfully removed from the position \`${rolePosition}-${roleName}\`\n
-                    ***Main***
-                    ${mainRoles}\n
-                    ***Reserve***
-                    ${reserveRoles}\n`,
+                    `You have been successfully removed from the position \`${rolePosition}-${roleName}\`\n\n***Main***\n${mainRoles}\n\n***Reserve***\n${reserveRoles}\n`,
                     embedColor,
                     '✅',
                     'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
@@ -122,6 +118,7 @@ async function runCommand(client, send, guild, embedColor, position, interaction
             rosterPosition.role_note = null;
             rosterPosition.assigned_user = null;
             await rosterPosition.save();
+            
             const rosterRoles = await roster.roles;
             const mainRoles = await getRosterRoles(rosterRoles, 'main');
             const reserveRoles = await getRosterRoles(rosterRoles, 'reserve');
@@ -129,11 +126,7 @@ async function runCommand(client, send, guild, embedColor, position, interaction
             await send({ embeds: [
                 createMessageEmbed(
                     'Removed successfully',
-                    `You have successfully removed <@${assignedUser}> from the position \`${position}-${roleName}\`\n
-                    ***Main***
-                    ${mainRoles}\n
-                    ***Reserve***
-                    ${reserveRoles}\n`,
+                    `You have successfully removed <@${assignedUser}> from the position \`${position}-${roleName}\`\n\n***Main***\n${mainRoles}\n\n***Reserve***\n${reserveRoles}\n`,
                     embedColor,
                     '✅',
                     'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',

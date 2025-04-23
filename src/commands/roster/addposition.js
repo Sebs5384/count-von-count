@@ -66,8 +66,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
             await send({ embeds: [
                 createMessageEmbed(
                     'Command failed',
-                    `There is no position with the number \`${position}\` in this roster
-                    - Available positions in this roster\n${rosterRoles.filter(role => !role.assigned_user).map((role) => `\`${role.role_position}\`: ${role.role_name}`).join('\n')}`,
+                    `There is no position with the number \`${position}\` in this roster\n\nAvailable positions in this roster\n\n${rosterRoles.filter(role => !role.assigned_user).map((role) => `\`${role.role_position}\`: ${role.role_name}`).join('\n')}`,
                     embedColor,
                     '❌',
                     'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
@@ -86,7 +85,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
                 await send({ embeds: [
                     createMessageEmbed(
                         'Wrong usage of command',
-                        `The user you want to overwrite on \`${position}-${roleName}\` is the current holder of this position`,
+                        `The user you want to overwrite on \`${position}-${roleName}\` is already the current holder of this position`,
                         embedColor,
                         '❌',
                         'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands'
@@ -103,11 +102,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
             await send({ embeds: [
                 createMessageEmbed(
                     'Position updated',
-                    `The position \`${position}-${roleName}\` with the user <@${previousUser}> has been overwritten with <@${newUser}> as the new holder of this position\n
-                    ***Main***
-                    ${mainRoles}\n
-                    ***Reserve***
-                    ${reserveRoles}\n
+                    `The position \`${position}-${roleName}\` with the user <@${previousUser}> has been overwritten with <@${newUser}> as the new holder of this position\n\n***Main***\n${mainRoles}\n\n***Reserve***\n${reserveRoles}\n
                     `,
                     embedColor,
                     '✅',
@@ -123,8 +118,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
             await send({ embeds: [
                 createMessageEmbed(
                     'Command failed',
-                    `This position is already taken by <@${rosterPosition.assigned_user}>
-                    - Available positions in this roster\n${roster.roles.filter(role => !role.assigned_user).map((role) => `\`${role.role_position}\`: ${role.role_name}`).join('\n')}`,
+                    `This position is already taken by <@${rosterPosition.assigned_user}>\n\nAvailable positions in this roster\n\n${roster.roles.filter(role => !role.assigned_user).map((role) => `\`${role.role_position}\`: ${role.role_name}`).join('\n')}`,
                     embedColor,
                     '❌',
                     'If you wish to overwrite this position set [overwrite] option to true when using /addposition\nUse /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
@@ -144,11 +138,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
             await send({ embeds: [
                 createMessageEmbed(
                     'Added successfully',
-                    `You have successfully added <@${userOption.id}> to the position \`${position}-${roleName}\`\n
-                    ***Main***
-                    ${mainRoles}\n
-                    ***Reserve***
-                    ${reserveRoles}\n`,
+                    `You have successfully added <@${userOption.id}> to the position \`${position}-${roleName}\`\n\n***Main***\n${mainRoles}\n\n***Reserve***\n${reserveRoles}\n`,
                     embedColor,
                     '✅',
                     'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',
@@ -169,11 +159,7 @@ async function runCommand(client, send, guild, embedColor, position, userOption,
             await send({ embeds: [
                 createMessageEmbed(
                     'Added successfully',
-                    `You have been successfully added to the position \`${position}-${roleName}\`\n
-                    ***Main***
-                    ${mainRoles}\n
-                    ***Reserve***
-                    ${reserveRoles}\n`,
+                    `You have been successfully added to the position \`${position}-${roleName}\`\n\n***Main***\n${mainRoles}\n\n***Reserve***\n${reserveRoles}\n`,
                     embedColor,
                     '✅',
                     'Use /roster command for more information about this run\nYou may want to use /rosterhelp for full details of roster commands',

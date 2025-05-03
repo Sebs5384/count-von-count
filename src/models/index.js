@@ -23,8 +23,8 @@ Guild.belongsToMany(User, { through: {
 TrackerChannel.hasMany(Boss, { foreignKey: 'guild_id' });
 Boss.belongsTo(TrackerChannel, { foreignKey: 'guild_id' });
 
-BossAlias.belongsTo(Boss, { foreignKey: 'boss_id', targetKey: 'id' });
-Boss.hasMany(BossAlias, { foreignKey: 'boss_id', sourceKey: 'id' });
+BossAlias.belongsTo(Boss, { foreignKey: 'boss_id', targetKey: 'id', as: 'boss' });
+Boss.hasMany(BossAlias, { foreignKey: 'boss_id', sourceKey: 'id', as: 'bossAliases' });
 
 Roster.hasMany(RosterRole, { foreignKey: 'roster_id', as: 'roles' });
 RosterRole.belongsTo(Roster, { foreignKey: 'roster_id', as: 'roster' });

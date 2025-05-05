@@ -17,12 +17,12 @@ const command = new SlashCommandBuilder()
         .setDescription('Input the estimate of the kill in minutes e.g 10 to add and -10 to subtract time, optional field')
         .setRequired(false)
     )
-    .addStringOption((option) => option
+    .addIntegerOption((option) => option
         .setName('tomb-x')
         .setDescription('Input X cordinate of the tomb, optional field')
         .setRequired(false)
     )
-    .addStringOption((option) => option
+    .addIntegerOption((option) => option
         .setName('tomb-y')
         .setDescription('Input Y cordinate of the tomb, optional field')
         .setRequired(false)
@@ -41,8 +41,8 @@ command.slashRun = async function slashRun(client, interaction) {
 
     const mvpName = interaction.options.getString('mvp-name');
     const mvpEstimate = interaction.options.getInteger('estimate');
-    const tombX = interaction.options.getString('tomb-x');
-    const tombY = interaction.options.getString('tomb-y');
+    const tombX = interaction.options.getInteger('tomb-x');
+    const tombY = interaction.options.getInteger('tomb-y');
 
     await runCommand(send, guild, user, embedColor, mvpName, mvpEstimate, tombX, tombY, serverTime, interactionChannelId);
 };
@@ -81,22 +81,35 @@ async function runCommand(send, guild, user, embedColor, mvpName, mvpEstimate, t
         };
 
         const boss = await Boss.findOne({
-            where: {
-                guild_id: guild.id,
-            },
-            include: [
-                {
-                    model: BossAlias,
-                    as: 'bossAliases',
-                    where: {
-                        boss_alias: {
+            where: { 
+                guild_id: guild.id, 
+                    [operator.or]: [{
+                        boss_name: {
                             [operator.like]: mvpName
                         }
                     },
-                    required: false
-                }
-            ]
+                    {
+                        id: {
+                        [operator.in]: literal(
+                            `(SELECT boss_id FROM BossAliases WHERE boss_alias LIKE '${mvpName}')`
+                        )}
+                    },
+                    ]},
+            collate: 'NOCASE'
         });
+
+        if(!boss) {
+            await send({ embeds: [
+                createMessageEmbed(
+                    'No boss found', 
+                    `Could not find ${mvpName} in the database`, 
+                    embedColor, 
+                    '❌'
+                )
+            ]});
+            
+            return;
+        };
 
         if(mvpEstimate) {
             const bossKilledAtTimestamp = new Date(boss.boss_killed_at);
@@ -108,9 +121,8 @@ async function runCommand(send, guild, user, embedColor, mvpName, mvpEstimate, t
             serverTime.time = updatedTime;
             serverTime.dateTime = updatedDateTime;
         };
-        
+
         if(boss) {
-            console.log(boss);
             const updatedBoss = await boss.update({
                 boss_killed_at: serverTime.dateTime
             });
@@ -121,19 +133,10 @@ async function runCommand(send, guild, user, embedColor, mvpName, mvpEstimate, t
                     `${updatedBoss.boss_name} died at ${serverTime.time}\nTracked by ${user}`, 
                     embedColor, 
                     '✅', 
-                    'For more information use /mvphelp'
-                )
-            ]});
-
-            return;
-        } else {    
-            send({ embeds: [
-                createMessageEmbed(
-                    'MvP Tracker', 
-                    `${updatedBoss.boss_name} died at ${serverTime.time}\nTracked by ${user}`, 
-                    embedColor, 
-                    '❌', 
-                    'For more information use /mvphelp'
+                    'For more information use /mvphelp',
+                    null,
+                    null,
+                    boss.boss_map ? `https://ragnarok-maps-git-main-5384s-projects.vercel.app/api/locate?map=${boss.boss_map}&x=${tombX}&y=${tombY}` : null
                 )
             ]});
 
@@ -143,8 +146,8 @@ async function runCommand(send, guild, user, embedColor, mvpName, mvpEstimate, t
         console.log(`Error while tracking the boss ${error}`);
         send({ embeds: [
             createMessageEmbed(
-                'Error while tracking the boss', 
-                'Error while tracking the boss', 
+                'Tracker error', 
+                'Something went wrong while tracking the boss', 
                 embedColor, 
                 '❌', 
                 'Check /mvphelp for more information'

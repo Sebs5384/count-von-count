@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import { createMessageEmbed } from "../../embeds/index.js";
 import { TrackerChannel, Boss, BossAlias } from "../../models/index.js";
 import { getServerTime } from "../../service/serverTime.js";
+import { getMapLocation } from "../../service/locate.js"
 import { operator, literal } from "../../../database.js";
 
 const command = new SlashCommandBuilder()
@@ -126,17 +127,18 @@ async function runCommand(send, guild, user, embedColor, mvpName, mvpEstimate, t
             const updatedBoss = await boss.update({
                 boss_killed_at: serverTime.dateTime
             });
- 
+            const mapResponse = await getMapLocation(tombX, tombY, boss.boss_map);
+
             send({ embeds: [
                 createMessageEmbed(
                     'MvP Tracker', 
-                    `${updatedBoss.boss_name} died at ${serverTime.time}\nTracked by ${user}`, 
+                    `${updatedBoss.boss_name} died at ${serverTime.time}\nTracked by ${user}\n\n${mapResponse ? `***Tomb location: ${boss.boss_map} - ${tombX}/${tombY}***` : `***No map has been found for this MVP, reading: ${boss.boss_map}***`}`, 
                     embedColor, 
                     '✅', 
                     'For more information use /mvphelp',
                     null,
                     null,
-                    boss.boss_map ? `https://ragnarok-maps-git-main-5384s-projects.vercel.app/api/locate?map=${boss.boss_map}&x=${tombX}&y=${tombY}` : null
+                    boss.boss_map ? mapResponse.url : null
                 )
             ]});
 

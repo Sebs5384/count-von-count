@@ -3,13 +3,13 @@ import { getServerTime as getServerTimeFromApi } from '../api/serverTime.js';
 let cachedTime;
 let cachedServerTime;
 
-export async function getServerTime(serverTime) {
+export async function getServerTime(serverTimeZone) {
     const currentTime = new Date();
 
     try {
         return updateServerTime(cachedTime, cachedServerTime, currentTime);
     } catch (error) {
-        const serverTimeFromApi = { ...await getServerTimeFromApi(serverTime) };
+        const serverTimeFromApi = { ...await getServerTimeFromApi(serverTimeZone) };
         cachedServerTime = serverTimeFromApi
         cachedTime = currentTime.toISOString();
 

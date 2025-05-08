@@ -9,7 +9,7 @@ export async function getMapLocation(cordinateX, cordinateY, map) {
             throw new Error(`Failed to fetch map location. Status: ${response.status}`);
         };
 
-        return mapLocationUrl;
+        return response;
     } catch (error) {
         console.error(error);
         return null;

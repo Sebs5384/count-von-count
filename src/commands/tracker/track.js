@@ -132,13 +132,13 @@ async function runCommand(send, guild, user, embedColor, mvpName, mvpEstimate, t
             send({ embeds: [
                 createMessageEmbed(
                     'MvP Tracker', 
-                    `${updatedBoss.boss_name} died at ${serverTime.time}\nTracked by ${user}\n\n${mapResponse ? `***Tomb location: ${boss.boss_map} - ${tombX}/${tombY}***` : `***No map has been found for this MVP, reading: ${boss.boss_map}***`}`, 
+                    `${updatedBoss.boss_name} died at ${serverTime.time}\nTracked by ${user}\n\n${mapResponse ? `***Tomb location: ${boss.boss_map} - ${tombX}/${tombY}***` : tombX && tombY ? `***No map has been found for this MVP, reading: ${boss.boss_map}***` : ''}`, 
                     embedColor, 
                     '✅', 
                     'For more information use /mvphelp',
                     null,
                     null,
-                    boss.boss_map ? mapResponse.url : null
+                    boss.boss_map ? mapResponse?.url : null
                 )
             ]});
 

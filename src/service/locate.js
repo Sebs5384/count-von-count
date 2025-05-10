@@ -8,12 +8,13 @@ export async function getMapLocation(cordinateX, cordinateY, map) {
 
     try {
         const mapLocationFromApi = await getMapLocationFromApi(cordinateX, cordinateY, map);
-        mapLocationCache[cachedKey] = {
+        
+        mapLocationFromApi ? mapLocationCache[cachedKey] = {
             mapName: map,
             cordinateX: cordinateX,
             cordinateY: cordinateY,
             url: mapLocationFromApi.url
-        };
+        } : null;
 
         return mapLocationFromApi;
     } catch (error) {

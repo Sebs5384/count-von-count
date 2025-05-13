@@ -1,4 +1,4 @@
-const BASE_URL = 'https://ragnarok-maps-git-main-5384s-projects.vercel.app';
+const BASE_URL = 'https://ragnarok-maps.vercel.app';
 
 export async function getMapLocation(cordinateX, cordinateY, map) {
     const mapLocationUrl = `${BASE_URL}/api/locate?map=${map}&x=${cordinateX}&y=${cordinateY}`;

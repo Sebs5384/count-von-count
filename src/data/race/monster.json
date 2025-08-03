@@ -396,9 +396,9 @@
         "path": "Dungeons > Pyramids (Inside) > North West > Center"
     },
     {
-        "name": "Novus",
+        "name": "Novus (Yellow)",
         "map": "hu_fild02",
-        "quantity": 30,
+        "quantity": 40,
         "monsterSprite": "https://file5s.ratemyserver.net/mobs/1718.gif",
         "mapImage": "https://file5s.ratemyserver.net/maps_xl/hu_fild02.gif",
         "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=hu_fild02",
@@ -647,5 +647,49 @@
         "missionAmount": 60,
         "spawnWindow": "Instantly",
         "path": "Cities > Gonryun > North"
+    },
+    {
+        "name": "Anacondaq",
+        "map": "moc_fild13",
+        "quantity": 75,
+        "monsterSprite": "https://talontales.com/wiki/images/5/5a/1030Anacondaq.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/moc_fild13.gif",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=moc_fild13&re_mob=1",
+        "missionAmount": 75,
+        "spawnWindow": "Instantly",
+        "path": "Warp of Emperium > Greenwood Lake > West Portal > South Portal"
+    },
+    {
+        "name": "Novus (Red)",
+        "map": "hu_fild03",
+        "quantity": 30,
+        "monsterSprite": "https://talontales.com/wiki/images/c/c3/1715rednovus.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/hu_fild03.gif",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=hu_fild03&s_block=mob_block",
+        "missionAmount": 25,
+        "spawnWindow": "Instantly",
+        "path": "Dungeons > Abyss Lake > North Portal"
+    },
+    {
+        "name": "Stem Worm",
+        "map": "lhz_fild03",
+        "quantity": 50,
+        "monsterSprite": "https://talontales.com/panel/data/monsters/1215.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/lhz_fild03.gif",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=lhz_fild03&re_mob=1",
+        "missionAmount": 50,
+        "spawnWindow": "10 minutes",
+        "path": "Cities > Aldebaran > South Portal"
+    },
+    {
+        "name": "Wormtail",
+        "map": "pay_fild06",
+        "quantity": 90,
+        "monsterSprite": "https://talontales.com/panel/data/monsters/1024.gif",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/pay_fild06.gif",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=pay_fild06&re_mob=1",
+        "missionAmount": 90,
+        "spawnWindow": "Instantly",
+        "path": "Cities > Alberta > West Portal > South Portal"
     }
 ]

@@ -25,12 +25,25 @@ command.slashRun = async function slashRun(client, interaction) {
 
 async function runCommand(send, guild, embedColor, monsterName, interaction) {
     try {   
+        if(interaction.channel.id !== "1400820296478494886") {
+            await send({ embeds: [
+                createMessageEmbed(
+                    "Wrong usage of command",
+                    "This command can only be used in the summer channel",
+                    embedColor,
+                    "❌"
+                )
+            ]});
+            return;
+        };
+        
         const filePath = path.join('src', 'data', 'race', 'monster.json');
         const monsterFile = fs.readFileSync(filePath, 'utf8');
         const monsters = JSON.parse(monsterFile);
         const monsterNames = monsters.map((monster) => monster.name);
         const matchingInitials = findMatchingInitials(monsterNames, monsterName);
         const matchingName = findMatchingName(monsterNames, monsterName);
+        
 
         if(matchingInitials || matchingName) {
             const selectedMonster = monsters.find((monster) => monster.name === matchingName);
@@ -45,7 +58,7 @@ async function runCommand(send, guild, embedColor, monsterName, interaction) {
             const monsterPath = selectedMonster.path;
 
             send({ embeds: [createMonsterEmbed(monsterName, monsterMap, monsterQuantity, monsterSprite, mapImage, mapLink, missionAmount, monsterSpawnWindow, monsterPath, embedColor)] });
-        }
+        };
 
     } catch(error) {
         console.error(error);

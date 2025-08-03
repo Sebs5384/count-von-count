@@ -25,6 +25,18 @@ command.slashRun = async function slashRun(client, interaction) {
 
 async function runCommand(send, guild, embedColor, npcName, interaction) {
     try {
+        if(interaction.channel.id !== "1400820296478494886") {
+            await send({ embeds: [
+                createMessageEmbed(
+                    "Wrong usage of command",
+                    "This command can only be used in the summer channel",
+                    embedColor,
+                    "❌"
+                )
+            ]});
+            return;
+        };
+
         const filePath = path.join('src', 'data', 'race', 'npc.json');
         const npcFile = fs.readFileSync(filePath, 'utf8');
         const npcs = JSON.parse(npcFile);

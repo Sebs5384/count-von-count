@@ -478,5 +478,68 @@
         "mapImage": "https://file5s.ratemyserver.net/maps_xl/ve_fild07.gif",
         "npcImage": "https://talontales.com/wiki/images/3/31/Yertle.gif",
         "path": "Cities > Veins > South Portal"
+    },
+    {
+        "name": "Anita Hardawn",
+        "map": "ein_fild02",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=ein_fild02&re_mob=1",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/ein_fild02.gif",
+        "npcImage": "https://talontales.com/wiki/images/f/f6/4_F_08.png",
+        "path": "Cities > Yuno > South Portal > West Portal"
+    },
+    {
+        "name": "Bo",
+        "map": "pay_fild05",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=pay_fild05&re_mob=1",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/pay_fild05.gif",
+        "path": "Cities > Payon > South Portal > South Portal > South Portal"
+    },
+    {
+        "name": "Cotton Gruder",
+        "map": "prt_monk",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=prt_monk&re_mob=1",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/prt_monk.gif",
+        "npcImage": "https://talontales.com/wiki/images/2/2f/Cotton_Gruder.gif",
+        "path": "Instances > Sealed Shrine (Outside)"
+    },
+    {
+        "name": "Florentine",
+        "map": "mjolnir_06",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=mjolnir_06",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/mjolnir_06.gif",
+        "npcImage": "https://talontales.com/wiki/images/a/ab/Florentine.gif",
+        "path": "Cities > Geffen > East Portal > North Portal"
+    },
+    {
+        "name": "Mike Rodick",
+        "map": "umbala_fild04",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=um_fild04",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/um_fild04.gif",
+        "npcImage": "https://talontales.com/wiki/images/2/24/Mike_Rodick.gif",
+        "path": "Cities > Umbala > South Portal"
+    },
+    {
+        "name": "Petra",
+        "map": "ra_fild12",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=ra_fild12",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/ra_fild12.gif",
+        "npcImage": "https://talontales.com/wiki/images/e/e1/Petra.gif",
+        "path": "Cities > Rachel > East Portal"
+    },
+    {
+        "name": "Sue Flay",
+        "map": "cmd_fild04",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=cmd_fild04",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/cmd_fild04.gif",
+        "npcImage": "https://talontales.com/wiki/images/0/01/Sue_Flay.png",
+        "path": "Dungeons > Kokomo Beach > East Portal"
+    },
+    {
+        "name": "Tess Tickles",
+        "map": "anthell01",
+        "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=anthell01",
+        "mapImage": "https://file5s.ratemyserver.net/maps_xl/anthell01.gif",
+        "npcImage": "https://talontales.com/wiki/images/2/27/Tess_Tickles.gif",
+        "path": "Dungeons > Anthell (Inside)"
     }
 ]

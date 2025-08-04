@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import { createMessageEmbed } from "../../embeds/index.js";
-import { TrackerChannel, Boss, BossAlias } from "../../models/index.js";
+import { TrackerChannel, Boss } from "../../models/index.js";
 import { getServerTime } from "../../service/serverTime.js";
 import { getMapLocation } from "../../service/locate.js"
 import { operator, literal } from "../../../database.js";
@@ -138,7 +138,7 @@ async function runCommand(send, guild, user, embedColor, mvpName, mvpEstimate, t
                     'For more information use /mvphelp',
                     null,
                     null,
-                    boss.boss_map ? mapResponse?.url : null
+                    boss.boss_map ? mapResponse?.locationUrl : null
                 )
             ]});
 

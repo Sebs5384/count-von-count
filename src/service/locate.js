@@ -13,7 +13,7 @@ export async function getMapLocation(cordinateX, cordinateY, map) {
             mapName: map,
             cordinateX: cordinateX,
             cordinateY: cordinateY,
-            url: mapLocationFromApi.url
+            locationUrl: mapLocationFromApi.locationUrl
         } : null;
 
         return mapLocationFromApi;

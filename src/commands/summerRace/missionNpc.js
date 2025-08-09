@@ -55,8 +55,14 @@ async function runCommand(send, guild, embedColor, npcName, interaction) {
 
             send({ embeds: [createNpcEmbed(npcName, npcMap, npcMapLink, npcMapImage, npcNpcImage, npcPath, embedColor)] });
         } else {
-            send({ embeds: [createMessageEmbed('Error', `No NPC found with the name ${npcName}`, embedColor, '❌')] });
-        }
+            send({ embeds: [createMessageEmbed(
+                'Error', 
+                `No NPC found with the name ${npcName}`, 
+                embedColor, 
+                '❌')
+            ]});
+        };
+        
     } catch(error) {
         console.error(error);
     };

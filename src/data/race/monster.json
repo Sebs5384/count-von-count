@@ -502,8 +502,8 @@
         "mapImage": "https://file5s.ratemyserver.net/maps_xl/moc_fild16.gif",
         "mapLink": "https://ratemyserver.net/index.php?page=npc_shop_warp&map=moc_fild16",
         "missionAmount": 75,
-        "spawnWindow": "Cities > Morroc > South > South > East > East",
-        "path": ""
+        "spawnWindow": "Instantly",
+        "path": "Cities > Morroc > South > South > East > East"
     },
     {
         "name": "Savage",

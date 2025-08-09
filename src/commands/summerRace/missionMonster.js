@@ -57,7 +57,28 @@ async function runCommand(send, guild, embedColor, monsterName, interaction) {
             const monsterSpawnWindow = selectedMonster.spawnWindow;
             const monsterPath = selectedMonster.path;
 
-            send({ embeds: [createMonsterEmbed(monsterName, monsterMap, monsterQuantity, monsterSprite, mapImage, mapLink, missionAmount, monsterSpawnWindow, monsterPath, embedColor)] });
+            send({ embeds: [
+                createMonsterEmbed(
+                    monsterName, 
+                    monsterMap, 
+                    monsterQuantity, 
+                    monsterSprite, 
+                    mapImage, 
+                    mapLink, 
+                    missionAmount, 
+                    monsterSpawnWindow, 
+                    monsterPath, 
+                    embedColor)
+                ]});
+        } else {
+            await send({ embeds: [
+                createMessageEmbed(
+                    "Monster not found",
+                    "Make sure the name is correct",
+                    embedColor,
+                    "❌"
+                )
+            ]});
         };
 
     } catch(error) {

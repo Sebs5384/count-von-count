@@ -1,7 +1,7 @@
-const BASE_URL = 'https://timeapi.io/api/Time/current';
+import config from '../../config.json' with { type: 'json' };
 
 export async function getServerTime(timeZone) {
-  const timeZoneURL = `${BASE_URL}/zone?timeZone=${timeZone}`
+  const timeZoneURL = `${config.TIME_BASE_URL}/zone?timeZone=${timeZone}`;
 
   return await fetch(timeZoneURL)
     .then((response) => response.json())

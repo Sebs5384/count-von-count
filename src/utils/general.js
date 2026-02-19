@@ -631,3 +631,14 @@ export async function getRosterRoles(roles, type) {
     .join('\n');
   return rosterRoles;
 };
+
+export function chunkIntoColumns(array, columns = 2) {
+  const perColumn = Math.ceil(array.length / columns);
+  const result = [];
+
+  for (let i = 0; i < columns; i++) {
+    result.push(array.slice(i * perColumn, (i + 1) * perColumn));
+  };
+
+  return result;
+};
